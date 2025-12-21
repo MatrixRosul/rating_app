@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useApp } from '@/context/AppContext';
 
 export default function MatchSimulator() {
-  const { state, addMatch, simulateRandomMatches, resetData } = useApp();
+  const { state, addMatch, simulateRandomMatches, resetData, loadRealPlayers } = useApp();
   const [player1Id, setPlayer1Id] = useState('');
   const [player2Id, setPlayer2Id] = useState('');
   const [winnerId, setWinnerId] = useState('');
@@ -79,6 +79,12 @@ export default function MatchSimulator() {
   const handleResetData = () => {
     if (confirm('Ви впевнені, що хочете скинути всі дані? Це видалить всіх гравців та матчі.')) {
       resetData();
+    }
+  };
+
+  const handleLoadRealPlayers = () => {
+    if (confirm('Завантажити реальних гравців? Це замінить поточних гравців на 115 реальних гравців з рейтингом 1100.')) {
+      loadRealPlayers();
     }
   };
 
@@ -379,13 +385,22 @@ export default function MatchSimulator() {
           </div>
         </div>
 
-        {/* Reset Data */}
-        <button
-          onClick={handleResetData}
-          className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
-        >
-          Скинути всі дані
-        </button>
+        {/* Data Management */}
+        <div className="space-y-3">
+          <button
+            onClick={handleLoadRealPlayers}
+            className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+          >
+            🎯 Завантажити реальних гравців (115 осіб)
+          </button>
+          
+          <button
+            onClick={handleResetData}
+            className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+          >
+            🔄 Скинути всі дані
+          </button>
+        </div>
       </div>
     </div>
   );

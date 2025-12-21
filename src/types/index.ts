@@ -3,6 +3,11 @@
 export interface Player {
   id: string;
   name: string;
+  firstName?: string;
+  lastName?: string;
+  city?: string;
+  yearOfBirth?: number;
+  age?: number;
   rating: number;
   matches: string[]; // Match IDs
   createdAt: Date;

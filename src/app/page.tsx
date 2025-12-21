@@ -20,14 +20,14 @@ export default function Home() {
       <div className="min-h-screen bg-gray-100">
         <header className="bg-white shadow-md">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center py-6">
-              <h1 className="text-2xl font-bold text-gray-900">
+            <div className="flex justify-between items-center py-4">
+              <h1 className="text-xl font-bold text-gray-900">
                 🎱 Рейтинг Більярду
               </h1>
             </div>
           </div>
         </header>
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 justify-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             <span className="text-lg">Завантаження...</span>
@@ -64,8 +64,8 @@ export default function Home() {
       {/* Header */}
       <header className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <h1 className="text-2xl font-bold text-gray-900">
+          <div className="flex justify-between items-center py-4">
+            <h1 className="text-xl font-bold text-gray-900">
               🎱 Рейтинг Більярду
             </h1>
             
@@ -97,17 +97,17 @@ export default function Home() {
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {activeTab === 'leaderboard' && <Leaderboard players={state.players} />}
         {activeTab === 'simulator' && <MatchSimulator />}
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <footer className="bg-white border-t mt-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="text-center text-gray-600">
-            <p>© 2024 Рейтингова система для гравців у більярд</p>
-            <p className="text-sm mt-2">
+            <p className="text-sm">© 2024 Рейтингова система для гравців у більярд</p>
+            <p className="text-xs mt-1">
               Рейтингова система базується на алгоритмі ELO з кольоровою схемою як у Codeforces
             </p>
           </div>

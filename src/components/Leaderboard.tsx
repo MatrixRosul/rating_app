@@ -33,10 +33,10 @@ export default function Leaderboard({ players }: LeaderboardProps) {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">
           Рейтинг гравців у більярд
         </h1>
         <p className="text-gray-600">
@@ -45,11 +45,11 @@ export default function Leaderboard({ players }: LeaderboardProps) {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex flex-col md:flex-row gap-4">
+      <div className="bg-white rounded-lg shadow-md p-4">
+        <div className="flex flex-col md:flex-row gap-3">
           {/* Search */}
           <div className="flex-1">
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
               Пошук гравця
             </label>
             <input
@@ -64,7 +64,7 @@ export default function Leaderboard({ players }: LeaderboardProps) {
 
           {/* Rating filter */}
           <div className="md:w-64">
-            <label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-1">
               Рейтинг
             </label>
             <select
@@ -83,13 +83,13 @@ export default function Leaderboard({ players }: LeaderboardProps) {
         </div>
 
         {/* Results count */}
-        <div className="mt-4 text-sm text-gray-600">
+        <div className="mt-2 text-sm text-gray-600">
           Знайдено: {filteredPlayers.length} з {players.length} гравців
         </div>
       </div>
 
       {/* Player list */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         {filteredPlayers.length > 0 ? (
           filteredPlayers.map((player, index) => (
             <PlayerCard

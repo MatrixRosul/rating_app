@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { Player, Match } from '@/types';
-import { generateInitialPlayers, calculateRatingChange, simulateMatch } from '@/utils/rating';
+import { generateInitialPlayers, generateRealPlayers, calculateRatingChange, simulateMatch } from '@/utils/rating';
 
 interface AppState {
   players: Player[];
@@ -94,6 +94,7 @@ interface AppContextType {
   state: AppState;
   addMatch: (player1Id: string, player2Id: string, winnerId: string, player1Score: number, player2Score: number, maxScore: number) => void;
   resetData: () => void;
+  loadRealPlayers: () => void;
   simulateRandomMatches: (count: number) => void;
 }
 
@@ -211,6 +212,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('billiard-matches');
   };
 
+  const loadRealPlayers = () => {
+    const realPlayers = generateRealPlayers();
+    dispatch({ type: 'SET_PLAYERS', payload: realPlayers });
+    dispatch({ type: 'SET_MATCHES', payload: [] });
+    localStorage.removeItem('billiard-players');
+    localStorage.removeItem('billiard-matches');
+  };
+
   const simulateRandomMatches = (count: number) => {
     // Створюємо локальну копію гравців для послідовного оновлення рейтингів
     let currentPlayers = [...state.players];
@@ -303,7 +312,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ state, addMatch, resetData, simulateRandomMatches }}>
+    <AppContext.Provider value={{ state, addMatch, resetData, loadRealPlayers, simulateRandomMatches }}>
       {children}
     </AppContext.Provider>
   );

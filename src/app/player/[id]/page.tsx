@@ -125,7 +125,14 @@ export default function PlayerProfile() {
               </div>
               <div>
                 <h2 className={`text-3xl font-bold ${ratingBand.textColor}`}>{player.name}</h2>
-                <p className="text-lg text-gray-600">{ratingBand.name}</p>
+                <div className="text-lg text-gray-600 space-y-1">
+                  <p>{ratingBand.name}</p>
+                  {(player.city || player.yearOfBirth) && (
+                    <p className="text-sm">
+                      {[player.city, player.yearOfBirth && `${player.yearOfBirth} р.н.`].filter(Boolean).join(' • ')}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
             
