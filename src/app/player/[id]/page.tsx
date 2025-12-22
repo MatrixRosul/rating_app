@@ -3,6 +3,7 @@
 import { useApp } from '@/context/AppContext';
 import { getRatingBand, calculatePlayerStats } from '@/utils/rating';
 import MatchHistory from '@/components/MatchHistory';
+import RatingChart from '@/components/RatingChart';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -180,6 +181,14 @@ export default function PlayerProfile() {
               <div className="text-sm text-gray-600">Зміна рейтингу</div>
             </div>
           </div>
+        </div>
+
+        {/* Rating Chart */}
+        <div className="mb-8">
+          <RatingChart 
+            player={player}
+            matches={state.matches}
+          />
         </div>
 
         {/* Match History */}

@@ -7,7 +7,7 @@ export function calculateRatingChange(
   player1Score: number,
   player2Score: number,
   maxScore: number,
-  kFactor: number = 50 // Збільшено з 40 до 50 для ще більших змін (+25%)
+  kFactor: number = 100 // Збільшено з 40 до 50 для ще більших змін (+25%)
 ): { player1Change: number; player2Change: number } {
   // Визначаємо переможця
   const player1Won = player1Score > player2Score;

@@ -18,7 +18,7 @@ type AppAction =
   | { type: 'SET_PLAYERS'; payload: Player[] }
   | { type: 'SET_MATCHES'; payload: Match[] }
   | { type: 'ADD_MATCH'; payload: Match }
-  | { type: 'UPDATE_PLAYER_RATINGS'; payload: { player1Id: string; player2Id: string; newRating1: number; newRating2: number } }
+  | { type: 'UPDATE_PLAYER_RATINGS'; payload: { player1Id: string; player2Id: string; newRating1: number; newRating2: number; matchId: string } }
   | { type: 'SET_CLIENT'; payload: boolean }
   | { type: 'INITIALIZE_DATA'; payload: { players: Player[]; matches: Match[] } };
 
@@ -61,7 +61,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
             return { 
               ...player, 
               rating: action.payload.newRating1,
-              matches: [...player.matches, action.payload.player1Id],
+              matches: [...player.matches, action.payload.matchId],
               updatedAt: new Date()
             };
           }
@@ -69,7 +69,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
             return { 
               ...player, 
               rating: action.payload.newRating2,
-              matches: [...player.matches, action.payload.player2Id],
+              matches: [...player.matches, action.payload.matchId],
               updatedAt: new Date()
             };
           }
@@ -96,6 +96,7 @@ interface AppContextType {
   resetData: () => void;
   loadRealPlayers: () => void;
   simulateRandomMatches: (count: number) => void;
+  importCsvMatches: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -199,7 +200,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         player1Id, 
         player2Id, 
         newRating1: newMatch.player1RatingAfter,
-        newRating2: newMatch.player2RatingAfter
+        newRating2: newMatch.player2RatingAfter,
+        matchId: newMatch.id
       } 
     });
   };
@@ -284,16 +286,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         date: new Date(Date.now() + i), // Додаємо мілісекунди для правильного сортування
       };
 
-      // Оновлюємо локальні копії гравців з новими рейтингами
+      // Оновлюємо локальні копії гравців з новими рейтингами та матчами
       currentPlayers[player1Index] = {
         ...player1,
         rating: newMatch.player1RatingAfter,
+        matches: [...player1.matches, newMatch.id],
         updatedAt: new Date()
       };
       
       currentPlayers[player2Index] = {
         ...player2, 
         rating: newMatch.player2RatingAfter,
+        matches: [...player2.matches, newMatch.id],
         updatedAt: new Date()
       };
 
@@ -311,8 +315,35 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     console.log(`Симуляція завершена: ${count} матчів, рейтинги оновлено`);
   };
 
+  const importCsvMatches = async () => {
+    try {
+      const res = await fetch('/api/import-csv');
+      if (!res.ok) throw new Error('CSV import failed');
+      const data = await res.json();
+
+      const players = (data.players as any[]).map((p) => ({
+        ...p,
+        createdAt: new Date(p.createdAt),
+        updatedAt: new Date(p.updatedAt),
+      }));
+
+      const matches = (data.matches as any[]).map((m) => ({
+        ...m,
+        date: new Date(m.date),
+      }));
+
+      dispatch({ type: 'SET_PLAYERS', payload: players });
+      dispatch({ type: 'SET_MATCHES', payload: matches });
+
+      console.log('CSV import summary:', data.summary);
+    } catch (error) {
+      console.error('CSV import failed', error);
+      dispatch({ type: 'SET_ERROR', payload: 'Не вдалося імпортувати CSV' });
+    }
+  };
+
   return (
-    <AppContext.Provider value={{ state, addMatch, resetData, loadRealPlayers, simulateRandomMatches }}>
+    <AppContext.Provider value={{ state, addMatch, resetData, loadRealPlayers, simulateRandomMatches, importCsvMatches }}>
       {children}
     </AppContext.Provider>
   );

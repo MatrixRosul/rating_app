@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useApp } from '@/context/AppContext';
 
 export default function MatchSimulator() {
-  const { state, addMatch, simulateRandomMatches, resetData, loadRealPlayers } = useApp();
+  const { state, addMatch, simulateRandomMatches, resetData, loadRealPlayers, importCsvMatches } = useApp();
   const [player1Id, setPlayer1Id] = useState('');
   const [player2Id, setPlayer2Id] = useState('');
   const [winnerId, setWinnerId] = useState('');
@@ -13,6 +13,44 @@ export default function MatchSimulator() {
   const [maxScore, setMaxScore] = useState<number>(5);
   const [randomMatchCount, setRandomMatchCount] = useState(10);
   const [isSimulating, setIsSimulating] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [importMessage, setImportMessage] = useState<string | null>(null);
+
+  // Search states for player selection
+  const [player1Search, setPlayer1Search] = useState('');
+  const [player2Search, setPlayer2Search] = useState('');
+  const [showPlayer1Dropdown, setShowPlayer1Dropdown] = useState(false);
+  const [showPlayer2Dropdown, setShowPlayer2Dropdown] = useState(false);
+
+  // Filter players based on search
+  const filterPlayers = (searchTerm: string) => {
+    if (!searchTerm) return state.players;
+    return state.players.filter(player => 
+      player.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
+  const handlePlayer1Select = (player: any) => {
+    setPlayer1Id(player.id);
+    setPlayer1Search(player.name);
+    setShowPlayer1Dropdown(false);
+    if (winnerId === player.id) {
+      setPlayer1Score(maxScore);
+    } else if (winnerId && winnerId !== player.id) {
+      setPlayer1Score(Math.max(0, maxScore - 1));
+    }
+  };
+
+  const handlePlayer2Select = (player: any) => {
+    setPlayer2Id(player.id);
+    setPlayer2Search(player.name);
+    setShowPlayer2Dropdown(false);
+    if (winnerId === player.id) {
+      setPlayer2Score(maxScore);
+    } else if (winnerId && winnerId !== player.id) {
+      setPlayer2Score(Math.max(0, maxScore - 1));
+    }
+  };
 
   const handleAddMatch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,6 +98,10 @@ export default function MatchSimulator() {
     setPlayer1Score(0);
     setPlayer2Score(0);
     setMaxScore(5);
+    setPlayer1Search('');
+    setPlayer2Search('');
+    setShowPlayer1Dropdown(false);
+    setShowPlayer2Dropdown(false);
   };
 
   const handleSimulateRandomMatches = () => {
@@ -88,6 +130,35 @@ export default function MatchSimulator() {
     }
   };
 
+  const handleImportMatches = async () => {
+    setImportMessage(null);
+    setImporting(true);
+    try {
+      await importCsvMatches();
+      setImportMessage('Імпорт успішний: матчі та рейтинги оновлено');
+    } catch (error) {
+      setImportMessage('Помилка імпорту. Спробуйте ще раз.');
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  // Close dropdowns when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.player-search-container')) {
+        setShowPlayer1Dropdown(false);
+        setShowPlayer2Dropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   if (state.loading) {
     return (
       <div className="bg-white rounded-lg shadow-md p-6">
@@ -104,6 +175,12 @@ export default function MatchSimulator() {
 
   return (
     <div className="space-y-6">
+      {importMessage && (
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2 rounded-md text-sm">
+          {importMessage}
+        </div>
+      )}
+
       {/* Manual Match Addition */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Додати матч</h2>
@@ -122,7 +199,7 @@ export default function MatchSimulator() {
                 max="10"
                 value={maxScore}
                 onChange={(e) => setMaxScore(parseInt(e.target.value) || 1)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
                 placeholder="Введіть число від 1 до 10"
               />
               <div className="mt-1 text-xs text-gray-500">
@@ -137,27 +214,54 @@ export default function MatchSimulator() {
               <label htmlFor="player1" className="block text-sm font-medium text-gray-700 mb-2">
                 Гравець 1
               </label>
-              <select
-                id="player1"
-                value={player1Id}
-                onChange={(e) => {
-                  setPlayer1Id(e.target.value);
-                  if (winnerId === e.target.value) {
-                    setPlayer1Score(maxScore);
-                  } else if (winnerId && winnerId !== e.target.value) {
-                    setPlayer1Score(Math.max(0, maxScore - 1));
-                  }
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              >
-                <option value="">Оберіть гравця</option>
-                {state.players.map(player => (
-                  <option key={player.id} value={player.id}>
-                    {player.name} ({player.rating})
-                  </option>
-                ))}
-              </select>
+              <div className="relative player-search-container">
+                <input
+                  type="text"
+                  id="player1"
+                  value={player1Search}
+                  onChange={(e) => {
+                    setPlayer1Search(e.target.value);
+                    setShowPlayer1Dropdown(true);
+                    if (!e.target.value) {
+                      setPlayer1Id('');
+                    }
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  placeholder="Пошук гравця 1"
+                  required
+                />
+                {showPlayer1Dropdown && (
+                  <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
+                    {filterPlayers(player1Search).length === 0 ? (
+                      <div className="px-4 py-2 text-gray-500 text-sm">
+                        Гравця не знайдено
+                      </div>
+                    ) : (
+                      filterPlayers(player1Search).map(player => (
+                        <div
+                          key={player.id}
+                          onClick={() => handlePlayer1Select(player)}
+                          className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-600 hover:text-white"
+                        >
+                          <div className="flex items-center">
+                            <div className="text-sm font-medium">
+                              {player.name}
+                            </div>
+                            <div className="text-xs text-gray-400 ml-2">
+                              {player.rating}
+                            </div>
+                          </div>
+                          <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+                            <span className="text-blue-600 text-xs font-semibold">
+                              Обрано
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
               {player1Id && (
                 <div className="mt-2">
                   <label htmlFor="player1Score" className="block text-sm font-medium text-gray-700 mb-1">
@@ -170,7 +274,7 @@ export default function MatchSimulator() {
                     max={maxScore}
                     value={player1Score}
                     onChange={(e) => setPlayer1Score(parseInt(e.target.value) || 0)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                   />
                 </div>
               )}
@@ -181,29 +285,51 @@ export default function MatchSimulator() {
               <label htmlFor="player2" className="block text-sm font-medium text-gray-700 mb-2">
                 Гравець 2
               </label>
-              <select
-                id="player2"
-                value={player2Id}
-                onChange={(e) => {
-                  setPlayer2Id(e.target.value);
-                  if (winnerId === e.target.value) {
-                    setPlayer2Score(maxScore);
-                  } else if (winnerId && winnerId !== e.target.value) {
-                    setPlayer2Score(Math.max(0, maxScore - 1));
-                  }
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              >
-                <option value="">Оберіть гравця</option>
-                {state.players
-                  .filter(player => player.id !== player1Id)
-                  .map(player => (
-                    <option key={player.id} value={player.id}>
-                      {player.name} ({player.rating})
-                    </option>
-                  ))}
-              </select>
+              <div className="relative player-search-container">
+                <input
+                  onChange={(e) => {
+                    setPlayer2Search(e.target.value);
+                    setShowPlayer2Dropdown(true);
+                    if (!e.target.value) {
+                      setPlayer2Id('');
+                    }
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  placeholder="Пошук гравця 2"
+                  required
+                />
+                {showPlayer2Dropdown && (
+                  <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
+                    {filterPlayers(player2Search).filter(player => player.id !== player1Id).length === 0 ? (
+                      <div className="px-4 py-2 text-gray-500 text-sm">
+                        Гравця не знайдено
+                      </div>
+                    ) : (
+                      filterPlayers(player2Search).filter(player => player.id !== player1Id).map(player => (
+                        <div
+                          key={player.id}
+                          onClick={() => handlePlayer2Select(player)}
+                          className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-600 hover:text-white"
+                        >
+                          <div className="flex items-center">
+                            <div className="text-sm font-medium">
+                              {player.name}
+                            </div>
+                            <div className="text-xs text-gray-400 ml-2">
+                              {player.rating}
+                            </div>
+                          </div>
+                          <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+                            <span className="text-blue-600 text-xs font-semibold">
+                              Обрано
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
               {player2Id && (
                 <div className="mt-2">
                   <label htmlFor="player2Score" className="block text-sm font-medium text-gray-700 mb-1">
@@ -216,7 +342,7 @@ export default function MatchSimulator() {
                     max={maxScore}
                     value={player2Score}
                     onChange={(e) => setPlayer2Score(parseInt(e.target.value) || 0)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                   />
                 </div>
               )}
@@ -242,7 +368,7 @@ export default function MatchSimulator() {
                     setPlayer1Score(Math.max(0, maxScore - 2));
                   }
                 }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                 required
               >
                 <option value="">Оберіть переможця</option>
@@ -299,6 +425,24 @@ export default function MatchSimulator() {
 
       {/* Advanced Rating System Info */}
       <div className="bg-white rounded-lg shadow-md p-6">
+            <button
+              onClick={handleImportMatches}
+              className={`px-4 py-2 rounded-md transition-colors flex items-center gap-2 ${
+                importing
+                  ? 'bg-gray-200 text-gray-600 cursor-not-allowed'
+                  : 'bg-emerald-600 text-white hover:bg-emerald-700'
+              }`}
+              disabled={importing}
+            >
+              {importing ? (
+                <>
+                  <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Імпорт матчів...</span>
+                </>
+              ) : (
+                <span>⬇️ Імпорт матчів</span>
+              )}
+            </button>
         <h2 className="text-xl font-bold text-gray-900 mb-4">🎯 Розширена рейтингова система</h2>
         
         <div className="space-y-3 text-sm text-gray-700">
@@ -344,7 +488,7 @@ export default function MatchSimulator() {
               max="1000"
               value={randomMatchCount}
               onChange={(e) => setRandomMatchCount(parseInt(e.target.value) || 1)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
             />
           </div>
 
