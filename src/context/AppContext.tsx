@@ -96,7 +96,7 @@ interface AppContextType {
   resetData: () => void;
   loadRealPlayers: () => void;
   simulateRandomMatches: (count: number) => void;
-  importCsvMatches: () => Promise<void>;
+  importCsvMatches: (warmupRuns?: number) => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -115,6 +115,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
     const loadData = () => {
       try {
+        // Версія рейтингової системи (змінюйте при зміні початкового рейтингу)
+        const RATING_SYSTEM_VERSION = '1200-base';
+        const savedVersion = localStorage.getItem('billiard-rating-version');
+        
+        // Якщо версія змінилась - очищаємо старі дані
+        if (savedVersion !== RATING_SYSTEM_VERSION) {
+          console.log(`🔄 Rating system updated from ${savedVersion || 'old'} to ${RATING_SYSTEM_VERSION}. Clearing old data...`);
+          localStorage.removeItem('billiard-players');
+          localStorage.removeItem('billiard-matches');
+          localStorage.setItem('billiard-rating-version', RATING_SYSTEM_VERSION);
+          
+          // Generate initial data with new version
+          const initialPlayers = generateInitialPlayers(100, 1000);
+          dispatch({ type: 'INITIALIZE_DATA', payload: { players: initialPlayers, matches: [] } });
+          return;
+        }
+
         const savedPlayers = localStorage.getItem('billiard-players');
         const savedMatches = localStorage.getItem('billiard-matches');
 
@@ -136,6 +153,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           dispatch({ type: 'INITIALIZE_DATA', payload: { players, matches } });
         } else {
           // Generate initial data if none exists
+          localStorage.setItem('billiard-rating-version', RATING_SYSTEM_VERSION);
           const initialPlayers = generateInitialPlayers(100, 1000);
           dispatch({ type: 'INITIALIZE_DATA', payload: { players: initialPlayers, matches: [] } });
         }
@@ -156,6 +174,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!state.loading && state.players.length > 0 && state.isClient) {
       localStorage.setItem('billiard-players', JSON.stringify(state.players));
       localStorage.setItem('billiard-matches', JSON.stringify(state.matches));
+      localStorage.setItem('billiard-rating-version', '1200-base');
     }
   }, [state.players, state.matches, state.loading, state.isClient]);
 
@@ -180,6 +199,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       id: `match-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       player1Id,
       player2Id,
+      player1Name: player1.name, // Зберігаємо імена для віртуальних профілів
+      player2Name: player2.name,
       winnerId,
       player1Score,
       player2Score,
@@ -273,6 +294,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         id: `match-${Date.now()}-${i}-${Math.random().toString(36).substr(2, 9)}`,
         player1Id: player1.id,
         player2Id: player2.id,
+        player1Name: player1.name, // Зберігаємо імена для віртуальних профілів
+        player2Name: player2.name,
         winnerId,
         player1Score,
         player2Score,
@@ -315,9 +338,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     console.log(`Симуляція завершена: ${count} матчів, рейтинги оновлено`);
   };
 
-  const importCsvMatches = async () => {
+  const importCsvMatches = async (warmupRuns: number = 0) => {
     try {
-      const res = await fetch('/api/import-csv');
+      const url = warmupRuns > 0 
+        ? `/api/import-csv?warmupRuns=${warmupRuns}`
+        : '/api/import-csv';
+      
+      const res = await fetch(url);
       if (!res.ok) throw new Error('CSV import failed');
       const data = await res.json();
 
@@ -336,9 +363,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       dispatch({ type: 'SET_MATCHES', payload: matches });
 
       console.log('CSV import summary:', data.summary);
+      return data.summary;
     } catch (error) {
       console.error('CSV import failed', error);
       dispatch({ type: 'SET_ERROR', payload: 'Не вдалося імпортувати CSV' });
+      throw error;
     }
   };
 

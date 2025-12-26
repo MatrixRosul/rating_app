@@ -10,13 +10,14 @@ interface MatchHistoryProps {
   players: Player[];
   playerId?: string; // If provided, highlights matches for specific player
   limit?: number;
+  disableSorting?: boolean; // If true, doesn't sort matches (uses provided order)
 }
 
-export default function MatchHistory({ matches, players, playerId, limit }: MatchHistoryProps) {
+export default function MatchHistory({ matches, players, playerId, limit, disableSorting = false }: MatchHistoryProps) {
   const getPlayerById = (id: string) => players.find(p => p.id === id);
   
   // Sort matches by date (newest first), then by sequenceIndex descending (for matches on same date, newest processing first)
-  const sortedMatches = [...matches].sort((a, b) => {
+  const sortedMatches = disableSorting ? matches : [...matches].sort((a, b) => {
     const dateCompare = new Date(b.date).getTime() - new Date(a.date).getTime();
     if (dateCompare !== 0) return dateCompare;
     // If dates are the same, sort by sequenceIndex descending (so most recent processing appears first)
@@ -92,6 +93,12 @@ export default function MatchHistory({ matches, players, playerId, limit }: Matc
                       }`}>
                         ({match.player1RatingChange > 0 ? '+' : ''}{match.player1RatingChange})
                       </span>
+                      {/* Rank change notification for Player 1 */}
+                      {getRatingBand(match.player1RatingBefore).name !== getRatingBand(match.player1RatingAfter).name && (
+                        <span className={`text-xs font-semibold px-2 py-1 rounded ${getRatingBand(match.player1RatingAfter).color} text-white`}>
+                          Нове звання: {getRatingBand(match.player1RatingAfter).name}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -114,6 +121,12 @@ export default function MatchHistory({ matches, players, playerId, limit }: Matc
                       {player2.name}
                     </Link>
                     <div className="flex items-center justify-end space-x-2 mt-1">
+                      {/* Rank change notification for Player 2 */}
+                      {getRatingBand(match.player2RatingBefore).name !== getRatingBand(match.player2RatingAfter).name && (
+                        <span className={`text-xs font-semibold px-2 py-1 rounded ${getRatingBand(match.player2RatingAfter).color} text-white`}>
+                          Нове звання: {getRatingBand(match.player2RatingAfter).name}
+                        </span>
+                      )}
                       <span className={`text-sm ${
                         match.player2RatingChange > 0 
                           ? 'text-green-600' 
@@ -134,7 +147,7 @@ export default function MatchHistory({ matches, players, playerId, limit }: Matc
                   </div>
                 </div>
 
-                {/* Winner indicator and tournament/date info */}
+                {/* Winner indicator and tournament/date/stage info */}
                 <div className="mt-3 flex items-center justify-between">
                   <div className="flex flex-col space-y-1">
                     <div className="flex items-center space-x-2">
@@ -146,11 +159,29 @@ export default function MatchHistory({ matches, players, playerId, limit }: Matc
                         {winner.name}
                       </Link>
                     </div>
-                    {match.tournament && (
-                      <div className="text-xs text-gray-600 ml-0">
-                        📌 {match.tournament}
-                      </div>
-                    )}
+                    <div className="flex items-center space-x-2">
+                      {match.tournament && (
+                        <div className="text-xs text-gray-600">
+                          📌 {match.tournament}
+                        </div>
+                      )}
+                      {match.stage && (
+                        <div className={`text-xs font-semibold px-2 py-0.5 rounded ${
+                          match.stage === 'final' ? 'bg-yellow-100 text-yellow-800' :
+                          match.stage === 'semifinal' ? 'bg-orange-100 text-orange-800' :
+                          match.stage === 'quarterfinal' ? 'bg-purple-100 text-purple-800' :
+                          match.stage === 'round16' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {match.stage === 'final' ? '🏆 Фінал' :
+                           match.stage === 'semifinal' ? '🥈 Півфінал' :
+                           match.stage === 'quarterfinal' ? '🥉 Чвертьфінал' :
+                           match.stage === 'round16' ? '⚔️ 1/8' :
+                           `📍 ${match.stage}`}
+                          {match.matchWeight && match.matchWeight > 1.0 && ` ×${match.matchWeight.toFixed(1)}`}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   
                   <div className="text-sm text-gray-500">

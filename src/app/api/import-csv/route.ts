@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { Player, Match } from '@/types';
-import { calculateRatingChange, generateRealPlayers } from '@/utils/rating';
+import { calculateRatingChange, generateRealPlayers, getMatchWeight, getStageOrder } from '@/utils/rating';
 
 interface CsvRow {
   player1: string;
@@ -12,6 +12,7 @@ interface CsvRow {
   score2: number;
   tournament: string;
   date: string;
+  stage?: string; // 🔥 Стадія матчу
 }
 
 function parseCsv(content: string): CsvRow[] {
@@ -75,6 +76,7 @@ function parseCsv(content: string): CsvRow[] {
     s2: findIdx(['результат2', 'рахунок2', 'score2']),
     tournament: findIdx(['турнір', 'tournament', 'event']),
     date: findIdx(['дата', 'date']),
+    stage: findIdx(['стадія', 'stage', 'round']), // 🔥 Парсимо стадію матчу
   };
 
   return rows
@@ -86,6 +88,7 @@ function parseCsv(content: string): CsvRow[] {
       score2: idx.s2 >= 0 ? Number(r[idx.s2] || 0) : 0,
       tournament: idx.tournament >= 0 ? r[idx.tournament] || '' : '',
       date: idx.date >= 0 ? r[idx.date] || '' : '',
+      stage: idx.stage >= 0 ? r[idx.stage]?.trim() || undefined : undefined, // 🔥 Стадія
     }));
 }
 
@@ -132,15 +135,19 @@ function createPlayer(fullName: string): Player {
     name: fullName.trim(),
     firstName: first,
     lastName: last,
-    rating: 1100,
+    rating: 1200,
     matches: [],
     createdAt: new Date(),
     updatedAt: new Date(),
   };
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    // Отримуємо параметри з URL
+    const { searchParams } = new URL(request.url);
+    const warmupRuns = parseInt(searchParams.get('warmupRuns') || '0', 10);
+
     const filePath = path.join(process.cwd(), 'data', 'match_results.csv');
     const content = fs.readFileSync(filePath, 'utf-8');
     const rows = parseCsv(content);
@@ -157,15 +164,84 @@ export async function GET() {
       if (player) playerMap.set(aliasKey, player);
     });
 
-    const matches: Match[] = [];
-    let newPlayers = 0;
-
-    // Sort rows by date (oldest first) so ratings update chronologically
+    // Sort rows by date (oldest first) and by stage within same date
     const sortedRows = [...rows].sort((a, b) => {
       const dateA = new Date(a.date || 0).getTime();
       const dateB = new Date(b.date || 0).getTime();
-      return dateA - dateB;
+      
+      // Спочатку сортуємо по даті
+      if (dateA !== dateB) return dateA - dateB;
+      
+      // Якщо дата однакова — сортуємо по стадії (group → final)
+      return getStageOrder(a.stage) - getStageOrder(b.stage);
     });
+
+    // Warmup runs: прогоняємо матчі N разів для калібрування рейтингів (без збереження історії)
+    if (warmupRuns > 0) {
+      console.log(`🔥 Starting ${warmupRuns} warmup runs for rating calibration...`);
+      
+      for (let run = 1; run <= warmupRuns; run++) {
+        // Скидаємо рейтинги до 1200 перед кожним warmup run
+        playerMap.forEach(p => {
+          p.rating = 1200;
+        });
+
+        sortedRows.forEach((row) => {
+          const resolved1 = resolveName(row.player1);
+          const resolved2 = resolveName(row.player2);
+          const key1 = normalizeName(resolved1);
+          const key2 = normalizeName(resolved2);
+
+          let p1 = playerMap.get(key1);
+          if (!p1) {
+            p1 = createPlayer(resolved1);
+            playerMap.set(key1, p1);
+            players.push(p1);
+          }
+
+          let p2 = playerMap.get(key2);
+          if (!p2) {
+            p2 = createPlayer(resolved2);
+            playerMap.set(key2, p2);
+            players.push(p2);
+          }
+
+          const maxScore = Math.max(row.score1, row.score2, 1);
+          const gamesPlayed1 = p1.matches.length;
+          const gamesPlayed2 = p2.matches.length;
+          const matchWeight = getMatchWeight(row.stage); // 🔥 Вага матчу залежить від стадії
+
+          const { player1Change, player2Change } = calculateRatingChange(
+            p1.rating,
+            p2.rating,
+            row.score1,
+            row.score2,
+            maxScore,
+            gamesPlayed1,
+            gamesPlayed2,
+            matchWeight // 🔥 Застосовуємо вагу
+          );
+
+          p1.rating += player1Change;
+          p2.rating += player2Change;
+          // Для warmup рахуємо тільки кількість матчів (без збереження історії)
+          p1.matches.push(`warmup-${run}-dummy`);
+          p2.matches.push(`warmup-${run}-dummy`);
+        });
+
+        console.log(`✅ Warmup run ${run}/${warmupRuns} completed`);
+      }
+
+      // Після warmup runs очищаємо фейкову історію матчів
+      playerMap.forEach(p => {
+        p.matches = [];
+      });
+
+      console.log(`🎯 Warmup complete! Starting final run with calibrated ratings...`);
+    }
+
+    const matches: Match[] = [];
+    let newPlayers = 0;
 
     sortedRows.forEach((row, index) => {
       const resolved1 = resolveName(row.player1);
@@ -191,19 +267,28 @@ export async function GET() {
 
       const maxScore = Math.max(row.score1, row.score2, 1);
       const winnerId = row.score1 > row.score2 ? p1.id : p2.id;
+      
+      const gamesPlayed1 = p1.matches.length;
+      const gamesPlayed2 = p2.matches.length;
+      const matchWeight = getMatchWeight(row.stage); // 🔥 Вага матчу залежить від стадії
 
       const { player1Change, player2Change } = calculateRatingChange(
         p1.rating,
         p2.rating,
         row.score1,
         row.score2,
-        maxScore
+        maxScore,
+        gamesPlayed1,
+        gamesPlayed2,
+        matchWeight // 🔥 Застосовуємо вагу
       );
 
       const match: Match = {
         id: `csv-${index}-${Date.now()}`,
         player1Id: p1.id,
         player2Id: p2.id,
+        player1Name: p1.name, // Зберігаємо ім'я для віртуальних профілів
+        player2Name: p2.name, // Зберігаємо ім'я для віртуальних профілів
         winnerId,
         player1Score: row.score1,
         player2Score: row.score2,
@@ -217,6 +302,8 @@ export async function GET() {
         date: new Date(row.date || Date.now()),
         sequenceIndex: index, // Порядок обробки матчу при імпорті
         tournament: row.tournament || undefined, // Назва турніру з CSV
+        stage: row.stage, // 🔥 Стадія матчу
+        matchWeight, // 🔥 Вага матчу (для відображення)
       };
 
       p1.rating = match.player1RatingAfter;
@@ -236,6 +323,10 @@ export async function GET() {
         totalMatches: matches.length,
         totalPlayers: players.length,
         newPlayers,
+        warmupRuns,
+        message: warmupRuns > 0 
+          ? `Ratings calibrated with ${warmupRuns} warmup runs before final simulation` 
+          : 'Direct import without warmup',
       },
     });
   } catch (error: any) {

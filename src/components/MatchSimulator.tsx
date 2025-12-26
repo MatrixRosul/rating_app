@@ -125,7 +125,7 @@ export default function MatchSimulator() {
   };
 
   const handleLoadRealPlayers = () => {
-    if (confirm('Завантажити реальних гравців? Це замінить поточних гравців на 115 реальних гравців з рейтингом 1100.')) {
+    if (confirm('Завантажити реальних гравців? Це замінить поточних гравців на 115 реальних гравців з рейтингом 1200.')) {
       loadRealPlayers();
     }
   };
@@ -134,8 +134,26 @@ export default function MatchSimulator() {
     setImportMessage(null);
     setImporting(true);
     try {
-      await importCsvMatches();
+      await importCsvMatches(0); // Без warmup
       setImportMessage('Імпорт успішний: матчі та рейтинги оновлено');
+    } catch (error) {
+      setImportMessage('Помилка імпорту. Спробуйте ще раз.');
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  const handleImportMatchesWithWarmup = async () => {
+    const warmupRuns = 2; // Кількість прогонів для калібрування
+    if (!confirm(`Імпортувати з ${warmupRuns} прогонами для калібрування рейтингів?\n\nСистема прогонить всі матчі ${warmupRuns} раз(и) для визначення адекватних стартових рейтингів, а потім зробить фінальний прогон зі збереженням повної історії.`)) {
+      return;
+    }
+    
+    setImportMessage(null);
+    setImporting(true);
+    try {
+      await importCsvMatches(warmupRuns);
+      setImportMessage(`✅ Імпорт з калібруванням та вагами успішний!\nМатчі оброблено з урахуванням стадій турніру (group→final ×2.0)`);
     } catch (error) {
       setImportMessage('Помилка імпорту. Спробуйте ще раз.');
     } finally {
@@ -175,12 +193,6 @@ export default function MatchSimulator() {
 
   return (
     <div className="space-y-6">
-      {importMessage && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2 rounded-md text-sm">
-          {importMessage}
-        </div>
-      )}
-
       {/* Manual Match Addition */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Додати матч</h2>
@@ -425,6 +437,7 @@ export default function MatchSimulator() {
 
       {/* Advanced Rating System Info */}
       <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex gap-3 mb-4">
             <button
               onClick={handleImportMatches}
               className={`px-4 py-2 rounded-md transition-colors flex items-center gap-2 ${
@@ -437,30 +450,63 @@ export default function MatchSimulator() {
               {importing ? (
                 <>
                   <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Імпорт матчів...</span>
+                  <span>Імпорт...</span>
                 </>
               ) : (
-                <span>⬇️ Імпорт матчів</span>
+                <span>⬇️ Імпорт CSV</span>
               )}
             </button>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">🎯 Розширена рейтингова система</h2>
+
+            <button
+              onClick={handleImportMatchesWithWarmup}
+              className={`px-4 py-2 rounded-md transition-colors flex items-center gap-2 ${
+                importing
+                  ? 'bg-gray-200 text-gray-600 cursor-not-allowed'
+                  : 'bg-purple-600 text-white hover:bg-purple-700'
+              }`}
+              disabled={importing}
+            >
+              {importing ? (
+                <>
+                  <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Калібрування...</span>
+                </>
+              ) : (
+                <span>🔥 Імпорт з калібруванням + вагами (2 warmup)</span>
+              )}
+            </button>
+        </div>
+
+        {importMessage && (
+          <div className={`p-3 rounded-md mb-4 ${
+            importMessage.includes('успішний') || importMessage.includes('✅')
+              ? 'bg-green-100 text-green-800 border border-green-200'
+              : 'bg-red-100 text-red-800 border border-red-200'
+          }`}>
+            <pre className="text-sm whitespace-pre-wrap">{importMessage}</pre>
+          </div>
+        )}
+        
+        <h2 className="text-xl font-bold text-gray-900 mb-4">🎯 Розширена рейтингова система v2</h2>
         
         <div className="space-y-3 text-sm text-gray-700">
           <p>
-            <strong>Нова система враховує:</strong>
+            <strong>Система враховує:</strong>
           </p>
           <ul className="list-disc list-inside space-y-1 ml-4">
             <li><strong>Рахунок матчу</strong> - чим ближчий рахунок, тім менша зміна рейтингу</li>
             <li><strong>Якість гри програвшого</strong> - якщо програв, але зіграв краще за очікування, втратить менше рейтингу</li>
             <li><strong>Фактор несподіванки</strong> - перемога над сильнішим гравцем дає значно більше очок</li>
             <li><strong>Адаптивний K-фактор</strong> - більша зміна рейтингу при великій різниці в силі гравців</li>
-            <li><strong>Збільшені зміни</strong> - мінімум ±4, максимум ±60 рейтингу за матч</li>
+            <li><strong>Елітний шар 1600+</strong> - спеціальна логіка для топ-гравців, макс зміна до ±70</li>
+            <li><strong>🔥 ВАГИ МАТЧІВ</strong> - фінали дають вдвічі більше рейтингу! (group ×1.0 → final ×2.0)</li>
           </ul>
           
           <div className="bg-blue-50 p-3 rounded-md mt-4">
             <p className="text-blue-800">
-              <strong>Приклад:</strong> Гравець 1100 програв 4:5 гравцю 1700 - отримає +6-10 рейтингу за гарну гру!<br/>
-              <strong>Шок:</strong> Гравець 1100 переміг 5:2 гравця 1700 - отримає +30-45 рейтингу!
+              <strong>Приклад:</strong> Гравець 1600 виграв 5:2 в груповому етапі - отримає +35 рейтингу<br/>
+              <strong>Фінал:</strong> Той самий матч у фіналі - отримає +70 рейтингу (×2.0)!<br/>
+              <strong>Калібрування:</strong> Система двічі прогоне всі матчі для визначення адекватних стартових рейтингів
             </p>
           </div>
           

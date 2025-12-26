@@ -18,6 +18,8 @@ export interface Match {
   id: string;
   player1Id: string;
   player2Id: string;
+  player1Name?: string; // Ім'я гравця 1 (для віртуальних профілів)
+  player2Name?: string; // Ім'я гравця 2 (для віртуальних профілів)
   winnerId: string;
   player1Score: number;
   player2Score: number;
@@ -31,6 +33,8 @@ export interface Match {
   date: Date;
   sequenceIndex?: number; // Порядок обробки матчу при імпорті (для сортування при однаковій даті)
   tournament?: string; // Назва турніру або змагання
+  stage?: string; // Стадія матчу: group, round16, quarterfinal, semifinal, final
+  matchWeight?: number; // Вага матчу (1.0-2.0) для розрахунку рейтингу
 }
 
 export interface RatingBand {

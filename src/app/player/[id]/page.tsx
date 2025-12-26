@@ -11,8 +11,10 @@ import { useState, useEffect } from 'react';
 export default function PlayerProfile() {
   const { state } = useApp();
   const params = useParams();
-  const playerId = params.id as string;
+  // Декодуємо URL-encoded параметр (кирилиця)
+  const playerId = decodeURIComponent(params.id as string);
   const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState<'history' | 'best'>('history');
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -52,8 +54,38 @@ export default function PlayerProfile() {
   }
 
   const player = state.players.find(p => p.id === playerId);
-
+  
+  // Якщо гравця немає в списку, але є в матчах — створюємо віртуального гравця
+  let virtualPlayer = player;
   if (!player) {
+    // Шукаємо гравця в матчах
+    const playerMatches = state.matches.filter(match => 
+      match.player1Id === playerId || match.player2Id === playerId
+    );
+    
+    if (playerMatches.length > 0) {
+      // Знаходимо останній матч для отримання актуального рейтингу
+      const lastMatch = playerMatches[playerMatches.length - 1];
+      const isPlayer1 = lastMatch.player1Id === playerId;
+      const currentRating = isPlayer1 ? lastMatch.player1RatingAfter : lastMatch.player2RatingAfter;
+      
+      // Отримуємо ім'я з матчу
+      const playerName = isPlayer1 
+        ? (lastMatch.player1Name || `Гравець ${playerId}`)
+        : (lastMatch.player2Name || `Гравець ${playerId}`);
+      
+      virtualPlayer = {
+        id: playerId,
+        name: playerName,
+        rating: currentRating,
+        matches: playerMatches.map(m => m.id),
+        createdAt: new Date(playerMatches[0].date),
+        updatedAt: new Date(lastMatch.date)
+      };
+    }
+  }
+
+  if (!virtualPlayer) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="bg-white rounded-lg shadow-lg p-8 text-center">
@@ -75,15 +107,33 @@ export default function PlayerProfile() {
     );
   }
 
-  const ratingBand = getRatingBand(player.rating);
-  const stats = calculatePlayerStats(player, state.matches);
+  const ratingBand = getRatingBand(virtualPlayer.rating);
+  const stats = calculatePlayerStats(virtualPlayer, state.matches);
   const playerMatches = state.matches.filter(match => 
-    match.player1Id === player.id || match.player2Id === player.id
+    match.player1Id === virtualPlayer.id || match.player2Id === virtualPlayer.id
   );
+
+  // Сортуємо матчі за зміною рейтингу для вкладки "Найкращі матчі"
+  // Використовуємо реальну зміну (не абсолютну), щоб найбільший приріст був зверху
+  const bestMatches = [...playerMatches].sort((a, b) => {
+    const aChange = a.player1Id === virtualPlayer.id
+      ? a.player1RatingChange
+      : a.player2RatingChange;
+    const bChange = b.player1Id === virtualPlayer.id
+      ? b.player1RatingChange
+      : b.player2RatingChange;
+    return bChange - aChange;
+  });
 
   // Find player's rank
   const sortedPlayers = [...state.players].sort((a, b) => b.rating - a.rating);
-  const playerRank = sortedPlayers.findIndex(p => p.id === player.id) + 1;
+  const playerRank = sortedPlayers.findIndex(p => p.id === virtualPlayer.id) + 1;
+
+  // Отримуємо звання для максимального рейтингу
+  const highestRatingBand = getRatingBand(stats.highestRating);
+  
+  // Перевіряємо, чи змінилось звання порівняно з поточним
+  const hasRankChanged = highestRatingBand.name !== ratingBand.name;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -125,12 +175,12 @@ export default function PlayerProfile() {
                 #{playerRank}
               </div>
               <div>
-                <h2 className={`text-3xl font-bold ${ratingBand.textColor}`}>{player.name}</h2>
+                <h2 className={`text-3xl font-bold ${ratingBand.textColor}`}>{virtualPlayer.name}</h2>
                 <div className="text-lg text-gray-600 space-y-1">
                   <p>{ratingBand.name}</p>
-                  {(player.city || player.yearOfBirth) && (
+                  {(virtualPlayer.city || virtualPlayer.yearOfBirth) && (
                     <p className="text-sm">
-                      {[player.city, player.yearOfBirth && `${player.yearOfBirth} р.н.`].filter(Boolean).join(' • ')}
+                      {[virtualPlayer.city, virtualPlayer.yearOfBirth && `${virtualPlayer.yearOfBirth} р.н.`].filter(Boolean).join(' • ')}
                     </p>
                   )}
                 </div>
@@ -139,7 +189,7 @@ export default function PlayerProfile() {
             
             <div className="text-right">
               <div className={`text-4xl font-bold ${ratingBand.textColor}`}>
-                {player.rating}
+                {virtualPlayer.rating}
               </div>
               <div className="flex items-center justify-end space-x-2 mt-2">
                 <div 
@@ -171,8 +221,18 @@ export default function PlayerProfile() {
               <div className="text-sm text-gray-600">% Перемог</div>
             </div>
             <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-orange-600">{stats.highestRating}</div>
+              <div className={`text-2xl font-bold ${highestRatingBand.textColor}`}>
+                {stats.highestRating}
+              </div>
               <div className="text-sm text-gray-600">Макс рейтинг</div>
+              <div className={`text-xs font-medium mt-1 ${highestRatingBand.textColor}`}>
+                {highestRatingBand.name}
+              </div>
+              {player && hasRankChanged && stats.highestRating > player.rating && (
+                <div className="text-xs text-amber-600 font-semibold mt-1">
+                  Найкраще звання
+                </div>
+              )}
             </div>
             <div className="text-center p-4 bg-gray-50 rounded-lg">
               <div className={`text-2xl font-bold ${stats.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -186,7 +246,7 @@ export default function PlayerProfile() {
         {/* Rating Chart */}
         <div className="mb-8">
           <RatingChart 
-            player={player}
+            player={virtualPlayer}
             matches={state.matches}
             players={state.players}
           />
@@ -194,15 +254,36 @@ export default function PlayerProfile() {
 
         {/* Match History */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-6">
-            Історія матчів ({playerMatches.length})
-          </h3>
+          {/* Tabs */}
+          <div className="flex space-x-4 mb-6 border-b border-gray-200">
+            <button
+              onClick={() => setActiveTab('history')}
+              className={`px-4 py-2 font-semibold transition-colors border-b-2 ${
+                activeTab === 'history'
+                  ? 'text-blue-600 border-blue-600'
+                  : 'text-gray-500 border-transparent hover:text-gray-700'
+              }`}
+            >
+              Історія матчів ({playerMatches.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('best')}
+              className={`px-4 py-2 font-semibold transition-colors border-b-2 ${
+                activeTab === 'best'
+                  ? 'text-blue-600 border-blue-600'
+                  : 'text-gray-500 border-transparent hover:text-gray-700'
+              }`}
+            >
+              Найкращі матчі
+            </button>
+          </div>
           
           {playerMatches.length > 0 ? (
             <MatchHistory 
-              matches={playerMatches}
+              matches={activeTab === 'history' ? playerMatches : bestMatches}
               players={state.players}
-              playerId={player.id}
+              playerId={virtualPlayer.id}
+              disableSorting={activeTab === 'best'}
             />
           ) : (
             <div className="text-center py-12">

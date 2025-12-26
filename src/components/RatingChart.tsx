@@ -52,20 +52,17 @@ export default function RatingChart({ player, matches, players = [], className =
 
     history.push({
       date: initialDate,
-      rating: 1100, // Початковий рейтинг для всіх гравців
+      rating: 1200, // Початковий рейтинг для всіх гравців
       reason: 'initial'
     });
 
-    let currentRating = 1100;
-
     playerMatches.forEach(match => {
-      // Знаходимо зміну рейтингу для цього гравця
-      const ratingChange = match.player1Id === player.id ? match.player1RatingChange : match.player2RatingChange;
-      currentRating += ratingChange;
+      // Беремо рейтинг після матчу напряму з даних матчу (не накопичуємо зміни)
+      const ratingAfter = match.player1Id === player.id ? match.player1RatingAfter : match.player2RatingAfter;
       
       history.push({
         date: new Date(match.date),
-        rating: currentRating,
+        rating: ratingAfter,
         matchId: match.id,
         reason: 'match'
       });
@@ -103,8 +100,15 @@ export default function RatingChart({ player, matches, players = [], className =
   const ratingRange = maxRating - minRating;
   const padding = Math.max(50, ratingRange * 0.1); // Додаємо відступи
 
+  // Знаходимо наступний рівень (band) для поточного рейтингу
+  const currentBand = getRatingBand(player.rating);
+  const nextBand = RATING_BANDS.find(band => band.min > player.rating);
+  
+  // Розширюємо діапазон графіка, щоб показати наступний рівень
   const chartMinRating = Math.max(0, minRating - padding);
-  const chartMaxRating = maxRating + padding;
+  const chartMaxRating = nextBand 
+    ? Math.max(maxRating + padding, nextBand.min + 100) // Додаємо 100 вище наступного порогу
+    : maxRating + padding;
   const chartRatingRange = chartMaxRating - chartMinRating;
 
   // Створюємо SVG координати
@@ -294,6 +298,34 @@ export default function RatingChart({ player, matches, players = [], className =
           >
             {player.rating}
           </text>
+          
+          {/* Наступний рівень (ціль) */}
+          {nextBand && (
+            <>
+              {/* Горизонтальна пунктирна лінія для наступного рівня */}
+              <line
+                x1={chartLeft}
+                y1={yScale(nextBand.min)}
+                x2={chartLeft + chartWidth}
+                y2={yScale(nextBand.min)}
+                stroke={nextBand.color}
+                strokeWidth={2}
+                strokeDasharray="6,4"
+                opacity={0.7}
+              />
+              {/* Підпис наступного рівня */}
+              <text
+                x={chartLeft + chartWidth + 10}
+                y={yScale(nextBand.min) + 4}
+                textAnchor="start"
+                fontSize="13"
+                fill={nextBand.color}
+                fontWeight="700"
+              >
+                {nextBand.min} ▶ {nextBand.name}
+              </text>
+            </>
+          )}
         </svg>
 
         {/* Тултип матчу */}
@@ -334,8 +366,11 @@ export default function RatingChart({ player, matches, players = [], className =
                   <div className="text-white font-semibold text-sm">
                     {playerScore}:{opponentScore}
                   </div>
-                  <div className="text-green-300 font-semibold">
+                  <div className={`font-bold text-base ${ratingChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                     {ratingChange > 0 ? '+' : ''}{ratingChange}
+                  </div>
+                  <div className="text-blue-300 font-semibold text-sm border-t border-gray-700 pt-1">
+                    Рейтинг: {point.rating}
                   </div>
                   <div className="text-gray-300 text-xs">
                     {matchDate}

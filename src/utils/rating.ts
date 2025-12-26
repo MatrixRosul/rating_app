@@ -1,194 +1,170 @@
 import { Player, Match, RatingBand, RATING_BANDS, PlayerStats } from '@/types';
 
-// Advanced rating calculation based on ELO system with score consideration
+// 🔥 ВАГА МАТЧУ: фінали дають вдвічі більше рейтингу!
+export function getMatchWeight(stage?: string): number {
+  const weights: Record<string, number> = {
+    'group': 1.0,
+    'round16': 1.1,
+    'quarterfinal': 1.4,
+    'semifinal': 1.7,
+    'final': 2.0
+  };
+  
+  if (!stage) return 1.0;
+  
+  const normalized = stage.toLowerCase().trim();
+  return weights[normalized] ?? 1.0;
+}
+
+// Порядок стадій для сортування (важливо для однакових дат)
+export function getStageOrder(stage?: string): number {
+  const order: Record<string, number> = {
+    'group': 1,
+    'round16': 2,
+    'quarterfinal': 3,
+    'semifinal': 4,
+    'final': 5
+  };
+  
+  if (!stage) return 0;
+  
+  const normalized = stage.toLowerCase().trim();
+  return order[normalized] ?? 0;
+}
+
+// Stable ELO-based rating calculation with pyramid principles
 export function calculateRatingChange(
   player1Rating: number,
   player2Rating: number,
   player1Score: number,
   player2Score: number,
   maxScore: number,
-  kFactor: number = 100 // Збільшено з 40 до 50 для ще більших змін (+25%)
+  player1Games: number = 30, // Кількість ігор гравця 1
+  player2Games: number = 30, // Кількість ігор гравця 2
+  matchWeight: number = 1.0  // 🔥 ВАГА МАТЧУ: group=1.0, round16=1.1, quarterfinal=1.4, semifinal=1.7, final=2.0
 ): { player1Change: number; player2Change: number } {
-  // Визначаємо переможця
-  const player1Won = player1Score > player2Score;
-  const winnerScore = Math.max(player1Score, player2Score);
-  const loserScore = Math.min(player1Score, player2Score);
   
-  // Базовий розрахунок ELO
-  const expectedScore1 = 1 / (1 + Math.pow(10, (player2Rating - player1Rating) / 400));
-  const expectedScore2 = 1 - expectedScore1;
+  // 1. EXPECTED SCORE (E) — стандартний Elo
+  const E1 = 1 / (1 + Math.pow(10, (player2Rating - player1Rating) / 400));
+  const E2 = 1 - E1;
   
-  // Фактор домінування - наскільки переконливою була перемога
-  const dominanceFactor = calculateDominanceFactor(winnerScore, loserScore, maxScore);
+  // 2. ACTUAL SCORE (S) — ЕЛІТНА ЛОГІКА для топів
+  const scoreDiff = player1Score - player2Score;
+  const avgRating = (player1Rating + player2Rating) / 2;
+  const isElite = avgRating >= 1600;
   
-  // Фактор несподіванки - наскільки несподіваним був результат
-  const surpriseFactor = calculateSurpriseFactor(player1Rating, player2Rating, player1Won);
+  let S1: number, S2: number;
   
-  // Фактор якості гри - оцінка того, наскільки добре грав програвший
-  const performanceFactor = calculatePerformanceFactor(
-    player1Rating, 
-    player2Rating, 
-    player1Score, 
-    player2Score, 
-    maxScore
-  );
-  
-  // Адаптивний K-фактор на основі різниці в рейтингах - більш агресивний
-  const adaptiveKFactor = calculateAdaptiveKFactor(player1Rating, player2Rating, kFactor);
-  
-  // Розрахунок базової зміни рейтингу
-  let player1Change = Math.round(adaptiveKFactor * (
-    (player1Won ? 1 : 0) - expectedScore1
-  ));
-  
-  let player2Change = Math.round(adaptiveKFactor * (
-    (player1Won ? 0 : 1) - expectedScore2
-  ));
-  
-  // Застосовуємо модифікатори з більшою інтенсивністю
-  const combinedFactor = dominanceFactor * surpriseFactor * performanceFactor;
-  player1Change = Math.round(player1Change * combinedFactor);
-  player2Change = Math.round(player2Change * combinedFactor);
-  
-  // Забезпечуємо, що зміни рейтингу протилежні за знаком
-  if (player1Won) {
-    player1Change = Math.abs(player1Change);
-    player2Change = -Math.abs(player2Change);
+  if (isElite) {
+    // 🔥 ДЛЯ ЕЛІТИ: перемога = 1, поразка = 0, рахунок впливає мінімально
+    if (player1Score > player2Score) {
+      // Переможець отримує майже 1.0, незалежно від рахунку
+      S1 = 0.95 + Math.min(0.05, (scoreDiff / maxScore) * 0.05);
+    } else {
+      // Програвший отримує майже 0.0
+      S1 = 0.05 - Math.min(0.05, (Math.abs(scoreDiff) / maxScore) * 0.05);
+    }
   } else {
-    player1Change = -Math.abs(player1Change);
-    player2Change = Math.abs(player2Change);
+    // Стандартна логіка для середніх рейтингів
+    S1 = 0.5 + (scoreDiff / maxScore) * 0.5;
   }
   
-  // Збільшена мінімальна зміна рейтингу
-  const minChange = 4; // Збільшено з 3 до 4
-  if (Math.abs(player1Change) < minChange) {
-    player1Change = player1Won ? minChange : -minChange;
-    player2Change = player1Won ? -minChange : minChange;
+  S2 = 1 - S1;
+  
+  // 3. MARGIN MULTIPLIER (M) — м'який вплив різниці в рахунку
+  const M = calculateMarginMultiplier(Math.abs(scoreDiff), Math.max(player1Rating, player2Rating));
+  
+  // 4. K-FACTOR — залежить від кількості ігор та рейтингу
+  const K1 = calculateKFactor(player1Games, player1Rating);
+  const K2 = calculateKFactor(player2Games, player2Rating);
+  
+  // 5. БАЗОВА ЗМІНА — лінійна формула Elo
+  let delta1 = K1 * (S1 - E1) * M;
+  let delta2 = K2 * (S2 - E2) * M;
+  
+  // 6. ЗАХИСТ ВІД ПРІРВИ — тільки для низів
+  // 🔥 Топи БЕЗ захисту — створюємо відтік рейтингу вгору
+  if (avgRating < 1500) {
+    // Тільки новачки та середняки мають захист
+    const lossProtection = 0.75;
+    if (delta1 < 0) delta1 *= lossProtection;
+    if (delta2 < 0) delta2 *= lossProtection;
+  }
+  // Еліта (1500+) втрачає та виграє повністю
+  
+  // 7. ОБМЕЖЕННЯ МАКСИМУМУ — еліта може робити великі стрибки
+  let maxChange: number;
+  
+  if (avgRating >= 1700) {
+    // 🔥 ТОП-МАТЧІ: можливість великих стрибків
+    maxChange = 70;
+  } else if (avgRating >= 1600) {
+    // Елітний шар
+    maxChange = 60;
+  } else if (avgRating >= 1400) {
+    // Середній рівень
+    maxChange = 45;
+  } else {
+    // Новачки
+    maxChange = 35;
   }
   
-  // Максимальна зміна рейтингу за один матч
-  const maxChange = 60; // Збільшено з 50 до 60
-  if (Math.abs(player1Change) > maxChange) {
-    player1Change = player1Change > 0 ? maxChange : -maxChange;
+  delta1 = Math.max(-maxChange, Math.min(maxChange, delta1));
+  delta2 = Math.max(-maxChange, Math.min(maxChange, delta2));
+  
+  // 8. БОНУС ЗА ДОМІНАЦІЮ В ЕЛІТНОМУ ШАРІ
+  if (isElite && Math.abs(scoreDiff) >= 3) {
+    // 🔥 Топ домінує — екстра нагорода
+    const dominanceBonus = Math.min(10, Math.abs(scoreDiff) * 2);
+    if (delta1 > 0) delta1 += dominanceBonus;
+    else if (delta2 > 0) delta2 += dominanceBonus;
   }
-  if (Math.abs(player2Change) > maxChange) {
-    player2Change = player2Change > 0 ? maxChange : -maxChange;
-  }
+  
+  // 9. 🔥 ВАГА МАТЧУ — фінали дають НАБАГАТО більше
+  delta1 *= matchWeight;
+  delta2 *= matchWeight;
+  
+  // 10. ROUNDED CHANGES
+  const player1Change = Math.round(delta1);
+  const player2Change = Math.round(delta2);
   
   return { player1Change, player2Change };
 }
 
-// Фактор домінування - враховує наскільки переконливою була перемога
-function calculateDominanceFactor(winnerScore: number, loserScore: number, maxScore: number): number {
-  const scoreDifference = winnerScore - loserScore;
+// K-Factor based on number of games played and rating (pyramid principle)
+function calculateKFactor(gamesPlayed: number, rating: number = 1200): number {
+  // Базові K-фактори для досвіду
+  let baseK: number;
+  if (gamesPlayed < 20) baseK = 55;
+  else if (gamesPlayed < 60) baseK = 38;
+  else baseK = 26;
   
-  if (scoreDifference === 0) return 1.0; // Нічия (не повинно статися в більярді)
+  // 🔥 ЕЛІТНИЙ ШАР — найвищий K саме тут
+  if (rating >= 1900) {
+    // Верхівка: стабілізація після досягнення
+    baseK = Math.max(baseK, 42);
+  } else if (rating >= 1700) {
+    // 🎯 ПІКОВИЙ K для активного росту в топ-зону
+    baseK = Math.max(baseK, 50);
+  } else if (rating >= 1600) {
+    // Вхід в еліту — максимальна динаміка
+    baseK = Math.max(baseK, 55);
+  }
   
-  // Чим більша різниця в рахунку, тим більший коефіцієнт
-  const dominanceRatio = scoreDifference / maxScore;
-  
-  // Збільшено масштабування для більш суттєвих змін: від 0.6 до 1.8
-  return 0.6 + (dominanceRatio * 1.2);
+  return baseK;
 }
 
-// Фактор несподіванки - враховує наскільки несподіваним був результат
-function calculateSurpriseFactor(player1Rating: number, player2Rating: number, player1Won: boolean): number {
-  const ratingDifference = Math.abs(player1Rating - player2Rating);
-  const strongerPlayerWon = (player1Rating > player2Rating && player1Won) || 
-                           (player2Rating > player1Rating && !player1Won);
+// Margin Multiplier — обмежений вплив різниці в рахунку
+function calculateMarginMultiplier(scoreDiff: number, rating: number = 1200): number {
+  // Логарифмічна шкала для м'якого зростання
+  let base = 1 + Math.min(1.0, Math.log2(1 + scoreDiff) * 0.55);
   
-  if (ratingDifference < 50) {
-    // Гравці приблизно рівні - стандартний коефіцієнт
-    return 1.0;
-  } else if (strongerPlayerWon) {
-    // Сильніший гравець переміг - зменшуємо зміну рейтингу, але менше ніж раніше
-    const reductionFactor = Math.min(ratingDifference / 600, 0.4); // Зменшено вплив
-    return 1.0 - reductionFactor;
-  } else {
-    // Слабший гравець переміг - сильно збільшуємо зміну рейтингу
-    const boostFactor = Math.min(ratingDifference / 200, 1.0); // Збільшено вплив
-    return 1.0 + boostFactor;
-  }
-}
-
-// Фактор якості гри - оцінює наскільки добре грав програвший відносно очікувань
-function calculatePerformanceFactor(
-  player1Rating: number, 
-  player2Rating: number, 
-  player1Score: number, 
-  player2Score: number, 
-  maxScore: number
-): number {
-  const ratingDifference = player1Rating - player2Rating;
-  const player1Won = player1Score > player2Score;
-  const loserScore = player1Won ? player2Score : player1Score;
-  
-  // Очікуваний рахунок для програвшого на основі різниці рейтингів
-  const expectedLoserScore = calculateExpectedScore(Math.abs(ratingDifference), maxScore);
-  
-  // Якщо програвший зіграв краще за очікування - зменшуємо його втрату рейтингу
-  if (loserScore > expectedLoserScore) {
-    const overperformance = (loserScore - expectedLoserScore) / maxScore;
-    // Зменшуємо втрату рейтингу для програвшого (максимум на 30%)
-    return 1.0 - (overperformance * 0.3);
-  } else if (loserScore < expectedLoserScore) {
-    const underperformance = (expectedLoserScore - loserScore) / maxScore;
-    // Збільшуємо втрату рейтингу для програвшого (максимум на 20%)
-    return 1.0 + (underperformance * 0.2);
+  // М'яке посилення для топових гравців (великі перемоги більше винагороджуються)
+  if (rating >= 1600 && scoreDiff >= 3) {
+    base *= 1.08; // +8% для топів при домінації
   }
   
-  return 1.0;
-}
-
-// Розрахунок очікуваного рахунку для слабшого гравця
-function calculateExpectedScore(ratingDifference: number, maxScore: number): number {
-  // Базовий очікуваний відсоток очок для слабшого гравця
-  let expectedPercentage: number;
-  
-  if (ratingDifference < 100) {
-    expectedPercentage = 0.4; // 40% очок при невеликій різниці
-  } else if (ratingDifference < 200) {
-    expectedPercentage = 0.3; // 30% очок
-  } else if (ratingDifference < 300) {
-    expectedPercentage = 0.25; // 25% очок
-  } else if (ratingDifference < 500) {
-    expectedPercentage = 0.2; // 20% очок
-  } else {
-    expectedPercentage = 0.15; // 15% очок при великій різниці
-  }
-  
-  return Math.round(maxScore * expectedPercentage);
-}
-
-// Адаптивний K-фактор на основі різниці в рейтингах
-function calculateAdaptiveKFactor(player1Rating: number, player2Rating: number, baseK: number): number {
-  const avgRating = (player1Rating + player2Rating) / 2;
-  const ratingDifference = Math.abs(player1Rating - player2Rating);
-  
-  // Збільшуємо K-фактор для матчів між гравцями з великою різницею рейтингів
-  let kMultiplier = 1.0;
-  
-  if (ratingDifference > 400) {
-    kMultiplier = 1.6; // Збільшено з 1.4 до 1.6
-  } else if (ratingDifference > 200) {
-    kMultiplier = 1.3; // Збільшено з 1.2 до 1.3
-  } else if (ratingDifference > 100) {
-    kMultiplier = 1.1; // Новий діапазон
-  }
-  
-  // Менше зменшуємо K-фактор для топ-гравців (більш динамічна система)
-  if (avgRating > 2200) {
-    kMultiplier *= 0.85; // Збільшено з 0.8
-  } else if (avgRating > 1800) {
-    kMultiplier *= 0.95; // Збільшено з 0.9
-  }
-  
-  // Збільшуємо для новачків
-  if (avgRating < 1200) {
-    kMultiplier *= 1.2;
-  }
-  
-  return Math.round(baseK * kMultiplier);
+  return base;
 }
 
 // Get rating band for a given rating
@@ -225,7 +201,7 @@ export function generateInitialPlayers(count: number = 100, baseRating: number =
   // Special players with different rating ranges for demonstration
   const specialPlayers = [
     { name: 'NoobMaster69', rating: 800 },     // Newbie - Gray
-    { name: 'BeginnerLuck', rating: 1100 },    // Newbie - Gray
+    { name: 'BeginnerLuck', rating: 1200 },    // Newbie - Gray
     { name: 'GreenPlayer', rating: 1250 },     // Pupil - Green
     { name: 'StudyHard', rating: 1350 },       // Pupil - Green
     { name: 'CyanSpecial', rating: 1450 },     // Specialist - Cyan
@@ -292,7 +268,7 @@ export interface CSVPlayerData {
 }
 
 // Function to parse CSV data and create players
-export function createPlayersFromCSV(csvData: CSVPlayerData[], baseRating: number = 1100): Player[] {
+export function createPlayersFromCSV(csvData: CSVPlayerData[], baseRating: number = 1200): Player[] {
   const currentYear = new Date().getFullYear();
   
   return csvData.map((data, index) => {
@@ -442,7 +418,7 @@ export function generateRealPlayers(): Player[] {
     { first_name: "Віталій", last_name: "Кравчак", city: "Ужгород", yob: 1982 }
   ];
   
-  return createPlayersFromCSV(csvData, 1100);
+  return createPlayersFromCSV(csvData, 1200);
 }
 
 // Calculate player statistics
@@ -456,18 +432,20 @@ export function calculatePlayerStats(player: Player, matches: Match[]): PlayerSt
   const winRate = playerMatches.length > 0 ? (wins / playerMatches.length) * 100 : 0;
 
   // Calculate highest and lowest ratings from match history
-  const ratings = [player.rating];
+  const ratings = [player.rating, 1200]; // Поточний рейтинг + початковий рейтинг
   playerMatches.forEach(match => {
     if (match.player1Id === player.id) {
       ratings.push(match.player1RatingBefore);
+      ratings.push(match.player1RatingAfter);
     } else {
       ratings.push(match.player2RatingBefore);
+      ratings.push(match.player2RatingAfter);
     }
   });
 
   const highestRating = Math.max(...ratings);
   const lowestRating = Math.min(...ratings);
-  const initialRating = ratings[ratings.length - 1] || player.rating;
+  const initialRating = 1200; // Початковий рейтинг для всіх гравців
   const ratingChange = player.rating - initialRating;
 
   return {
@@ -498,29 +476,53 @@ export function simulateMatch(player1: Player, player2: Player): Match {
   
   let player1Score: number, player2Score: number;
   
+  // 🔥 ЖОРСТКА СИМУЛЯЦІЯ — великa різниця = домінація
+  const calculateSimulationExpectedScore = (ratingDiff: number, maxScore: number): number => {
+    let expectedPercentage: number;
+    const absDiff = Math.abs(ratingDiff);
+    
+    // Топ має ВБИВАТИ слабших
+    if (absDiff < 50) expectedPercentage = 0.45;
+    else if (absDiff < 100) expectedPercentage = 0.35;
+    else if (absDiff < 200) expectedPercentage = 0.25;
+    else if (absDiff < 300) expectedPercentage = 0.15;
+    else if (absDiff < 400) expectedPercentage = 0.1;
+    else expectedPercentage = 0.05; // 10:0, 7:0, 5:0
+    
+    return Math.round(maxScore * expectedPercentage);
+  };
+  
   if (Math.random() < player1WinProbability) {
     // Player 1 wins
     player1Score = maxScore;
-    // Player 2's score depends on the rating difference and some randomness
-    const expectedPlayer2Score = calculateExpectedScore(Math.abs(ratingDiff), maxScore);
+    const expectedPlayer2Score = calculateSimulationExpectedScore(Math.abs(ratingDiff), maxScore);
     player2Score = Math.max(0, Math.min(maxScore - 1, expectedPlayer2Score + Math.floor(Math.random() * 3) - 1));
   } else {
     // Player 2 wins
     player2Score = maxScore;
-    // Player 1's score depends on the rating difference and some randomness
-    const expectedPlayer1Score = calculateExpectedScore(Math.abs(ratingDiff), maxScore);
+    const expectedPlayer1Score = calculateSimulationExpectedScore(Math.abs(ratingDiff), maxScore);
     player1Score = Math.max(0, Math.min(maxScore - 1, expectedPlayer1Score + Math.floor(Math.random() * 3) - 1));
   }
 
   const winnerId = player1Score > player2Score ? player1.id : player2.id;
+
+  // Отримуємо кількість ігор кожного гравця
+  const player1Games = player1.matches?.length || 0;
+  const player2Games = player2.matches?.length || 0;
 
   const { player1Change, player2Change } = calculateRatingChange(
     player1.rating,
     player2.rating,
     player1Score,
     player2Score,
-    maxScore
+    maxScore,
+    player1Games,
+    player2Games
   );
+
+  // RATING FLOOR — мінімальний рейтинг 1000
+  const player1RatingAfter = Math.max(1000, player1.rating + player1Change);
+  const player2RatingAfter = Math.max(1000, player2.rating + player2Change);
 
   const match: Match = {
     id: `match-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -532,8 +534,8 @@ export function simulateMatch(player1: Player, player2: Player): Match {
     maxScore,
     player1RatingBefore: player1.rating,
     player2RatingBefore: player2.rating,
-    player1RatingAfter: player1.rating + player1Change,
-    player2RatingAfter: player2.rating + player2Change,
+    player1RatingAfter,
+    player2RatingAfter,
     player1RatingChange: player1Change,
     player2RatingChange: player2Change,
     date: new Date()
