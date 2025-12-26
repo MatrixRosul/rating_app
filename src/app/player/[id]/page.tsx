@@ -175,7 +175,18 @@ export default function PlayerProfile() {
                 #{playerRank}
               </div>
               <div>
-                <h2 className={`text-3xl font-bold ${ratingBand.textColor}`}>{virtualPlayer.name}</h2>
+                <div className="flex items-center gap-3">
+                  <h2 className={`text-3xl font-bold ${ratingBand.textColor}`}>{virtualPlayer.name}</h2>
+                  {virtualPlayer.isCMS && (
+                    <span 
+                      className="text-amber-600 text-sm font-extrabold italic tracking-wide px-2 py-1 bg-amber-50 rounded border border-amber-300" 
+                      title="Кандидат у Майстри Спорту України"
+                      style={{ transform: 'skewX(-3deg)' }}
+                    >
+                      КМСУ
+                    </span>
+                  )}
+                </div>
                 <div className="text-lg text-gray-600 space-y-1">
                   <p>{ratingBand.name}</p>
                   {(virtualPlayer.city || virtualPlayer.yearOfBirth) && (

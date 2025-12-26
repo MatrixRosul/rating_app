@@ -48,13 +48,17 @@ export default function PlayerCard({ player, rank, showRank = false, showPeakRat
           )}
           
           <div className="flex-1">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <h3 className={`font-semibold text-base ${ratingBand.textColor} hover:opacity-80 transition-colors`}>
                 {player.name}
               </h3>
               {player.isCMS && (
-                <span className="text-amber-600 text-sm font-bold" title="Кандидат у Майстри Спорту">
-                  🏆
+                <span 
+                  className="text-amber-600 text-xs font-extrabold italic tracking-wide px-1.5 py-0.5 bg-amber-50 rounded border border-amber-300" 
+                  title="Кандидат у Майстри Спорту України"
+                  style={{ transform: 'skewX(-3deg)' }}
+                >
+                  КМСУ
                 </span>
               )}
             </div>
