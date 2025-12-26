@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { Player, Match } from '@/types';
-import { calculateRatingChange, generateRealPlayers, getMatchWeight, getStageOrder } from '@/utils/rating';
+import { calculateRatingChange, generateRealPlayers, getMatchWeight, getStageOrder, isCMSPlayer } from '@/utils/rating';
 
 interface CsvRow {
   player1: string;
@@ -130,12 +130,17 @@ function splitName(fullName: string): { first: string; last: string } {
 
 function createPlayer(fullName: string): Player {
   const { first, last } = splitName(fullName);
+  const isCMS = isCMSPlayer(first, last);
+  const startingRating = isCMS ? 1600 : 1300; // 🏆 КМС починають з 1600
+  
   return {
     id: `player-${normalizeName(fullName)}`,
     name: fullName.trim(),
     firstName: first,
     lastName: last,
-    rating: 1200,
+    rating: startingRating,
+    initialRating: startingRating, // Фіксуємо початковий рейтинг
+    isCMS, // Позначка КМС
     matches: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -181,9 +186,10 @@ export async function GET(request: Request) {
       console.log(`🔥 Starting ${warmupRuns} warmup runs for rating calibration...`);
       
       for (let run = 1; run <= warmupRuns; run++) {
-        // Скидаємо рейтинги до 1200 перед кожним warmup run
+        // Скидаємо рейтинги перед кожним warmup run
         playerMap.forEach(p => {
-          p.rating = 1200;
+          // 🏆 КМС починають з 1600, інші з 1300
+          p.rating = p.isCMS ? 1600 : 1300;
         });
 
         sortedRows.forEach((row) => {
@@ -233,8 +239,10 @@ export async function GET(request: Request) {
       }
 
       // Після warmup runs очищаємо фейкову історію матчів
+      // 🔥 ЗБЕРІГАЄМО КАЛІБРОВАНИЙ РЕЙТИНГ ЯК ПОЧАТКОВИЙ
       playerMap.forEach(p => {
         p.matches = [];
+        p.initialRating = p.rating; // Фіксуємо калібрований рейтинг як стартову точку
       });
 
       console.log(`🎯 Warmup complete! Starting final run with calibrated ratings...`);

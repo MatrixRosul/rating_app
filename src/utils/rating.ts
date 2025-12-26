@@ -51,7 +51,7 @@ export function calculateRatingChange(
   // 2. ACTUAL SCORE (S) — ЕЛІТНА ЛОГІКА для топів
   const scoreDiff = player1Score - player2Score;
   const avgRating = (player1Rating + player2Rating) / 2;
-  const isElite = avgRating >= 1600;
+  const isElite = avgRating >= 1700;
   
   let S1: number, S2: number;
   
@@ -84,24 +84,24 @@ export function calculateRatingChange(
   
   // 6. ЗАХИСТ ВІД ПРІРВИ — тільки для низів
   // 🔥 Топи БЕЗ захисту — створюємо відтік рейтингу вгору
-  if (avgRating < 1500) {
+  if (avgRating < 1600) {
     // Тільки новачки та середняки мають захист
     const lossProtection = 0.75;
     if (delta1 < 0) delta1 *= lossProtection;
     if (delta2 < 0) delta2 *= lossProtection;
   }
-  // Еліта (1500+) втрачає та виграє повністю
+  // Еліта (1600+) втрачає та виграє повністю
   
   // 7. ОБМЕЖЕННЯ МАКСИМУМУ — еліта може робити великі стрибки
   let maxChange: number;
   
-  if (avgRating >= 1700) {
+  if (avgRating >= 1800) {
     // 🔥 ТОП-МАТЧІ: можливість великих стрибків
     maxChange = 70;
-  } else if (avgRating >= 1600) {
+  } else if (avgRating >= 1700) {
     // Елітний шар
     maxChange = 60;
-  } else if (avgRating >= 1400) {
+  } else if (avgRating >= 1500) {
     // Середній рівень
     maxChange = 45;
   } else {
@@ -132,7 +132,7 @@ export function calculateRatingChange(
 }
 
 // K-Factor based on number of games played and rating (pyramid principle)
-function calculateKFactor(gamesPlayed: number, rating: number = 1200): number {
+function calculateKFactor(gamesPlayed: number, rating: number = 1300): number {
   // Базові K-фактори для досвіду
   let baseK: number;
   if (gamesPlayed < 20) baseK = 55;
@@ -155,7 +155,7 @@ function calculateKFactor(gamesPlayed: number, rating: number = 1200): number {
 }
 
 // Margin Multiplier — обмежений вплив різниці в рахунку
-function calculateMarginMultiplier(scoreDiff: number, rating: number = 1200): number {
+function calculateMarginMultiplier(scoreDiff: number, rating: number = 1300): number {
   // Логарифмічна шкала для м'якого зростання
   let base = 1 + Math.min(1.0, Math.log2(1 + scoreDiff) * 0.55);
   
@@ -201,7 +201,7 @@ export function generateInitialPlayers(count: number = 100, baseRating: number =
   // Special players with different rating ranges for demonstration
   const specialPlayers = [
     { name: 'NoobMaster69', rating: 800 },     // Newbie - Gray
-    { name: 'BeginnerLuck', rating: 1200 },    // Newbie - Gray
+    { name: 'BeginnerLuck', rating: 1300 },    // Newbie - Gray
     { name: 'GreenPlayer', rating: 1250 },     // Pupil - Green
     { name: 'StudyHard', rating: 1350 },       // Pupil - Green
     { name: 'CyanSpecial', rating: 1450 },     // Specialist - Cyan
@@ -267,14 +267,45 @@ export interface CSVPlayerData {
   yob?: number; // year of birth
 }
 
+// 🏆 Список КМС (Кандидатів у Майстри Спорту) - реальні звання
+const CMS_PLAYERS = [
+  { first_name: "Василь", last_name: "Єгоров" },
+  { first_name: "Степан", last_name: "Ковач" },
+  { first_name: "Віталій", last_name: "Балко" },
+  { first_name: "Софія", last_name: "Дудченко" },
+  { first_name: "Марія", last_name: "Левківська" },
+  { first_name: "Максим", last_name: "Король" },
+  { first_name: "Микола", last_name: "Шикітка" },
+  { first_name: "Володимир", last_name: "Коротя" },
+  { first_name: "Артур", last_name: "Зелінко" },
+  { first_name: "Євген", last_name: "Драгула" },
+  { first_name: "Михайло", last_name: "Сличко" },
+  { first_name: "Микола", last_name: "Гуденко" },
+  { first_name: "Стефанія", last_name: "Церковник" },
+  { first_name: "Іван", last_name: "Пелінкевич" },
+  { first_name: "Юлій", last_name: "Гараксим" },
+  { first_name: "Олександр", last_name: "Сайков" },
+];
+
+// Перевірка чи є гравець КМС
+export function isCMSPlayer(firstName: string, lastName: string): boolean {
+  return CMS_PLAYERS.some(
+    cms => cms.first_name === firstName && cms.last_name === lastName
+  );
+}
+
 // Function to parse CSV data and create players
-export function createPlayersFromCSV(csvData: CSVPlayerData[], baseRating: number = 1200): Player[] {
+export function createPlayersFromCSV(csvData: CSVPlayerData[], baseRating: number = 1300): Player[] {
   const currentYear = new Date().getFullYear();
   
   return csvData.map((data, index) => {
     const fullName = `${data.first_name} ${data.last_name}`.trim();
     const yearOfBirth = data.yob || null;
     const age = yearOfBirth ? currentYear - yearOfBirth : null;
+    const isCMS = isCMSPlayer(data.first_name, data.last_name);
+    
+    // 🏆 КМС починають з 1600, інші з baseRating (зазвичай 1300)
+    const startingRating = isCMS ? 1600 : baseRating;
     
     return {
       id: `real-player-${index + 1}`,
@@ -284,7 +315,9 @@ export function createPlayersFromCSV(csvData: CSVPlayerData[], baseRating: numbe
       city: data.city || '',
       yearOfBirth: yearOfBirth || undefined,
       age: age || undefined,
-      rating: baseRating,
+      rating: startingRating,
+      initialRating: startingRating, // Фіксуємо початковий рейтинг
+      isCMS, // Позначка КМС
       matches: [],
       createdAt: new Date(),
       updatedAt: new Date()
@@ -418,7 +451,7 @@ export function generateRealPlayers(): Player[] {
     { first_name: "Віталій", last_name: "Кравчак", city: "Ужгород", yob: 1982 }
   ];
   
-  return createPlayersFromCSV(csvData, 1200);
+  return createPlayersFromCSV(csvData, 1300);
 }
 
 // Calculate player statistics
@@ -432,7 +465,7 @@ export function calculatePlayerStats(player: Player, matches: Match[]): PlayerSt
   const winRate = playerMatches.length > 0 ? (wins / playerMatches.length) * 100 : 0;
 
   // Calculate highest and lowest ratings from match history
-  const ratings = [player.rating, 1200]; // Поточний рейтинг + початковий рейтинг
+  const ratings = [player.rating, player.initialRating ?? 1300]; // Поточний рейтинг + початковий рейтинг
   playerMatches.forEach(match => {
     if (match.player1Id === player.id) {
       ratings.push(match.player1RatingBefore);
@@ -445,7 +478,7 @@ export function calculatePlayerStats(player: Player, matches: Match[]): PlayerSt
 
   const highestRating = Math.max(...ratings);
   const lowestRating = Math.min(...ratings);
-  const initialRating = 1200; // Початковий рейтинг для всіх гравців
+  const initialRating = player.initialRating ?? 1300; // Початковий рейтинг для всіх гравців
   const ratingChange = player.rating - initialRating;
 
   return {

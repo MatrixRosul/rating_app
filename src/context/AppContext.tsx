@@ -116,7 +116,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const loadData = () => {
       try {
         // Версія рейтингової системи (змінюйте при зміні початкового рейтингу)
-        const RATING_SYSTEM_VERSION = '1200-base';
+        const RATING_SYSTEM_VERSION = '1300-base';
         const savedVersion = localStorage.getItem('billiard-rating-version');
         
         // Якщо версія змінилась - очищаємо старі дані
@@ -174,7 +174,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!state.loading && state.players.length > 0 && state.isClient) {
       localStorage.setItem('billiard-players', JSON.stringify(state.players));
       localStorage.setItem('billiard-matches', JSON.stringify(state.matches));
-      localStorage.setItem('billiard-rating-version', '1200-base');
+      localStorage.setItem('billiard-rating-version', '1300-base');
     }
   }, [state.players, state.matches, state.loading, state.isClient]);
 

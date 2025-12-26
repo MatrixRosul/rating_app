@@ -23,12 +23,11 @@ interface RatingChartProps {
 const RATING_BANDS = [
   { min: 0, max: 1199, color: '#808080', name: 'Newbie' },
   { min: 1200, max: 1399, color: '#008000', name: 'Pupil' },
-  { min: 1400, max: 1599, color: '#03a89e', name: 'Specialist' },
-  { min: 1600, max: 1899, color: '#0000ff', name: 'Expert' },
-  { min: 1900, max: 2099, color: '#a0a', name: 'Candidate Master' },
-  { min: 2100, max: 2299, color: '#ff8c00', name: 'Master' },
-  { min: 2300, max: 2399, color: '#ff8c00', name: 'International Master' },
-  { min: 2400, max: 4000, color: '#ff0000', name: 'Grandmaster' },
+  { min: 1400, max: 1599, color: '#03A89E', name: 'Specialist' },
+  { min: 1600, max: 1799, color: '#0000FF', name: 'Expert' },
+  { min: 1800, max: 2299, color: '#AA00AA', name: 'Candidate Master' },
+  { min: 2300, max: 2499, color: '#FF8C00', name: 'Master' },
+  { min: 2500, max: 9999, color: '#FF0000', name: 'Grandmaster' },
 ];
 
 export default function RatingChart({ player, matches, players = [], className = '' }: RatingChartProps) {
@@ -50,9 +49,12 @@ export default function RatingChart({ player, matches, players = [], className =
       ? (createdAtDate <= firstMatchDate ? createdAtDate : firstMatchDate)
       : (createdAtDate || firstMatchDate || new Date());
 
+    // 🔥 Використовуємо калібрований рейтинг якщо є, інакше 1300
+    const startingRating = player.initialRating ?? 1300;
+
     history.push({
       date: initialDate,
-      rating: 1200, // Початковий рейтинг для всіх гравців
+      rating: startingRating, // Початковий рейтинг (калібрований або 1300)
       reason: 'initial'
     });
 

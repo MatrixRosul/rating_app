@@ -1,20 +1,47 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Player } from '@/types';
-import { sortPlayersByRating, getRatingBand } from '@/utils/rating';
+import React, { useState, useMemo } from 'react';
+import { Player, Match } from '@/types';
+import { sortPlayersByRating, getRatingBand, calculatePlayerStats } from '@/utils/rating';
 import PlayerCard from './PlayerCard';
 
 interface LeaderboardProps {
   players: Player[];
+  matches: Match[];
 }
 
-export default function Leaderboard({ players }: LeaderboardProps) {
+export default function Leaderboard({ players, matches }: LeaderboardProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRating, setSelectedRating] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'current' | 'peak' | 'cms'>('current'); // current rating, peak rating, or CMS only
   const [sortDescending, setSortDescending] = useState(true); // true = високий→низький, false = низький→високий
   
-  const sortedPlayers = sortPlayersByRating(players);
+  // Calculate peak ratings for all players
+  const playersWithPeakRating = useMemo(() => {
+    return players.map(player => {
+      const stats = calculatePlayerStats(player, matches);
+      return {
+        ...player,
+        peakRating: stats.highestRating
+      };
+    });
+  }, [players, matches]);
+  
+  // Sort players by selected criteria
+  const sortedPlayers = useMemo(() => {
+    let filtered = playersWithPeakRating;
+    
+    // 🏆 Фільтр тільки КМС
+    if (sortBy === 'cms') {
+      filtered = filtered.filter(p => p.isCMS);
+    }
+    
+    if (sortBy === 'peak') {
+      return [...filtered].sort((a, b) => b.peakRating - a.peakRating);
+    } else {
+      return sortPlayersByRating(filtered);
+    }
+  }, [playersWithPeakRating, sortBy]);
   
   // Apply sort order based on toggle
   const orderedPlayers = sortDescending ? sortedPlayers : [...sortedPlayers].reverse();
@@ -64,6 +91,46 @@ export default function Leaderboard({ players }: LeaderboardProps) {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
             />
+          </div>
+
+          {/* Sort by (current/peak/cms) */}
+          <div className="md:w-64">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Сортувати за
+            </label>
+            <div className="flex gap-1 h-10">
+              <button
+                onClick={() => setSortBy('current')}
+                className={`flex-1 px-2 py-2 text-xs sm:text-sm rounded-md border transition-colors ${
+                  sortBy === 'current'
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                Поточний
+              </button>
+              <button
+                onClick={() => setSortBy('peak')}
+                className={`flex-1 px-2 py-2 text-xs sm:text-sm rounded-md border transition-colors ${
+                  sortBy === 'peak'
+                    ? 'bg-purple-600 text-white border-purple-600'
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                Пік
+              </button>
+              <button
+                onClick={() => setSortBy('cms')}
+                className={`flex-1 px-2 py-2 text-xs sm:text-sm rounded-md border transition-colors ${
+                  sortBy === 'cms'
+                    ? 'bg-amber-600 text-white border-amber-600'
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                }`}
+                title="Кандидати у Майстри Спорту"
+              >
+                🏆 КМС
+              </button>
+            </div>
           </div>
 
           {/* Sort toggle */}
@@ -130,6 +197,7 @@ export default function Leaderboard({ players }: LeaderboardProps) {
               player={player}
               rank={sortedPlayers.findIndex(p => p.id === player.id) + 1}
               showRank={true}
+              showPeakRating={sortBy === 'peak'}
             />
           ))
         ) : (

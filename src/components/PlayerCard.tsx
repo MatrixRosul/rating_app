@@ -6,13 +6,17 @@ import { Player } from '@/types';
 import { getRatingBand } from '@/utils/rating';
 
 interface PlayerCardProps {
-  player: Player;
+  player: Player & { peakRating?: number };
   rank?: number;
   showRank?: boolean;
+  showPeakRating?: boolean; // Показувати пік рейтингу замість поточного
 }
 
-export default function PlayerCard({ player, rank, showRank = false }: PlayerCardProps) {
-  const ratingBand = getRatingBand(player.rating);
+export default function PlayerCard({ player, rank, showRank = false, showPeakRating = false }: PlayerCardProps) {
+  // Визначаємо який рейтинг показувати для кольору
+  const displayRating = showPeakRating && player.peakRating ? player.peakRating : player.rating;
+  const ratingBand = getRatingBand(displayRating);
+  const peakRatingBand = player.peakRating ? getRatingBand(player.peakRating) : null;
   
   // Convert Tailwind color class to actual color value
   const getBorderColor = (colorClass: string) => {
@@ -44,9 +48,16 @@ export default function PlayerCard({ player, rank, showRank = false }: PlayerCar
           )}
           
           <div className="flex-1">
-            <h3 className={`font-semibold text-base ${ratingBand.textColor} hover:opacity-80 transition-colors`}>
-              {player.name}
-            </h3>
+            <div className="flex items-center gap-1">
+              <h3 className={`font-semibold text-base ${ratingBand.textColor} hover:opacity-80 transition-colors`}>
+                {player.name}
+              </h3>
+              {player.isCMS && (
+                <span className="text-amber-600 text-sm font-bold" title="Кандидат у Майстри Спорту">
+                  🏆
+                </span>
+              )}
+            </div>
             <p className="text-xs text-gray-500">
               {[
                 ratingBand.name,
@@ -58,12 +69,30 @@ export default function PlayerCard({ player, rank, showRank = false }: PlayerCar
         </div>
 
         <div className="text-right">
-          <div className={`text-lg font-bold ${ratingBand.textColor}`}>
-            {player.rating}
-          </div>
-          <div className="text-xs text-gray-500">
-            {player.matches.length} матчів
-          </div>
+          {showPeakRating && player.peakRating ? (
+            <>
+              <div className={`text-lg font-bold ${ratingBand.textColor}`}>
+                {player.peakRating}
+              </div>
+              <div className="text-xs text-gray-500">
+                пік рейтингу
+              </div>
+              {player.peakRating !== player.rating && (
+                <div className="text-xs text-gray-400 mt-0.5">
+                  зараз: {player.rating}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div className={`text-lg font-bold ${ratingBand.textColor}`}>
+                {player.rating}
+              </div>
+              <div className="text-xs text-gray-500">
+                {player.matches.length} матчів
+              </div>
+            </>
+          )}
         </div>
       </div>
 
