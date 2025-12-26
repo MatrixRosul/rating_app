@@ -29,6 +29,8 @@ export interface Match {
   player1RatingChange: number;
   player2RatingChange: number;
   date: Date;
+  sequenceIndex?: number; // Порядок обробки матчу при імпорті (для сортування при однаковій даті)
+  tournament?: string; // Назва турніру або змагання
 }
 
 export interface RatingBand {

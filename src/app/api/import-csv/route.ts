@@ -160,7 +160,14 @@ export async function GET() {
     const matches: Match[] = [];
     let newPlayers = 0;
 
-    rows.forEach((row, index) => {
+    // Sort rows by date (oldest first) so ratings update chronologically
+    const sortedRows = [...rows].sort((a, b) => {
+      const dateA = new Date(a.date || 0).getTime();
+      const dateB = new Date(b.date || 0).getTime();
+      return dateA - dateB;
+    });
+
+    sortedRows.forEach((row, index) => {
       const resolved1 = resolveName(row.player1);
       const resolved2 = resolveName(row.player2);
       const key1 = normalizeName(resolved1);
@@ -208,6 +215,8 @@ export async function GET() {
         player1RatingChange: player1Change,
         player2RatingChange: player2Change,
         date: new Date(row.date || Date.now()),
+        sequenceIndex: index, // Порядок обробки матчу при імпорті
+        tournament: row.tournament || undefined, // Назва турніру з CSV
       };
 
       p1.rating = match.player1RatingAfter;

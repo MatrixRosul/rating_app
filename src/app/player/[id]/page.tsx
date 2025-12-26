@@ -188,6 +188,7 @@ export default function PlayerProfile() {
           <RatingChart 
             player={player}
             matches={state.matches}
+            players={state.players}
           />
         </div>
 

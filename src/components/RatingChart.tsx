@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Player, Match } from '@/types';
 import { getRatingBand } from '@/utils/rating';
 
@@ -15,6 +15,7 @@ interface RatingPoint {
 interface RatingChartProps {
   player: Player;
   matches: Match[];
+  players?: Player[]; // потрібні для виводу імен суперників у тултипі
   className?: string;
 }
 
@@ -30,22 +31,30 @@ const RATING_BANDS = [
   { min: 2400, max: 4000, color: '#ff0000', name: 'Grandmaster' },
 ];
 
-export default function RatingChart({ player, matches, className = '' }: RatingChartProps) {
+export default function RatingChart({ player, matches, players = [], className = '' }: RatingChartProps) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   // Створюємо історію рейтингу
   const createRatingHistory = (): RatingPoint[] => {
     const history: RatingPoint[] = [];
     
-    // Початковий рейтинг
-    history.push({
-      date: player.createdAt || new Date(),
-      rating: 1100, // Початковий рейтинг для всіх гравців
-      reason: 'initial'
-    });
-
     // Отримуємо матчі гравця і сортуємо по даті
     const playerMatches = matches
       .filter(match => match.player1Id === player.id || match.player2Id === player.id)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    // Початковий рейтинг прив'язуємо до першої дати, щоб уникнути фальшивого поточного року
+    const createdAtDate = player.createdAt ? new Date(player.createdAt) : null;
+    const firstMatchDate = playerMatches[0] ? new Date(playerMatches[0].date) : null;
+    const initialDate = createdAtDate && firstMatchDate
+      ? (createdAtDate <= firstMatchDate ? createdAtDate : firstMatchDate)
+      : (createdAtDate || firstMatchDate || new Date());
+
+    history.push({
+      date: initialDate,
+      rating: 1100, // Початковий рейтинг для всіх гравців
+      reason: 'initial'
+    });
 
     let currentRating = 1100;
 
@@ -115,6 +124,16 @@ export default function RatingChart({ player, matches, className = '' }: RatingC
     .map((point, index) => `${index === 0 ? 'M' : 'L'} ${xScale(index)} ${yScale(point.rating)}`)
     .join(' ');
 
+  // Роки на осі X: використовуємо перший матч кожного року
+  const years = Array.from(new Set(ratingHistory.map(p => new Date(p.date).getFullYear()))).sort((a, b) => a - b);
+  const yearPositions = years
+    .map(year => {
+      const firstPointIdx = ratingHistory.findIndex(p => new Date(p.date).getFullYear() === year);
+      if (firstPointIdx === -1) return null;
+      return { year, x: xScale(firstPointIdx) };
+    })
+    .filter((p): p is { year: number; x: number } => p !== null);
+
   // Створюємо горизонтальні лінії для рівнів рейтингу
   const ratingLevels = RATING_BANDS.filter(band => 
     band.min < chartMaxRating && band.max > chartMinRating
@@ -182,7 +201,7 @@ export default function RatingChart({ player, matches, className = '' }: RatingC
             strokeLinejoin="round"
           />
 
-          {/* Точки на графіку */}
+          {/* Точки на графіку з тултипом */}
           {ratingHistory.map((point, index) => {
             const ratingBand = getRatingBand(point.rating);
             return (
@@ -190,14 +209,18 @@ export default function RatingChart({ player, matches, className = '' }: RatingC
                 key={index}
                 cx={xScale(index)}
                 cy={yScale(point.rating)}
-                r={point.reason === 'tournament' ? 6 : 4} // Турніри будуть більшими точками
+                r={hoveredIndex === index ? 7 : point.reason === 'tournament' ? 6 : 4}
                 fill={ratingBand.color}
                 stroke="#fff"
                 strokeWidth={2}
-                className="hover:r-6 transition-all cursor-pointer"
-              >
-                <title>{`${point.date.toLocaleDateString('uk-UA')}: ${point.rating} (${point.reason === 'match' ? 'Матч' : point.reason === 'tournament' ? 'Турнір' : 'Початок'})`}</title>
-              </circle>
+                className="transition-all cursor-pointer hover:opacity-80"
+                onMouseEnter={(e) => {
+                  setHoveredIndex(index);
+                  const rect = (e.target as SVGCircleElement).getBoundingClientRect();
+                  setTooltipPos({ x: rect.left + rect.width / 2, y: rect.top - 8 });
+                }}
+                onMouseLeave={() => setHoveredIndex(null)}
+              />
             );
           })}
 
@@ -220,6 +243,30 @@ export default function RatingChart({ player, matches, className = '' }: RatingC
             stroke="#374151"
             strokeWidth={2}
           />
+
+          {/* Вертикальні мітки років */}
+          {yearPositions.map((pos, idx) => (
+            <g key={`year-${idx}`}>
+              <line
+                x1={pos.x}
+                y1={chartTop + chartHeight}
+                x2={pos.x}
+                y2={chartTop + chartHeight + 6}
+                stroke="#9ca3af"
+                strokeWidth={1}
+              />
+              <text
+                x={pos.x}
+                y={chartTop + chartHeight + 20}
+                textAnchor="middle"
+                fontSize="12"
+                fill="#6b7280"
+                fontWeight="500"
+              >
+                {pos.year}
+              </text>
+            </g>
+          ))}
 
           {/* Підписи рейтингу */}
           {ratingLevels.map((band, index) => (
@@ -248,6 +295,56 @@ export default function RatingChart({ player, matches, className = '' }: RatingC
             {player.rating}
           </text>
         </svg>
+
+        {/* Тултип матчу */}
+        {hoveredIndex !== null && ratingHistory[hoveredIndex]?.matchId && (
+          <div
+            className="fixed bg-gray-900 text-white px-3 py-2 rounded shadow-lg text-xs z-50 pointer-events-none"
+            style={{
+              left: `${tooltipPos.x}px`,
+              top: `${tooltipPos.y}px`,
+              transform: 'translate(-50%, -100%)',
+              minWidth: '200px'
+            }}
+          >
+            {(() => {
+              const point = ratingHistory[hoveredIndex];
+              const matchData = matches.find(m => m.id === point.matchId);
+              if (!matchData) return null;
+
+              const isP1 = matchData.player1Id === player.id;
+              const opponentId = isP1 ? matchData.player2Id : matchData.player1Id;
+              const opponent = players.find(p => p.id === opponentId);
+              const opponentName = opponent ? opponent.name : 'Суперник';
+
+              const ratingChange = isP1 ? matchData.player1RatingChange : matchData.player2RatingChange;
+              const playerScore = isP1 ? matchData.player1Score : matchData.player2Score;
+              const opponentScore = isP1 ? matchData.player2Score : matchData.player1Score;
+              const matchDate = new Date(matchData.date).toLocaleDateString('uk-UA', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+              });
+
+              return (
+                <div className="space-y-1 text-center">
+                  <div className="text-yellow-300 font-semibold text-xs border-b border-gray-700 pb-1">
+                    vs {opponentName}
+                  </div>
+                  <div className="text-white font-semibold text-sm">
+                    {playerScore}:{opponentScore}
+                  </div>
+                  <div className="text-green-300 font-semibold">
+                    {ratingChange > 0 ? '+' : ''}{ratingChange}
+                  </div>
+                  <div className="text-gray-300 text-xs">
+                    {matchDate}
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        )}
 
         {/* Легенда рівнів */}
         <div className="mt-4 flex flex-wrap gap-3">

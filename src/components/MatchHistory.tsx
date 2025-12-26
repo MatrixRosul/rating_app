@@ -15,10 +15,13 @@ interface MatchHistoryProps {
 export default function MatchHistory({ matches, players, playerId, limit }: MatchHistoryProps) {
   const getPlayerById = (id: string) => players.find(p => p.id === id);
   
-  // Sort matches by date (newest first)
-  const sortedMatches = [...matches].sort((a, b) => 
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  // Sort matches by date (newest first), then by sequenceIndex descending (for matches on same date, newest processing first)
+  const sortedMatches = [...matches].sort((a, b) => {
+    const dateCompare = new Date(b.date).getTime() - new Date(a.date).getTime();
+    if (dateCompare !== 0) return dateCompare;
+    // If dates are the same, sort by sequenceIndex descending (so most recent processing appears first)
+    return (b.sequenceIndex ?? -Infinity) - (a.sequenceIndex ?? -Infinity);
+  });
 
   // Apply limit if provided
   const displayedMatches = limit ? sortedMatches.slice(0, limit) : sortedMatches;
@@ -131,16 +134,23 @@ export default function MatchHistory({ matches, players, playerId, limit }: Matc
                   </div>
                 </div>
 
-                {/* Winner indicator */}
+                {/* Winner indicator and tournament/date info */}
                 <div className="mt-3 flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm text-gray-500">Переможець:</span>
-                    <Link 
-                      href={`/player/${winner.id}`}
-                      className={`${getRatingBand(match.winnerId === player1.id ? match.player1RatingAfter : match.player2RatingAfter).textColor} font-semibold hover:opacity-80 transition-colors`}
-                    >
-                      {winner.name}
-                    </Link>
+                  <div className="flex flex-col space-y-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm text-gray-500">Переможець:</span>
+                      <Link 
+                        href={`/player/${winner.id}`}
+                        className={`${getRatingBand(match.winnerId === player1.id ? match.player1RatingAfter : match.player2RatingAfter).textColor} font-semibold hover:opacity-80 transition-colors`}
+                      >
+                        {winner.name}
+                      </Link>
+                    </div>
+                    {match.tournament && (
+                      <div className="text-xs text-gray-600 ml-0">
+                        📌 {match.tournament}
+                      </div>
+                    )}
                   </div>
                   
                   <div className="text-sm text-gray-500">
