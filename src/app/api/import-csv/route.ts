@@ -132,6 +132,7 @@ function createPlayer(fullName: string): Player {
   const { first, last } = splitName(fullName);
   const isCMS = isCMSPlayer(first, last);
   const startingRating = isCMS ? 1600 : 1300; // 🏆 КМС починають з 1600
+  // const startingRating = 1300; // Всі починають однаково
   
   return {
     id: `player-${normalizeName(fullName)}`,
@@ -190,6 +191,7 @@ export async function GET(request: Request) {
         playerMap.forEach(p => {
           // 🏆 КМС починають з 1600, інші з 1300
           p.rating = p.isCMS ? 1600 : 1300;
+          // p.rating = 1300; // Всі починають однаково
         });
 
         sortedRows.forEach((row) => {

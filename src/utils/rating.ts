@@ -1,19 +1,50 @@
 import { Player, Match, RatingBand, RATING_BANDS, PlayerStats } from '@/types';
 
-// 🔥 ВАГА МАТЧУ: фінали дають вдвічі більше рейтингу!
-export function getMatchWeight(stage?: string): number {
-  const weights: Record<string, number> = {
-    'group': 1.0,
-    'round16': 1.1,
-    'quarterfinal': 1.4,
-    'semifinal': 1.7,
-    'final': 2.0
+// ⚙️ КОНФІГУРАЦІЯ РЕЙТИНГОВОЇ СИСТЕМИ v2
+export const RATING_CONFIG = {
+  // Зона боротьби за еліту
+  ELITE_ENTRY_MIN: 1650,
+  ELITE_ENTRY_MAX: 1850,
+  ELITE_K_FACTOR: 55,
+  ELITE_MAX_CHANGE: 55,
+  
+  // Поріг для елітної логіки
+  ELITE_THRESHOLD: 1700,
+  
+  // Underdog bonus threshold
+  UNDERDOG_DIFF: 250,
+  UNDERDOG_BONUS: 1.15,
+  
+  // Loss protection для новачків
+  LOSS_PROTECTION_MIN: 1300,
+  LOSS_PROTECTION_MAX: 1600,
+  LOSS_PROTECTION_MIN_VALUE: 0.6,
+  LOSS_PROTECTION_MAX_VALUE: 1.0,
+  
+  // 🔥 Мінімальний рейтинг - знижено до 900
+  RATING_FLOOR: 900,
+};
+
+// 🔥 АСИМЕТРИЧНІ МНОЖНИКИ ДЛЯ СТАДІЙ: переможець ≠ програвший
+export function getMatchWeights(stage?: string): { winner: number; loser: number } {
+  const weights: Record<string, { winner: number; loser: number }> = {
+    'group': { winner: 1.0, loser: 1.0 },
+    'round16': { winner: 1.1, loser: 1.0 },
+    'quarterfinal': { winner: 1.4, loser: 1.2 },
+    'semifinal': { winner: 1.7, loser: 1.2 },  // 🔥 Зменшено штраф
+    'final': { winner: 2.0, loser: 1.3 }  // 🔥 Фіналіст не відлітає вниз
   };
   
-  if (!stage) return 1.0;
+  if (!stage) return { winner: 1.0, loser: 1.0 };
   
   const normalized = stage.toLowerCase().trim();
-  return weights[normalized] ?? 1.0;
+  return weights[normalized] ?? { winner: 1.0, loser: 1.0 };
+}
+
+// Backward compatibility: повертає значення для переможця (для відображення)
+export function getMatchWeight(stage?: string): number {
+  const { winner } = getMatchWeights(stage);
+  return winner;
 }
 
 // Порядок стадій для сортування (важливо для однакових дат)
@@ -32,7 +63,7 @@ export function getStageOrder(stage?: string): number {
   return order[normalized] ?? 0;
 }
 
-// Stable ELO-based rating calculation with pyramid principles
+// Stable ELO-based rating calculation with pyramid principles (v2)
 export function calculateRatingChange(
   player1Rating: number,
   player2Rating: number,
@@ -41,7 +72,8 @@ export function calculateRatingChange(
   maxScore: number,
   player1Games: number = 30, // Кількість ігор гравця 1
   player2Games: number = 30, // Кількість ігор гравця 2
-  matchWeight: number = 1.0  // 🔥 ВАГА МАТЧУ: group=1.0, round16=1.1, quarterfinal=1.4, semifinal=1.7, final=2.0
+  matchWeight: number = 1.0,  // Deprecated: для backward compatibility
+  stage?: string  // 🆕 Стадія турніру для асиметричних множників
 ): { player1Change: number; player2Change: number } {
   
   // 1. EXPECTED SCORE (E) — стандартний Elo
@@ -51,7 +83,7 @@ export function calculateRatingChange(
   // 2. ACTUAL SCORE (S) — ЕЛІТНА ЛОГІКА для топів
   const scoreDiff = player1Score - player2Score;
   const avgRating = (player1Rating + player2Rating) / 2;
-  const isElite = avgRating >= 1700;
+  const isElite = avgRating >= RATING_CONFIG.ELITE_THRESHOLD;
   
   let S1: number, S2: number;
   
@@ -82,47 +114,131 @@ export function calculateRatingChange(
   let delta1 = K1 * (S1 - E1) * M;
   let delta2 = K2 * (S2 - E2) * M;
   
-  // 6. ЗАХИСТ ВІД ПРІРВИ — тільки для низів
+  // 6. ПЛАВНИЙ ЗАХИСТ ВІД ПАДІННЯ — новачки ростуть швидше, ніж падають
   // 🔥 Топи БЕЗ захисту — створюємо відтік рейтингу вгору
-  if (avgRating < 1600) {
-    // Тільки новачки та середняки мають захист
-    const lossProtection = 0.75;
-    if (delta1 < 0) delta1 *= lossProtection;
-    if (delta2 < 0) delta2 *= lossProtection;
-  }
-  // Еліта (1600+) втрачає та виграє повністю
+  const calculateLossProtection = (rating: number): number => {
+    const { LOSS_PROTECTION_MIN, LOSS_PROTECTION_MAX, LOSS_PROTECTION_MIN_VALUE, LOSS_PROTECTION_MAX_VALUE } = RATING_CONFIG;
+    
+    // 🔥 ВИМКНЕНО для <1200 - хто програє має тонути
+    if (rating < 1200) return 1.15; // Посилений штраф для слабких
+    if (rating >= LOSS_PROTECTION_MAX) return 1.0; // Без захисту
+    if (rating <= LOSS_PROTECTION_MIN) return LOSS_PROTECTION_MIN_VALUE;
+    
+    // Плавна інтерполяція між мін і макс
+    const ratio = (rating - LOSS_PROTECTION_MIN) / (LOSS_PROTECTION_MAX - LOSS_PROTECTION_MIN);
+    return LOSS_PROTECTION_MIN_VALUE + ratio * (LOSS_PROTECTION_MAX_VALUE - LOSS_PROTECTION_MIN_VALUE);
+  };
   
-  // 7. ОБМЕЖЕННЯ МАКСИМУМУ — еліта може робити великі стрибки
+  if (delta1 < 0) delta1 *= calculateLossProtection(player1Rating);
+  if (delta2 < 0) delta2 *= calculateLossProtection(player2Rating);
+  
+  // 7. ОБМЕЖЕННЯ МАКСИМУМУ — зона боротьби за еліту має найвищу динаміку
   let maxChange: number;
   
-  if (avgRating >= 1800) {
-    // 🔥 ТОП-МАТЧІ: можливість великих стрибків
-    maxChange = 70;
-  } else if (avgRating >= 1700) {
-    // Елітний шар
+  const { ELITE_ENTRY_MIN, ELITE_ENTRY_MAX, ELITE_MAX_CHANGE } = RATING_CONFIG;
+  
+  if (avgRating >= ELITE_ENTRY_MIN && avgRating <= ELITE_ENTRY_MAX) {
+    // 🎯 ЗОНА БОРОТЬБИ ЗА ЕЛІТУ: максимальна динаміка
+    maxChange = ELITE_MAX_CHANGE;
+  } else if (avgRating >= 1850) {
+    // ТОП-МАТЧІ: стабілізація на верху
     maxChange = 60;
+  } else if (avgRating >= 1700) {
+    // 🔥 ЕЛІТНИЙ ШАР: великі стрибки для закріплення
+    maxChange = 70;
   } else if (avgRating >= 1500) {
     // Середній рівень
-    maxChange = 45;
+    maxChange = 55;
   } else {
     // Новачки
-    maxChange = 35;
+    maxChange = 45;
   }
   
   delta1 = Math.max(-maxChange, Math.min(maxChange, delta1));
   delta2 = Math.max(-maxChange, Math.min(maxChange, delta2));
   
-  // 8. БОНУС ЗА ДОМІНАЦІЮ В ЕЛІТНОМУ ШАРІ
-  if (isElite && Math.abs(scoreDiff) >= 3) {
-    // 🔥 Топ домінує — екстра нагорода
-    const dominanceBonus = Math.min(10, Math.abs(scoreDiff) * 2);
-    if (delta1 > 0) delta1 += dominanceBonus;
-    else if (delta2 > 0) delta2 += dominanceBonus;
+  // 🔥 АСИМЕТРИЧНИЙ TRANSFER POINTS — слабший програє сильному = більше віддає
+  if (player1Rating < player2Rating && player1Score < player2Score) {
+    delta1 *= 1.2; // Слабший втрачає на 20% більше
+  }
+  if (player2Rating < player1Rating && player2Score < player1Score) {
+    delta2 *= 1.2; // Слабший втрачає на 20% більше
   }
   
-  // 9. 🔥 ВАГА МАТЧУ — фінали дають НАБАГАТО більше
-  delta1 *= matchWeight;
-  delta2 *= matchWeight;
+  // 8. UNDERDOG BONUS — апсет реально рухає рейтинг
+  const ratingDiff = Math.abs(player1Rating - player2Rating);
+  const { UNDERDOG_DIFF, UNDERDOG_BONUS } = RATING_CONFIG;
+  
+  if (ratingDiff > UNDERDOG_DIFF) {
+    // Слабший переміг сильного
+    if (player1Score > player2Score && player1Rating < player2Rating) {
+      delta1 *= UNDERDOG_BONUS;
+    } else if (player2Score > player1Score && player2Rating < player1Rating) {
+      delta2 *= UNDERDOG_BONUS;
+    }
+  }
+  
+  // 🔥 ELITE INFLATION — еліта живиться з середнього шару
+  // Якщо гравець 1650+ перемагає <1600 → бонус для росту еліти
+  if (player1Rating >= 1650 && player2Rating < 1600 && player1Score > player2Score) {
+    delta1 *= 1.15;
+  } else if (player2Rating >= 1650 && player1Rating < 1600 && player2Score > player1Score) {
+    delta2 *= 1.15;
+  }
+  
+  // 🔥 ELITE SINK — топ перемагає лоу = створення поінтів (ladder system)
+  if (player1Rating >= 1600 && player2Rating < 1300 && player1Score > player2Score) {
+    delta1 += 10; // Бонусні поінти з повітря
+  } else if (player2Rating >= 1600 && player1Rating < 1300 && player2Score > player1Score) {
+    delta2 += 10; // Бонусні поінти з повітря
+  }
+  
+  // 9. 🔥 АСИМЕТРИЧНІ МНОЖНИКИ — фіналісти не караються так жорстко
+  const matchWeights = stage ? getMatchWeights(stage) : { winner: matchWeight, loser: matchWeight };
+  
+  if (player1Score > player2Score) {
+    // Player 1 wins
+    delta1 *= matchWeights.winner;
+    delta2 *= matchWeights.loser;
+  } else {
+    // Player 2 wins
+    delta1 *= matchWeights.loser;
+    delta2 *= matchWeights.winner;
+  }
+  
+  // 🏆 ТУРНІРНА ІНФЛЯЦІЯ — переможець ЗАВЖДИ отримує бонус залежно від стадії
+  const stageInflation: Record<string, number> = {
+    'group': 1,       // Звичайні матчі +1
+    'round16': 2,     // 1/8 фіналу +2
+    'quarterfinal': 4, // 1/4 фіналу +4
+    'semifinal': 7,   // Півфінал +7
+    'final': 10       // Фінал +10
+  };
+  
+  const inflationBonus = stage ? (stageInflation[stage.toLowerCase()] ?? 1) : 1;
+  
+  // Додаємо інфляцію переможцю
+  if (player1Score > player2Score) {
+    delta1 += inflationBonus;
+  } else {
+    delta2 += inflationBonus;
+  }
+  
+  // 🌟 ELITE BONUS — гравець 1700+ перемагає будь-кого → +X з повітря
+  if (player1Rating >= 1700 && player1Score > player2Score) {
+    delta1 += 5; // Бонус за перемогу еліти
+  }
+  if (player2Rating >= 1700 && player2Score > player1Score) {
+    delta2 += 5; // Бонус за перемогу еліти
+  }
+  
+  // 🎯 ПЕРІОДИЧНИЙ БОНУС ДЛЯ ТОПІВ — кожні 10 матчів +3 очки
+  if (player1Rating >= 1700 && player1Games > 0 && player1Games % 10 === 0) {
+    delta1 += 3; // Бонус за активність
+  }
+  if (player2Rating >= 1700 && player2Games > 0 && player2Games % 10 === 0) {
+    delta2 += 3; // Бонус за активність
+  }
   
   // 10. ROUNDED CHANGES
   const player1Change = Math.round(delta1);
@@ -139,16 +255,20 @@ function calculateKFactor(gamesPlayed: number, rating: number = 1300): number {
   else if (gamesPlayed < 60) baseK = 38;
   else baseK = 26;
   
-  // 🔥 ЕЛІТНИЙ ШАР — найвищий K саме тут
-  if (rating >= 1900) {
+  const { ELITE_ENTRY_MIN, ELITE_ENTRY_MAX, ELITE_K_FACTOR, ELITE_THRESHOLD } = RATING_CONFIG;
+  
+  // 🔥 ЗОНА БОРОТЬБИ ЗА ЕЛІТУ — найвищий K
+  if (rating >= ELITE_ENTRY_MIN && rating <= ELITE_ENTRY_MAX) {
+    baseK = Math.max(baseK, ELITE_K_FACTOR);
+  } else if (rating >= 1850) {
     // Верхівка: стабілізація після досягнення
     baseK = Math.max(baseK, 42);
-  } else if (rating >= 1700) {
+  } else if (rating >= ELITE_THRESHOLD) {
     // 🎯 ПІКОВИЙ K для активного росту в топ-зону
-    baseK = Math.max(baseK, 50);
+    baseK = Math.max(baseK, 60);  // 🔥 Підвищено з 50
   } else if (rating >= 1600) {
     // Вхід в еліту — максимальна динаміка
-    baseK = Math.max(baseK, 55);
+    baseK = Math.max(baseK, 58);  // 🔥 Підвищено з 55
   }
   
   return baseK;
@@ -285,6 +405,7 @@ const CMS_PLAYERS = [
   { first_name: "Іван", last_name: "Пелінкевич" },
   { first_name: "Юлій", last_name: "Гараксим" },
   { first_name: "Олександр", last_name: "Сайков" },
+  { first_name: "Микола", last_name: "Леміш" },
 ];
 
 // Перевірка чи є гравець КМС
@@ -306,6 +427,7 @@ export function createPlayersFromCSV(csvData: CSVPlayerData[], baseRating: numbe
     
     // 🏆 КМС починають з 1600, інші з baseRating (зазвичай 1300)
     const startingRating = isCMS ? 1600 : baseRating;
+    // const startingRating = baseRating; // Всі починають однаково
     
     return {
       id: `real-player-${index + 1}`,
@@ -553,9 +675,9 @@ export function simulateMatch(player1: Player, player2: Player): Match {
     player2Games
   );
 
-  // RATING FLOOR — мінімальний рейтинг 1000
-  const player1RatingAfter = Math.max(1000, player1.rating + player1Change);
-  const player2RatingAfter = Math.max(1000, player2.rating + player2Change);
+  // RATING FLOOR — мінімальний рейтинг 900 (знижено з 1000)
+  const player1RatingAfter = Math.max(RATING_CONFIG.RATING_FLOOR, player1.rating + player1Change);
+  const player2RatingAfter = Math.max(RATING_CONFIG.RATING_FLOOR, player2.rating + player2Change);
 
   const match: Match = {
     id: `match-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,

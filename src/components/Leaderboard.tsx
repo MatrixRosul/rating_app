@@ -18,13 +18,15 @@ export default function Leaderboard({ players, matches }: LeaderboardProps) {
   
   // Calculate peak ratings for all players
   const playersWithPeakRating = useMemo(() => {
-    return players.map(player => {
-      const stats = calculatePlayerStats(player, matches);
-      return {
-        ...player,
-        peakRating: stats.highestRating
-      };
-    });
+    return players
+      .filter(player => player.matches.length > 0) // 🔥 Фільтруємо гравців без матчів
+      .map(player => {
+        const stats = calculatePlayerStats(player, matches);
+        return {
+          ...player,
+          peakRating: stats.highestRating
+        };
+      });
   }, [players, matches]);
   
   // Sort players by selected criteria

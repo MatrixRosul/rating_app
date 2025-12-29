@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
   const { state } = useApp();
-  const [activeTab, setActiveTab] = useState<'leaderboard' | 'simulator'>('leaderboard');
+  const [activeTab, setActiveTab] = useState<'leaderboard' | 'simulator' | 'tournaments'>('leaderboard');
   const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch
@@ -22,7 +22,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
               <h1 className="text-xl font-bold text-gray-900">
-                🎱 Рейтинг Більярду
+                Рейтинг Більярду
               </h1>
             </div>
           </div>
@@ -71,6 +71,16 @@ export default function Home() {
             {/* Navigation tabs */}
             <nav className="flex space-x-2 sm:space-x-4">
               <button
+                onClick={() => setActiveTab('tournaments')}
+                className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
+                  activeTab === 'tournaments'
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+              >
+                Турніри
+              </button>
+              <button
                 onClick={() => setActiveTab('leaderboard')}
                 className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
                   activeTab === 'leaderboard'
@@ -99,15 +109,26 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {activeTab === 'leaderboard' && <Leaderboard players={state.players} matches={state.matches} />}
         {activeTab === 'simulator' && <MatchSimulator />}
+        {activeTab === 'tournaments' && (
+          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+            <div className="mb-4">
+              <span className="text-6xl">🏆</span>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Турніри</h2>
+            <p className="text-lg text-gray-600">
+              Проведення турнірів ще в розробці
+            </p>
+          </div>
+        )}
       </main>
 
       {/* Footer */}
       <footer className="bg-white border-t mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="text-center text-gray-600">
-            <p className="text-sm">© 2024 Рейтингова система для гравців у більярд</p>
+            <p className="text-sm">© 2025 Рейтингова система для гравців у більярд</p>
             <p className="text-xs mt-1">
-              Рейтингова система базується на алгоритмі ELO з кольоровою схемою як у Codeforces
+              Рейтингова система базується на алгоритмі ELO з кольоровою схемою як у Codeforces. Росул Максим.
             </p>
           </div>
         </div>
