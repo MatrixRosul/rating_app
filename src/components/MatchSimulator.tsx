@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
 
 export default function MatchSimulator() {
@@ -15,12 +15,27 @@ export default function MatchSimulator() {
   const [isSimulating, setIsSimulating] = useState(false);
   const [importing, setImporting] = useState(false);
   const [importMessage, setImportMessage] = useState<string | null>(null);
+  
+  // Rating cap tracking (загальна сума рейтингів)
+  const [ratingCapBefore, setRatingCapBefore] = useState<number | null>(null);
+  const [ratingCapAfter, setRatingCapAfter] = useState<number | null>(null);
+  const [matchCountBefore, setMatchCountBefore] = useState<number>(0);
 
   // Search states for player selection
   const [player1Search, setPlayer1Search] = useState('');
   const [player2Search, setPlayer2Search] = useState('');
   const [showPlayer1Dropdown, setShowPlayer1Dropdown] = useState(false);
   const [showPlayer2Dropdown, setShowPlayer2Dropdown] = useState(false);
+
+  // Відстежуємо зміни в кількості матчів для оновлення капу після симуляції
+  useEffect(() => {
+    if (matchCountBefore > 0 && state.matches.length > matchCountBefore) {
+      // Матчі додалися - оновлюємо кап ПІСЛЯ
+      const capAfter = state.players.reduce((sum, player) => sum + player.rating, 0);
+      setRatingCapAfter(capAfter);
+      setMatchCountBefore(0); // Скидаємо тригер
+    }
+  }, [state.matches.length, state.players, matchCountBefore]);
 
   // Filter players based on search
   const filterPlayers = (searchTerm: string) => {
@@ -112,7 +127,15 @@ export default function MatchSimulator() {
 
     setIsSimulating(true);
     try {
+      // Обчислюємо кап ДО симуляції
+      const capBefore = state.players.reduce((sum, player) => sum + player.rating, 0);
+      setRatingCapBefore(capBefore);
+      setMatchCountBefore(state.matches.length); // Зберігаємо поточну кількість матчів
+      
+      // Симулюємо матчі (стан оновиться асинхронно)
       simulateRandomMatches(randomMatchCount);
+      
+      // capAfter буде обчислено в useEffect після оновлення стану
     } finally {
       setIsSimulating(false);
     }
@@ -136,24 +159,6 @@ export default function MatchSimulator() {
     try {
       await importCsvMatches(0); // Без warmup
       setImportMessage('Імпорт успішний: матчі та рейтинги оновлено');
-    } catch (error) {
-      setImportMessage('Помилка імпорту. Спробуйте ще раз.');
-    } finally {
-      setImporting(false);
-    }
-  };
-
-  const handleImportMatchesWithWarmup = async () => {
-    const warmupRuns = 2; // Кількість прогонів для калібрування
-    if (!confirm(`Імпортувати з ${warmupRuns} прогонами для калібрування рейтингів?\n\nСистема прогонить всі матчі ${warmupRuns} раз(и) для визначення адекватних стартових рейтингів, а потім зробить фінальний прогон зі збереженням повної історії.`)) {
-      return;
-    }
-    
-    setImportMessage(null);
-    setImporting(true);
-    try {
-      await importCsvMatches(warmupRuns);
-      setImportMessage(`✅ Імпорт з калібруванням та вагами успішний!\nМатчі оброблено з урахуванням стадій турніру (group→final ×2.0)`);
     } catch (error) {
       setImportMessage('Помилка імпорту. Спробуйте ще раз.');
     } finally {
@@ -437,45 +442,24 @@ export default function MatchSimulator() {
 
       {/* Advanced Rating System Info */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex gap-3 mb-4">
-            <button
-              onClick={handleImportMatches}
-              className={`px-4 py-2 rounded-md transition-colors flex items-center gap-2 ${
-                importing
-                  ? 'bg-gray-200 text-gray-600 cursor-not-allowed'
-                  : 'bg-emerald-600 text-white hover:bg-emerald-700'
-              }`}
-              disabled={importing}
-            >
-              {importing ? (
-                <>
-                  <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Імпорт...</span>
-                </>
-              ) : (
-                <span>⬇️ Імпорт CSV</span>
-              )}
-            </button>
-
-            <button
-              onClick={handleImportMatchesWithWarmup}
-              className={`px-4 py-2 rounded-md transition-colors flex items-center gap-2 ${
-                importing
-                  ? 'bg-gray-200 text-gray-600 cursor-not-allowed'
-                  : 'bg-purple-600 text-white hover:bg-purple-700'
-              }`}
-              disabled={importing}
-            >
-              {importing ? (
-                <>
-                  <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Калібрування...</span>
-                </>
-              ) : (
-                <span>🔥 Імпорт з калібруванням + вагами (2 warmup)</span>
-              )}
-            </button>
-        </div>
+        <button
+          onClick={handleImportMatches}
+          className={`w-full px-4 py-2 rounded-md transition-colors flex items-center justify-center gap-2 mb-4 ${
+            importing
+              ? 'bg-gray-200 text-gray-600 cursor-not-allowed'
+              : 'bg-emerald-600 text-white hover:bg-emerald-700'
+          }`}
+          disabled={importing}
+        >
+          {importing ? (
+            <>
+              <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span>Імпорт...</span>
+            </>
+          ) : (
+            <span>⬇️ Імпорт CSV</span>
+          )}
+        </button>
 
         {importMessage && (
           <div className={`p-3 rounded-md mb-4 ${
@@ -487,7 +471,7 @@ export default function MatchSimulator() {
           </div>
         )}
         
-        <h2 className="text-xl font-bold text-gray-900 mb-4">🎯 Розширена рейтингова система v2</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">🎯 Розширена рейтингова система v3.1.1</h2>
         
         <div className="space-y-3 text-sm text-gray-700">
           <p>
@@ -498,15 +482,16 @@ export default function MatchSimulator() {
             <li><strong>Якість гри програвшого</strong> - якщо програв, але зіграв краще за очікування, втратить менше рейтингу</li>
             <li><strong>Фактор несподіванки</strong> - перемога над сильнішим гравцем дає значно більше очок</li>
             <li><strong>Адаптивний K-фактор</strong> - більша зміна рейтингу при великій різниці в силі гравців</li>
-            <li><strong>Елітний шар 1600+</strong> - спеціальна логіка для топ-гравців, макс зміна до ±70</li>
-            <li><strong>🔥 ВАГИ МАТЧІВ</strong> - фінали дають вдвічі більше рейтингу! (group ×1.0 → final ×2.0)</li>
+            <li><strong>Елітний шар 1500+</strong> - спеціальна логіка для топ-гравців з масштабованими бонусами</li>
+            <li><strong>🔥 ВАГИ МАТЧІВ</strong> - фінали дають більше рейтингу! (group ×1.0 → final ×1.7)</li>
+            <li><strong>📊 ПРОГРЕСИВНИЙ БАЛАНС</strong> - новачки падають до 950, інфляція тільки для 1000</li>
           </ul>
           
           <div className="bg-blue-50 p-3 rounded-md mt-4">
             <p className="text-blue-800">
-              <strong>Приклад:</strong> Гравець 1600 виграв 5:2 в груповому етапі - отримає +35 рейтингу<br/>
-              <strong>Фінал:</strong> Той самий матч у фіналі - отримає +70 рейтингу (×2.0)!<br/>
-              <strong>Калібрування:</strong> Система двічі прогоне всі матчі для визначення адекватних стартових рейтингів
+              <strong>Приклад:</strong> Гравець 1600 виграв 5:2 в груповому етапі - отримає +25 рейтингу<br/>
+              <strong>Фінал:</strong> Той самий матч у фіналі - отримає +42 рейтингу (×1.7)!<br/>
+              <strong>Баланс:</strong> Кап рейтингів росте за рахунок топів і середньої зони (інфляція 0.5-2%)
             </p>
           </div>
           
@@ -552,6 +537,37 @@ export default function MatchSimulator() {
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Статистика</h2>
         
+        {/* Rating Cap Stats - відображається після симуляції */}
+        {ratingCapBefore !== null && ratingCapAfter !== null && (
+          <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-2 border-blue-200">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">📊 Кап рейтингів (загальна сума)</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="text-center">
+                <div className="text-sm text-gray-600 mb-1">До симуляції</div>
+                <div className="text-2xl font-bold text-blue-600">{ratingCapBefore.toLocaleString()}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm text-gray-600 mb-1">Після симуляції</div>
+                <div className="text-2xl font-bold text-purple-600">{ratingCapAfter.toLocaleString()}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm text-gray-600 mb-1">Зміна (інфляція/дефляція)</div>
+                <div className={`text-2xl font-bold ${
+                  ratingCapAfter > ratingCapBefore ? 'text-green-600' : 
+                  ratingCapAfter < ratingCapBefore ? 'text-red-600' : 
+                  'text-gray-600'
+                }`}>
+                  {ratingCapAfter > ratingCapBefore ? '+' : ''}
+                  {(ratingCapAfter - ratingCapBefore).toLocaleString()}
+                  <span className="text-sm ml-2">
+                    ({((ratingCapAfter - ratingCapBefore) / ratingCapBefore * 100).toFixed(2)}%)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="text-center">
             <div className="text-2xl font-bold text-blue-600">{state.players.length}</div>
@@ -577,12 +593,13 @@ export default function MatchSimulator() {
 
         {/* Data Management */}
         <div className="space-y-3">
-          <button
+          {/* ЗАКОМЕНТОВАНО - гравці створюються через імпорт */}
+          {/* <button
             onClick={handleLoadRealPlayers}
             className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
           >
             🎯 Завантажити реальних гравців (115 осіб)
-          </button>
+          </button> */}
           
           <button
             onClick={handleResetData}
