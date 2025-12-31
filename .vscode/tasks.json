@@ -12,6 +12,27 @@
 			"group": "build",
 			"isBackground": true,
 			"problemMatcher": []
+		},
+		{
+			"label": "Start Backend API",
+			"type": "shell",
+			"command": "cd /Users/maxrosul/ratingAPP/backend && source venv/bin/activate && python -m uvicorn app.main:app --reload --port 8000",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Backend Server",
+			"type": "shell",
+			"command": "cd /Users/maxrosul/ratingAPP/backend && source venv/bin/activate && python -m uvicorn app.main:app --reload --port 8000",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Backend API Server",
+			"type": "shell",
+			"command": "cd /Users/maxrosul/ratingAPP/backend && source venv/bin/activate && python -m uvicorn app.main:app --reload --port 8000",
+			"isBackground": true,
+			"problemMatcher": []
 		}
 	]
 }
