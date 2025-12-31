@@ -7010,3 +7010,5 @@ It can also happen if the client has a browser extension installed which messes 
                   ...
 
 [01:07:56.285] Server  LOG     ✓ Compiled in 1772ms
+[01:36:14.753] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
+[01:36:14.755] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
