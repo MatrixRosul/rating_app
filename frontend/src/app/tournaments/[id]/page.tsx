@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Tournament, TournamentStatus, AvailablePlayer, RATING_BANDS } from '@/types';
 import { useAuth } from '@/context/AuthContext';
+import { getDisciplineLabel } from '@/utils/discipline';
 
 // Helper функція для отримання кольору та звання по рейтингу
 const getRatingInfo = (rating: number) => {
@@ -20,7 +21,7 @@ export default function TournamentPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'info' | 'registration'>('info');
+  const [activeTab, setActiveTab] = useState<'info' | 'registration'>('registration');
   const [availablePlayers, setAvailablePlayers] = useState<AvailablePlayer[]>([]);
   const [availablePlayersLoaded, setAvailablePlayersLoaded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -53,6 +54,10 @@ export default function TournamentPage() {
         createdAt: data.created_at,
         registeredCount: data.registered_count,
         isRegistered: data.is_registered,
+        city: data.city,
+        country: data.country,
+        club: data.club,
+        discipline: data.discipline,
         registeredPlayers: data.registered_players?.map((p: any) => ({
           playerId: p.player_id,
           playerName: p.player_name,
@@ -328,6 +333,25 @@ export default function TournamentPage() {
           {tournament.description && (
             <p className="mt-4 text-lg">{tournament.description}</p>
           )}
+
+          {/* Location and Discipline */}
+          <div className="mt-4 flex flex-wrap gap-3">
+            {tournament.city && (
+              <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                📍 {tournament.city}{tournament.country && tournament.country !== 'Україна' ? `, ${tournament.country}` : ''}
+              </div>
+            )}
+            {tournament.club && (
+              <div className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                🏢 {tournament.club}
+              </div>
+            )}
+            {tournament.discipline && (
+              <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                🎱 {getDisciplineLabel(tournament.discipline)}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Info Grid */}
@@ -358,16 +382,6 @@ export default function TournamentPage() {
         <div className="border-b mb-8">
           <div className="flex gap-1">
             <button
-              onClick={() => setActiveTab('info')}
-              className={`px-6 py-3 font-medium transition ${
-                activeTab === 'info'
-                  ? 'border-b-2 border-blue-600 text-blue-600'
-                  : 'text-black hover:text-blue-600'
-              }`}
-            >
-              Інформація
-            </button>
-            <button
               onClick={() => setActiveTab('registration')}
               className={`px-6 py-3 font-medium transition ${
                 activeTab === 'registration'
@@ -375,7 +389,17 @@ export default function TournamentPage() {
                   : 'text-black hover:text-blue-600'
               }`}
             >
-              Реєстрація ({tournament.registeredCount})
+              Учасники ({tournament.registeredCount})
+            </button>
+            <button
+              onClick={() => setActiveTab('info')}
+              className={`px-6 py-3 font-medium transition ${
+                activeTab === 'info'
+                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  : 'text-black hover:text-blue-600'
+              }`}
+            >
+              Регламент
             </button>
           </div>
         </div>
@@ -396,19 +420,11 @@ export default function TournamentPage() {
         {/* Tab Content */}
         {activeTab === 'info' && (
           <div>
-            <h2 className="text-2xl font-bold mb-4">Про турнір</h2>
-            <div className="p-6 bg-white border rounded-lg">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <span className="font-medium">Статус:</span>{' '}
-                  {tournament.status === 'pending' && 'Реєстрація відкрита'}
-                  {tournament.status === 'ongoing' && 'Турнір триває'}
-                  {tournament.status === 'completed' && 'Завершено'}
-                </div>
-                <div>
-                  <span className="font-medium">Учасників:</span> {tournament.registeredCount}
-                </div>
-              </div>
+            <h2 className="text-2xl font-bold mb-4">Регламент турніру</h2>
+            <div className="p-6 bg-gray-50 rounded-lg">
+              <p className="text-gray-700 whitespace-pre-line text-lg">
+                {tournament.description || 'Регламент турніру не вказано'}
+              </p>
             </div>
           </div>
         )}
@@ -423,31 +439,29 @@ export default function TournamentPage() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {tournament.registeredPlayers.map((player) => {
-                    const ratingInfo = getRatingInfo(player.rating);
-                    return (
-                      <div
-                        key={player.playerId}
-                        className="flex justify-between items-center p-4 bg-white border rounded-lg hover:shadow-md transition"
-                      >
-                        <div className="flex-1">
-                          <div className="font-medium text-lg">{player.playerName}</div>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className={`font-bold text-lg ${ratingInfo.textColor}`}>
-                              {Math.round(player.rating)}
-                            </span>
-                            <span className={`px-2 py-0.5 rounded text-xs text-white ${ratingInfo.color}`}>
-                              {ratingInfo.name}
-                            </span>
-                            {player.username && (
-                              <span className="text-sm text-gray-600">| User: {player.username}</span>
-                            )}
+                  {[...tournament.registeredPlayers]
+                    .sort((a, b) => b.rating - a.rating)
+                    .map((player) => {
+                      const ratingInfo = getRatingInfo(player.rating);
+                      return (
+                        <div
+                          key={player.playerId}
+                          className="flex justify-between items-center p-4 bg-white border rounded-lg hover:shadow-md transition"
+                        >
+                          <div 
+                            className="flex-1 cursor-pointer"
+                            onClick={() => router.push(`/player/${player.playerId}`)}
+                          >
+                            <div className={`font-medium text-lg ${ratingInfo.textColor} hover:underline`}>{player.playerName}</div>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className={`font-bold text-lg ${ratingInfo.textColor}`}>
+                                {Math.round(player.rating)}
+                              </span>
+                              <span className={`px-2 py-0.5 rounded text-xs text-white ${ratingInfo.color}`}>
+                                {ratingInfo.name}
+                              </span>
+                            </div>
                           </div>
-                          <div className="text-xs text-gray-500 mt-1">
-                            Зареєстровано: {new Date(player.registeredAt).toLocaleString('uk-UA')}
-                            {player.registeredByAdmin && ' (адміністратором)'}
-                          </div>
-                        </div>
 
                         {user?.role === 'admin' && tournament.status === 'pending' && (
                           <button
@@ -533,8 +547,11 @@ export default function TournamentPage() {
                                 key={player.id}
                                 className="flex justify-between items-center p-4 bg-white border rounded-lg hover:border-blue-500 hover:shadow-md transition"
                               >
-                                <div className="flex-1">
-                                  <div className="font-medium text-lg">{player.name}</div>
+                                <div 
+                                  className="flex-1 cursor-pointer"
+                                  onClick={() => router.push(`/player/${player.id}`)}
+                                >
+                                  <div className={`font-medium text-lg ${ratingInfo.textColor} hover:underline`}>{player.name}</div>
                                   <div className="flex items-center gap-2 mt-1">
                                     <span className={`font-bold text-lg ${ratingInfo.textColor}`}>
                                       {Math.round(player.rating)}

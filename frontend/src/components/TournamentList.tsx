@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Tournament, TournamentStatus } from '@/types';
 import { useAuth } from '@/context/AuthContext';
+import { getDisciplineLabel } from '@/utils/discipline';
 
 interface TournamentListProps {
   onCreateClick: () => void;
@@ -12,7 +13,7 @@ interface TournamentListProps {
 export default function TournamentList({ onCreateClick }: TournamentListProps) {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<TournamentStatus | 'all'>('all');
+  const [filter, setFilter] = useState<TournamentStatus>('pending');
   const { user } = useAuth();
   const router = useRouter();
 
@@ -24,9 +25,7 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
     try {
       setLoading(true);
       const token = localStorage.getItem('auth_token');
-      const url = filter === 'all' 
-        ? 'http://localhost:8000/api/tournaments/'
-        : `http://localhost:8000/api/tournaments/?status=${filter}`;
+      const url = `http://localhost:8000/api/tournaments/?status=${filter}`;
       
       const headers: HeadersInit = {};
       if (token) {
@@ -37,7 +36,7 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
       const data = await response.json();
       
       // Convert snake_case to camelCase
-      const formattedData = data.map((t: any) => ({
+      let formattedData = data.map((t: any) => ({
         id: t.id,
         name: t.name,
         description: t.description,
@@ -48,7 +47,14 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
         createdAt: t.created_at,
         registeredCount: t.registered_count,
         isRegistered: t.is_registered,
+        city: t.city,
+        country: t.country,
+        club: t.club,
+        discipline: t.discipline,
       }));
+
+      // Додаткова клієнтська фільтрація для надійності
+      formattedData = formattedData.filter((t: Tournament) => t.status === filter);
 
       setTournaments(formattedData);
     } catch (error) {
@@ -99,7 +105,7 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
 
       {/* Filters */}
       <div className="flex gap-2">
-        {(['all', 'pending', 'ongoing', 'completed'] as const).map((status) => (
+        {(['pending', 'ongoing', 'completed'] as const).map((status) => (
           <button
             key={status}
             onClick={() => setFilter(status)}
@@ -109,7 +115,7 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
                 : 'bg-white border hover:bg-blue-50'
             }`}
           >
-            {status === 'all' ? 'Всі' : status === 'pending' ? 'Реєстрація' : status === 'ongoing' ? 'Триває' : 'Закінчені'}
+            {status === 'pending' ? 'Реєстрація' : status === 'ongoing' ? 'Триває' : 'Минулі'}
           </button>
         ))}
       </div>
@@ -135,6 +141,25 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
               {tournament.description && (
                 <p className="mb-4 line-clamp-2">{tournament.description}</p>
               )}
+
+              {/* Location and Discipline */}
+              <div className="mb-3 flex flex-wrap gap-2">
+                {tournament.city && (
+                  <div className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                    📍 {tournament.city}
+                  </div>
+                )}
+                {tournament.club && (
+                  <div className="px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
+                    🏢 {tournament.club}
+                  </div>
+                )}
+                {tournament.discipline && (
+                  <div className="px-2 py-0.5 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                    🎱 {getDisciplineLabel(tournament.discipline)}
+                  </div>
+                )}
+              </div>
 
               <div className="space-y-2 text-sm">
                 {tournament.startDate && (

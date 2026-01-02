@@ -70,7 +70,12 @@ export interface PlayerStats {
 // Tournament types
 export type TournamentStatus = 'pending' | 'ongoing' | 'completed';
 
-export interface TournamentRegisteredPlayer {
+export type TournamentDiscipline = 
+  | 'FREE_PYRAMID'
+  | 'FREE_PYRAMID_EXTENDED'
+  | 'COMBINED_PYRAMID'
+  | 'DYNAMIC_PYRAMID'
+  | 'COMBINED_PYRAMID_CHANGES';export interface TournamentRegisteredPlayer {
   playerId: string;
   playerName: string;
   rating: number;
@@ -86,6 +91,10 @@ export interface Tournament {
   status: TournamentStatus;
   startDate?: string;
   endDate?: string;
+  city: string;
+  country: string;
+  club: string;
+  discipline: TournamentDiscipline;
   createdByAdminId: number;
   createdAt: string;
   registeredCount: number;

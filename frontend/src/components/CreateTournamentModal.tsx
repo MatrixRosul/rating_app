@@ -1,13 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { TournamentStatus } from '@/types';
+import { TournamentStatus, TournamentDiscipline } from '@/types';
 
 interface CreateTournamentModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
+
+const DISCIPLINES: { value: TournamentDiscipline; label: string }[] = [
+  { value: 'FREE_PYRAMID', label: 'Вільна піраміда' },
+  { value: 'FREE_PYRAMID_EXTENDED', label: 'Вільна піраміда з продовженням' },
+  { value: 'COMBINED_PYRAMID', label: 'Комбінована піраміда' },
+  { value: 'DYNAMIC_PYRAMID', label: 'Динамічна піраміда' },
+  { value: 'COMBINED_PYRAMID_CHANGES', label: 'Комбінована піраміда зі змінами' },
+];
 
 export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: CreateTournamentModalProps) {
   const [formData, setFormData] = useState({
@@ -16,6 +24,10 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
     status: 'pending' as TournamentStatus,
     startDate: '',
     endDate: '',
+    city: '',
+    country: 'Україна',
+    club: '',
+    discipline: 'FREE_PYRAMID' as TournamentDiscipline,
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,6 +47,10 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
       const payload: any = {
         name: formData.name,
         status: formData.status,
+        city: formData.city,
+        country: formData.country,
+        club: formData.club,
+        discipline: formData.discipline,
       };
 
       if (formData.description) payload.description = formData.description;
@@ -65,6 +81,10 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
         status: 'pending',
         startDate: '',
         endDate: '',
+        city: '',
+        country: 'Україна',
+        club: '',
+        discipline: 'FREE_PYRAMID',
       });
 
       onSuccess();
@@ -81,8 +101,8 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <div className="bg-white rounded-lg p-8 max-w-2xl w-full my-8">
         <h2 className="text-2xl font-bold mb-6">Створити новий турнір</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -101,15 +121,83 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
             />
           </div>
 
+          {/* City, Country, Club in a grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">
+                Місто <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                value={formData.city}
+                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+                disabled={loading}
+                placeholder="Київ"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">
+                Країна <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                value={formData.country}
+                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+                disabled={loading}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">
+                Клуб <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                value={formData.club}
+                onChange={(e) => setFormData({ ...formData, club: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+                disabled={loading}
+                placeholder="Назва клубу"
+              />
+            </div>
+          </div>
+
+          {/* Discipline */}
+          <div>
+            <label className="block text-sm font-medium text-black mb-1">
+              Дисципліна <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={formData.discipline}
+              onChange={(e) => setFormData({ ...formData, discipline: e.target.value as TournamentDiscipline })}
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+              disabled={loading}
+            >
+              {DISCIPLINES.map((d) => (
+                <option key={d.value} value={d.value}>
+                  {d.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-black mb-1">Опис</label>
+            <label className="block text-sm font-medium text-black mb-1">Опис / Регламент</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows={3}
               disabled={loading}
+              placeholder="Опис турніру та регламент..."
             />
           </div>
 

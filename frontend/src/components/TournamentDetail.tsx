@@ -21,7 +21,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'info' | 'registration'>('info');
+  const [activeTab, setActiveTab] = useState<'info' | 'registration'>('registration');
   const [availablePlayers, setAvailablePlayers] = useState<AvailablePlayer[]>([]);
   const [availablePlayersLoaded, setAvailablePlayersLoaded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -329,16 +329,6 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
         <div className="border-b mb-6">
           <div className="flex gap-1">
             <button
-              onClick={() => setActiveTab('info')}
-              className={`px-6 py-3 font-medium transition ${
-                activeTab === 'info'
-                  ? 'border-b-2 border-blue-600 text-blue-600'
-                  : 'text-black hover:text-blue-600'
-              }`}
-            >
-              Інформація
-            </button>
-            <button
               onClick={() => setActiveTab('registration')}
               className={`px-6 py-3 font-medium transition ${
                 activeTab === 'registration'
@@ -346,7 +336,17 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
                   : 'text-black hover:text-blue-600'
               }`}
             >
-              Реєстрація ({tournament.registeredCount})
+              Учасники ({tournament.registeredCount})
+            </button>
+            <button
+              onClick={() => setActiveTab('info')}
+              className={`px-6 py-3 font-medium transition ${
+                activeTab === 'info'
+                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  : 'text-black hover:text-blue-600'
+              }`}
+            >
+              Регламент
             </button>
           </div>
         </div>
@@ -390,20 +390,12 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
         {/* Tab Content */}
         {activeTab === 'info' && (
           <div>
-            <h3 className="text-xl font-bold mb-4">Про турнір</h3>
+            <h3 className="text-xl font-bold mb-4">Регламент турніру</h3>
             <div className="space-y-4">
-              <div className="p-4 bg-white border rounded-lg">
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="font-medium">Статус:</span>{' '}
-                    {tournament.status === 'pending' && 'Реєстрація відкрита'}
-                    {tournament.status === 'ongoing' && 'Турнір триває'}
-                    {tournament.status === 'completed' && 'Завершено'}
-                  </div>
-                  <div>
-                    <span className="font-medium">Учасників:</span> {tournament.registeredCount}
-                  </div>
-                </div>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="text-gray-700 whitespace-pre-line">
+                  {tournament.description || 'Регламент турніру не вказано'}
+                </p>
               </div>
             </div>
           </div>
@@ -419,44 +411,39 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
                 </div>
               ) : (
                 <div className="space-y-2 max-h-96 overflow-y-auto">
-                  {tournament.registeredPlayers.map((player) => {
-                    const ratingInfo = getRatingInfo(player.rating);
-                    return (
-                      <div
-                        key={player.playerId}
-                        className="flex justify-between items-center p-3 bg-white border rounded-lg"
-                      >
-                        <div className="flex-1">
-                          <div className="font-medium">{player.playerName}</div>
-                          <div className="flex items-center gap-2 text-sm mt-1">
-                            <span className={`font-bold ${ratingInfo.textColor}`}>
-                              {Math.round(player.rating)}
-                            </span>
-                            <span className={`px-2 py-0.5 rounded text-xs text-white ${ratingInfo.color}`}>
-                              {ratingInfo.name}
-                            </span>
-                            {player.username && (
-                              <span className="text-gray-600">| User: {player.username}</span>
-                            )}
+                  {[...tournament.registeredPlayers]
+                    .sort((a, b) => b.rating - a.rating)
+                    .map((player) => {
+                      const ratingInfo = getRatingInfo(player.rating);
+                      return (
+                        <div
+                          key={player.playerId}
+                          className="flex justify-between items-center p-3 bg-white border rounded-lg"
+                        >
+                          <div className="flex-1">
+                            <div className="font-medium">{player.playerName}</div>
+                            <div className="flex items-center gap-2 text-sm mt-1">
+                              <span className={`font-bold ${ratingInfo.textColor}`}>
+                                {Math.round(player.rating)}
+                              </span>
+                              <span className={`px-2 py-0.5 rounded text-xs text-white ${ratingInfo.color}`}>
+                                {ratingInfo.name}
+                              </span>
+                            </div>
                           </div>
-                          <div className="text-xs text-gray-500 mt-1">
-                            Зареєстровано: {new Date(player.registeredAt).toLocaleString('uk-UA')}
-                            {player.registeredByAdmin && ' (адміністратором)'}
-                          </div>
-                        </div>
 
-                        {user?.role === 'admin' && tournament.status === 'pending' && (
-                          <button
-                            onClick={() => handleRemovePlayer(player.playerId)}
-                            className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition ml-3"
-                            disabled={actionLoading}
-                          >
-                            Видалити
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })}
+                          {user?.role === 'admin' && tournament.status === 'pending' && (
+                            <button
+                              onClick={() => handleRemovePlayer(player.playerId)}
+                              className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition ml-3"
+                              disabled={actionLoading}
+                            >
+                              Видалити
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
                 </div>
               )}
             </div>

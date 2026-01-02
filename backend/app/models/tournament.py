@@ -15,6 +15,15 @@ class TournamentStatus(str, enum.Enum):
     COMPLETED = "completed"  # Турнір закінчився
 
 
+class TournamentDiscipline(str, enum.Enum):
+    """Tournament discipline enum"""
+    FREE_PYRAMID = "FREE_PYRAMID"
+    FREE_PYRAMID_EXTENDED = "FREE_PYRAMID_EXTENDED"
+    COMBINED_PYRAMID = "COMBINED_PYRAMID"
+    DYNAMIC_PYRAMID = "DYNAMIC_PYRAMID"
+    COMBINED_PYRAMID_CHANGES = "COMBINED_PYRAMID_CHANGES"
+
+
 class Tournament(Base):
     """Tournament model"""
     __tablename__ = "tournaments"
@@ -23,6 +32,12 @@ class Tournament(Base):
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
     status = Column(Enum(TournamentStatus), nullable=False, default=TournamentStatus.PENDING)
+    
+    # Location and details
+    city = Column(String, nullable=False)
+    country = Column(String, nullable=False, default="Україна")
+    club = Column(String, nullable=False)
+    discipline = Column(Enum(TournamentDiscipline), nullable=False)
     
     # Dates
     start_date = Column(DateTime, nullable=True)

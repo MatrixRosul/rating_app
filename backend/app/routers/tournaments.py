@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime, date
 from app.database import get_db
-from app.models.tournament import Tournament, TournamentStatus
+from app.models.tournament import Tournament, TournamentStatus, TournamentDiscipline
 from app.models.tournament_registration import TournamentRegistration
 from app.models.user import User, UserRole
 from app.models.player import Player
@@ -23,6 +23,10 @@ class TournamentCreate(BaseModel):
     description: Optional[str] = None
     start_date: Optional[date] = None
     end_date: Optional[date] = None
+    city: str
+    country: str = "Україна"
+    club: str
+    discipline: TournamentDiscipline
 
 
 class TournamentUpdate(BaseModel):
@@ -31,6 +35,10 @@ class TournamentUpdate(BaseModel):
     status: Optional[TournamentStatus] = None
     start_date: Optional[date] = None
     end_date: Optional[date] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+    club: Optional[str] = None
+    discipline: Optional[TournamentDiscipline] = None
 
 
 class RegisterPlayer(BaseModel):
@@ -51,6 +59,10 @@ def create_tournament(
         description=tournament_data.description,
         start_date=tournament_data.start_date,
         end_date=tournament_data.end_date,
+        city=tournament_data.city,
+        country=tournament_data.country,
+        club=tournament_data.club,
+        discipline=tournament_data.discipline,
         created_by_admin_id=current_user.id,
         status=TournamentStatus.PENDING
     )
@@ -66,6 +78,10 @@ def create_tournament(
         "status": tournament.status.value,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
         "end_date": tournament.end_date.isoformat() if tournament.end_date else None,
+        "city": tournament.city,
+        "country": tournament.country,
+        "club": tournament.club,
+        "discipline": tournament.discipline.value,
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
         "registered_count": 0
@@ -109,6 +125,10 @@ def get_tournaments(
             "status": tournament.status.value,
             "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
             "end_date": tournament.end_date.isoformat() if tournament.end_date else None,
+            "city": tournament.city,
+            "country": tournament.country,
+            "club": tournament.club,
+            "discipline": tournament.discipline.value if tournament.discipline else None,
             "created_by_admin_id": tournament.created_by_admin_id,
             "created_at": tournament.created_at.isoformat(),
             "registered_count": registered_count,
@@ -170,6 +190,10 @@ def get_tournament(
         "status": tournament.status.value,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
         "end_date": tournament.end_date.isoformat() if tournament.end_date else None,
+        "city": tournament.city,
+        "country": tournament.country,
+        "club": tournament.club,
+        "discipline": tournament.discipline.value if tournament.discipline else None,
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
         "registered_count": len(registered_players),
@@ -206,6 +230,14 @@ def update_tournament(
         tournament.start_date = tournament_data.start_date
     if tournament_data.end_date is not None:
         tournament.end_date = tournament_data.end_date
+    if tournament_data.city is not None:
+        tournament.city = tournament_data.city
+    if tournament_data.country is not None:
+        tournament.country = tournament_data.country
+    if tournament_data.club is not None:
+        tournament.club = tournament_data.club
+    if tournament_data.discipline is not None:
+        tournament.discipline = tournament_data.discipline
     
     db.commit()
     db.refresh(tournament)
@@ -221,6 +253,10 @@ def update_tournament(
         "status": tournament.status.value,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
         "end_date": tournament.end_date.isoformat() if tournament.end_date else None,
+        "city": tournament.city,
+        "country": tournament.country,
+        "club": tournament.club,
+        "discipline": tournament.discipline.value if tournament.discipline else None,
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
         "registered_count": registered_count
