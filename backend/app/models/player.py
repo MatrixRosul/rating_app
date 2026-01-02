@@ -2,6 +2,7 @@
 Player database model
 """
 from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.database import Base
 
@@ -30,6 +31,9 @@ class Player(Base):
     # Timestamps
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
+    # Relationship to User (optional)
+    user = relationship("User", back_populates="player", uselist=False)
 
     def __repr__(self):
         return f"<Player(id={self.id}, name={self.name}, rating={self.rating})>"

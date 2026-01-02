@@ -79,7 +79,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       dispatch({ type: 'INITIALIZE_DATA', payload: { players: playersWithMatches, matches: matchesData } });
     } catch (error: any) {
       console.error('Error loading data from API:', error);
-      dispatch({ type: 'SET_ERROR', payload: error.message || 'Failed to load data from backend' });
+      // Check if it's a network error (backend not available)
+      const isNetworkError = error.message?.includes('fetch') || error.message?.includes('Failed to fetch');
+      const errorMessage = isNetworkError 
+        ? 'Backend API недоступний. Для локального тестування запустіть backend сервер на порту 8000. Для production треба задеплоїти backend окремо (Render/Railway/Heroku) і додати NEXT_PUBLIC_API_URL в Environment Variables.'
+        : error.message || 'Помилка завантаження даних з backend';
+      dispatch({ type: 'SET_ERROR', payload: errorMessage });
     }
   };
 

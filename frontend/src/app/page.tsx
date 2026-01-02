@@ -1,14 +1,18 @@
 'use client';
 
 import { useApp } from '@/context/AppContext';
+import { useAuth } from '@/context/AuthContext';
 import Leaderboard from '@/components/Leaderboard';
 import MatchSimulator from '@/components/MatchSimulator';
+import LoginModal from '@/components/LoginModal';
 import { useState, useEffect } from 'react';
 
 export default function Home() {
   const { state } = useApp();
+  const { user, isAuthenticated, logout, isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState<'leaderboard' | 'simulator' | 'tournaments'>('leaderboard');
   const [mounted, setMounted] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -66,38 +70,67 @@ export default function Home() {
             <h1 className="text-xl font-bold text-gray-900">
               🎱 Рейтинг Більярду
             </h1>
-            <nav className="flex space-x-2 sm:space-x-4">
-              <button
-                onClick={() => setActiveTab('tournaments')}
-                className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
-                  activeTab === 'tournaments'
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-              >
-                Турніри
-              </button>
-              <button
-                onClick={() => setActiveTab('leaderboard')}
-                className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
-                  activeTab === 'leaderboard'
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-              >
-                Рейтинг
-              </button>
-              <button
-                onClick={() => setActiveTab('simulator')}
-                className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
-                  activeTab === 'simulator'
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-              >
-                Матчі
-              </button>
-            </nav>
+            <div className="flex items-center space-x-4">
+              <nav className="flex space-x-2 sm:space-x-4">
+                <button
+                  onClick={() => setActiveTab('tournaments')}
+                  className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
+                    activeTab === 'tournaments'
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  Турніри
+                </button>
+                <button
+                  onClick={() => setActiveTab('leaderboard')}
+                  className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
+                    activeTab === 'leaderboard'
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  Рейтинг
+                </button>
+                <button
+                  onClick={() => setActiveTab('simulator')}
+                  className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
+                    activeTab === 'simulator'
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  Матчі
+                </button>
+              </nav>
+              
+              {/* Auth Section */}
+              <div className="border-l border-gray-300 pl-4">
+                {isAuthenticated ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="text-sm">
+                      <div className="font-medium text-gray-900">{user?.username}</div>
+                      <div className="text-xs text-gray-500">
+                        {isAdmin() ? '👑 Admin' : '👤 User'}
+                      </div>
+                    </div>
+                    <button
+                      onClick={logout}
+                      className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md transition-colors"
+                    >
+                      Вийти
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowLoginModal(true)}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
+                  >
+                    Увійти
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -128,6 +161,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      
+      {/* Login Modal */}
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
     </div>
   );
 }
