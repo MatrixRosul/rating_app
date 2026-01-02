@@ -66,3 +66,38 @@ export interface PlayerStats {
   lowestRating: number;
   ratingChange: number;
 }
+
+// Tournament types
+export type TournamentStatus = 'pending' | 'ongoing' | 'completed';
+
+export interface TournamentRegisteredPlayer {
+  playerId: string;
+  playerName: string;
+  rating: number;
+  username?: string;
+  registeredAt: string;
+  registeredByAdmin: boolean;
+}
+
+export interface Tournament {
+  id: number;
+  name: string;
+  description?: string;
+  status: TournamentStatus;
+  startDate?: string;
+  endDate?: string;
+  createdByAdminId: number;
+  createdAt: string;
+  registeredCount: number;
+  isRegistered?: boolean;
+  registeredPlayers?: TournamentRegisteredPlayer[];
+}
+
+export interface AvailablePlayer {
+  id: string;
+  name: string;
+  rating: number;
+  matchesPlayed: number;
+}
+
+

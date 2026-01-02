@@ -1,27 +1,31 @@
 'use client';
 
-import React from 'react';
-import type { Player, Match } from '@/types';
+import React, { useState } from 'react';
+import TournamentList from './TournamentList';
+import CreateTournamentModal from './CreateTournamentModal';
 
-interface TournamentViewProps {
-  matches: Match[];
-  players: Player[];
-}
+export default function TournamentView() {
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-export default function TournamentView({ matches, players }: TournamentViewProps) {
+  const handleCreateSuccess = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
+
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-md p-8 text-center">
-        <div className="mb-4">
-          <span className="text-6xl">🚧</span>
-        </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          Турніри поки в розробці
-        </h2>
-        <p className="text-gray-600">
-          Незабаром буде доступно
-        </p>
-      </div>
+      <TournamentList
+        key={refreshKey}
+        onCreateClick={() => setShowCreateModal(true)}
+      />
+
+      {showCreateModal && (
+        <CreateTournamentModal
+          isOpen={showCreateModal}
+          onClose={() => setShowCreateModal(false)}
+          onSuccess={handleCreateSuccess}
+        />
+      )}
     </div>
   );
 }

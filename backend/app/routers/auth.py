@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from app.database import get_db
 from app.models.user import User, UserRole
 from app.auth import verify_password, create_access_token
-from app.dependencies import get_current_user, require_user
+from app.dependencies import get_current_user, require_user, require_admin
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -87,3 +87,30 @@ def logout():
     Logout endpoint (client should remove token from storage)
     """
     return {"message": "Logged out successfully"}
+
+
+class UserInfo(BaseModel):
+    id: int
+    username: str
+    role: str
+    player_id: Optional[str] = None
+
+
+@router.get("/users/", response_model=list[UserInfo])
+def get_all_users(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin)
+):
+    """
+    Get all users (admin only) - для вибору користувачів при реєстрації на турнір
+    """
+    users = db.query(User).all()
+    return [
+        {
+            "id": user.id,
+            "username": user.username,
+            "role": user.role.value,
+            "player_id": user.player_id
+        }
+        for user in users
+    ]
