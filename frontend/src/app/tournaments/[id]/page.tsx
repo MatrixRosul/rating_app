@@ -6,7 +6,7 @@ import { Tournament, TournamentStatus, AvailablePlayer, RATING_BANDS } from '@/t
 import { useAuth } from '@/context/AuthContext';
 import { getDisciplineLabel } from '@/utils/discipline';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 // Helper функція для отримання кольору та звання по рейтингу
 const getRatingInfo = (rating: number) => {

@@ -6,7 +6,7 @@ import { Tournament, TournamentStatus } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 import { getDisciplineLabel } from '@/utils/discipline';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 interface TournamentListProps {
   onCreateClick: () => void;

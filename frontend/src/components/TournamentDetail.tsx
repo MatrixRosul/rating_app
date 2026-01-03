@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Tournament, TournamentStatus, AvailablePlayer, RATING_BANDS } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 interface TournamentDetailProps {
   tournamentId: number;
