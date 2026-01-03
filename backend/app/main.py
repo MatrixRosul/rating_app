@@ -17,9 +17,17 @@ app = FastAPI(
 )
 
 # CORS middleware for frontend
+# Allow Vercel, Heroku, and localhost
+allowed_origins = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://rating-app-mu-murex.vercel.app",  # Production Vercel
+    os.getenv("FRONTEND_URL", ""),  # Можна додати через env var
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],  # Frontend URLs
+    allow_origins=[origin for origin in allowed_origins if origin],  # Filter empty strings
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

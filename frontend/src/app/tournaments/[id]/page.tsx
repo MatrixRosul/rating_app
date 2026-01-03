@@ -6,6 +6,8 @@ import { Tournament, TournamentStatus, AvailablePlayer, RATING_BANDS } from '@/t
 import { useAuth } from '@/context/AuthContext';
 import { getDisciplineLabel } from '@/utils/discipline';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 // Helper функція для отримання кольору та звання по рейтингу
 const getRatingInfo = (rating: number) => {
   const band = RATING_BANDS.find(b => rating >= b.minRating && rating <= b.maxRating);
@@ -40,7 +42,7 @@ export default function TournamentPage() {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}`, { headers });
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}`, { headers });
       const data = await response.json();
 
       const formattedData: Tournament = {
@@ -82,7 +84,7 @@ export default function TournamentPage() {
       const token = localStorage.getItem('auth_token');
       if (!token) return;
 
-      const url = `http://localhost:8000/api/tournaments/players/available?tournament_id=${tournamentId}`;
+      const url = `${API_URL}/api/tournaments/players/available?tournament_id=${tournamentId}`;
       console.log('Fetching available players:', url);
 
       const response = await fetch(url, {
@@ -134,7 +136,7 @@ export default function TournamentPage() {
         return;
       }
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}/register`, {
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}/register`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -167,7 +169,7 @@ export default function TournamentPage() {
       const token = localStorage.getItem('auth_token');
       if (!token) return;
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}/unregister`, {
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}/unregister`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -200,7 +202,7 @@ export default function TournamentPage() {
       const token = localStorage.getItem('auth_token');
       if (!token) return;
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}/register-player`, {
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}/register-player`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -239,7 +241,7 @@ export default function TournamentPage() {
       const token = localStorage.getItem('auth_token');
       if (!token) return;
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}/unregister-player/${playerId}`, {
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}/unregister-player/${playerId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

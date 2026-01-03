@@ -1,114 +1,239 @@
 # Deployment Guide
 
-## Архітектура
+## 🎯 Поточна Архітектура
 
-- **Frontend**: Next.js на Vercel
-- **Backend**: FastAPI на Render/Railway/Heroku
-- **Database**: PostgreSQL (Render/Supabase/Neon)
+- **Frontend**: Next.js на **Vercel**
+- **Backend**: FastAPI на **Heroku** (`https://rating-app-000c25dfc4f1.herokuapp.com`)
+- **Database**: PostgreSQL на Heroku
 
-## Крок 1: Deploy Backend
+---
 
-### Варіант A: Render.com (Рекомендовано)
+## ✅ Backend вже на Heroku
 
-1. Створи акаунт на [Render.com](https://render.com)
-2. New → Web Service
-3. Connect GitHub repository
-4. Налаштування:
-   - **Build Command**: `pip install -r backend/requirements.txt`
-   - **Start Command**: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-   - **Root Directory**: Залиш порожнім
-5. Environment Variables:
-   ```
-   DATABASE_URL=postgresql://user:password@host:5432/dbname
-   ```
-6. Deploy!
-7. Скопіюй URL (наприклад `https://rating-app-backend.onrender.com`)
+Backend вже задеплоєно та працює на Heroku!
 
-### Варіант B: Railway.app
+**URL:** `https://rating-app-000c25dfc4f1.herokuapp.com`
 
-1. Railway.app → New Project → Deploy from GitHub
-2. Select repository → Deploy backend folder
-3. Додай Environment Variable:
-   ```
-   DATABASE_URL=postgresql://...
-   ```
-4. Railway автоматично визначить Python і запустить
-
-## Крок 2: Deploy Database
-
-### Варіант A: Render PostgreSQL
-
-1. Render Dashboard → New → PostgreSQL
-2. Створи базу даних
-3. Скопіюй Internal/External Database URL
-4. Додай в Backend Environment Variables
-
-### Варіант B: Supabase
-
-1. [Supabase.com](https://supabase.com) → New Project
-2. Database Settings → Connection String
-3. Використай в Backend
-
-## Крок 3: Migrate Database
-
-Після deploy backend:
+### Перевірка що працює:
 
 ```bash
-# Локально підключись до production БД
-cd backend
-export DATABASE_URL="postgresql://..."
-source venv/bin/activate
-
-# Створи таблиці
-python -c "from app.database import Base, engine; Base.metadata.create_all(bind=engine)"
-
-# Імпортуй дані з CSV (якщо потрібно)
-python scripts/import_csv.py
+curl https://rating-app-000c25dfc4f1.herokuapp.com/health
 ```
 
-## Крок 4: Deploy Frontend на Vercel
+Має повернути:
+```json
+{"status": "healthy"}
+```
 
-1. Vercel Dashboard → Import Project
-2. Connect GitHub repository
-3. Налаштування:
-   - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `.next`
-4. Environment Variables:
-   ```
-   NEXT_PUBLIC_API_URL=https://rating-app-backend.onrender.com
-   ```
-5. Deploy!
+---
 
-## Локальна розробка
+## 🚀 Деплой Frontend на Vercel
+
+### Крок 1: Підключення GitHub до Vercel
+
+1. Зайди на [vercel.com](https://vercel.com)
+2. Натисни **"Add New Project"**
+3. Авторизуйся через GitHub
+4. Обери репозиторій `rating_app`
+
+### Крок 2: Налаштування проєкту
+
+**Framework Preset:** Next.js
+**Root Directory:** `frontend`
+
+**Build Settings:**
+- Build Command: `npm run build`
+- Output Directory: `.next`
+- Install Command: `npm install`
+
+### Крок 3: Environment Variables ⚠️ ВАЖЛИВО!
+
+У Vercel → Settings → Environment Variables додай:
+
+| Variable Name | Value |
+|---------------|-------|
+| `NEXT_PUBLIC_API_URL` | `https://rating-app-000c25dfc4f1.herokuapp.com` |
+
+**Важливо:** 
+- Без trailing slash `/`
+- Застосуй до Production, Preview, Development
+
+### Крок 4: Deploy
+
+Натисни **"Deploy"** - Vercel автоматично побудує та задеплоїть проєкт!
+
+---
+
+## 🔄 Автоматичний деплой
+
+### Heroku (Backend)
+```bash
+git push heroku main
+```
+
+### Vercel (Frontend)
+```bash
+git push origin main
+```
+
+Vercel автоматично створює preview для кожного PR!
+
+---
+
+## 🛠️ Налаштування CORS на Backend
+
+Backend вже налаштований для Vercel! 
+
+У `backend/app/main.py`:
+```python
+allowed_origins = [
+    "http://localhost:3000",
+    "https://rating-app-frontend-tau.vercel.app",  # Заміни на свій домен
+    os.getenv("FRONTEND_URL", ""),
+]
+```
+
+**Після отримання Vercel домену:**
+
+✅ **Вже зроблено для твого домену:** `https://rating-app-mu-murex.vercel.app`
+
+Якщо потрібно змінити:
+
+1. Відкрий `backend/app/main.py`
+2. Заміни URL у `allowed_origins`
+3. Commit та push:
+```bash
+git add backend/app/main.py
+git commit -m "Update CORS for Vercel domain"
+git push heroku main
+```
+
+Або встанови через env var:
+```bash
+heroku config:set FRONTEND_URL="https://rating-app-mu-murex.vercel.app" --app rating-app-000c25dfc4f1
+```
+
+---
+
+## 🧪 Тестування після деплою
+
+### 1. Перевірка Backend API
+
+```bash
+curl https://rating-app-000c25dfc4f1.herokuapp.com/health
+```
+
+Очікується:
+```json
+{"status":"healthy"}
+```
+
+### 2. Перевірка Frontend
+
+1. Відкрий свій Vercel домен
+2. Спробуй увійти (admin/admin123)
+3. Перейди на сторінку турнірів
+4. Створи новий турнір
+
+### 3. Перевірка CORS
+
+Відкрий Console (F12):
+- ❌ Якщо `CORS policy` errors → оновити `allowed_origins`
+- ✅ Якщо запити проходять → все працює!
+
+---
+
+## 📝 Як працює у коді
+
+### Frontend (всі файли оновлені)
+
+```typescript
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+fetch(`${API_URL}/api/tournaments/`, {
+  method: 'POST',
+  headers: { 
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+  body: JSON.stringify(data)
+})
+```
 
 ### Backend
-```bash
-cd backend
-source venv/bin/activate
-python -m uvicorn app.main:app --reload --port 8000
-```
 
-### Frontend
-```bash
-cd frontend
-npm run dev
-```
-
-Frontend буде використовувати `http://localhost:8000` якщо `NEXT_PUBLIC_API_URL` не встановлено.
-
-## Troubleshooting
-
-### "Failed to fetch" на Vercel
-- Перевір що Backend задеплоєний і працює
-- Перевір що `NEXT_PUBLIC_API_URL` встановлений в Vercel Environment Variables
-- Перевір що Backend має CORS налаштований для Vercel domain
-
-### CORS помилки
-У `backend/app/main.py` додай Vercel domain:
+CORS у `backend/app/main.py`:
 ```python
+allowed_origins = [
+    "http://localhost:3000",
+    "https://rating-app-frontend-tau.vercel.app",
+    os.getenv("FRONTEND_URL", ""),
+]
+
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=[origin for origin in allowed_origins if origin],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+---
+
+## 🆘 Troubleshooting
+
+### ❌ CORS errors
+
+**Рішення:**
+1. Перевір `FRONTEND_URL` на Heroku
+2. Перевір що домен точно співпадає
+3. Редеплой: `git push heroku main`
+
+### ❌ API повертає 404
+
+**Рішення:**
+1. Перевір `NEXT_PUBLIC_API_URL` у Vercel
+2. Перевір що URL без `/`
+3. Redeploy у Vercel
+
+### ❌ Login не працює
+
+**Рішення:**
+1. Відкрий Console (F12) → Network tab
+2. Перевір що запит йде на правильний URL
+3. Перевір response (401/403/CORS)
+
+---
+
+## 📋 Checklist
+
+- [ ] Backend доступний на Heroku
+- [ ] Frontend деплоїться на Vercel
+- [ ] `NEXT_PUBLIC_API_URL` встановлена
+- [ ] CORS включає Vercel домен
+- [ ] Тест логіну працює
+- [ ] Тест створення турніру працює
+
+---
+
+## 🎯 Корисні команди
+
+```bash
+# Heroku
+heroku logs --tail --app rating-app-000c25dfc4f1
+heroku config --app rating-app-000c25dfc4f1
+heroku restart --app rating-app-000c25dfc4f1
+
+# Local test з production API
+NEXT_PUBLIC_API_URL=https://rating-app-000c25dfc4f1.herokuapp.com npm run dev
+```
+
+---
+
+## Старі інструкції (Render/Railway)
+
+Нижче старі інструкції для інших платформ (залишені для довідки):
     allow_origins=[
         "http://localhost:3000",
         "https://your-app.vercel.app"  # Додай свій домен

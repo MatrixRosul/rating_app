@@ -6,6 +6,8 @@ import { Tournament, TournamentStatus } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 import { getDisciplineLabel } from '@/utils/discipline';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 interface TournamentListProps {
   onCreateClick: () => void;
 }
@@ -25,7 +27,7 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
     try {
       setLoading(true);
       const token = localStorage.getItem('auth_token');
-      const url = `http://localhost:8000/api/tournaments/?status=${filter}`;
+      const url = `${API_URL}/api/tournaments/?status=${filter}`;
       
       const headers: HeadersInit = {};
       if (token) {

@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { TournamentStatus, TournamentDiscipline } from '@/types';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 interface CreateTournamentModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -57,7 +59,7 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
       if (formData.startDate) payload.start_date = formData.startDate;
       if (formData.endDate) payload.end_date = formData.endDate;
 
-      const response = await fetch('http://localhost:8000/api/tournaments/', {
+      const response = await fetch(`${API_URL}/api/tournaments/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,7 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/player/[id]/page": "app/player/[id]/page.js",
-  "/rating/page": "app/rating/page.js",
-  "/tournaments/[id]/page": "app/tournaments/[id]/page.js",
   "/tournaments/page": "app/tournaments/page.js"
 }

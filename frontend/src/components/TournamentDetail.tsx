@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { Tournament, TournamentStatus, AvailablePlayer, RATING_BANDS } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 interface TournamentDetailProps {
   tournamentId: number;
   onClose: () => void;
@@ -40,7 +42,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}`, { headers });
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}`, { headers });
       const data = await response.json();
 
       // Convert snake_case to camelCase
@@ -79,7 +81,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
       const token = localStorage.getItem('auth_token');
       if (!token) return;
 
-      const url = `http://localhost:8000/api/tournaments/players/available?tournament_id=${tournamentId}`;
+      const url = `${API_URL}/api/tournaments/players/available?tournament_id=${tournamentId}`;
       console.log('Fetching available players:', url);
 
       const response = await fetch(url, {
@@ -132,7 +134,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
         return;
       }
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}/register`, {
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}/register-player`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
