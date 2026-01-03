@@ -10,6 +10,7 @@ import uuid
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app.database import SessionLocal
+from sqlalchemy import text
 
 def import_players(json_file='players_export.json'):
     """Import players from JSON file using raw SQL"""
@@ -28,7 +29,7 @@ def import_players(json_file='players_export.json'):
         print(f"📥 Found {len(players_data)} players to import")
         
         # Check existing players
-        result = db.execute("SELECT COUNT(*) FROM players")
+        result = db.execute(text("SELECT COUNT(*) FROM players"))
         existing_count = result.scalar()
         print(f"📊 Current players in database: {existing_count}")
         
@@ -39,7 +40,7 @@ def import_players(json_file='players_export.json'):
                 return False
             
             # Clear existing players
-            db.execute("DELETE FROM players")
+            db.execute(text("DELETE FROM players"))
             db.commit()
             print("🗑️  Cleared existing players")
         
@@ -49,14 +50,14 @@ def import_players(json_file='players_export.json'):
             player_id = str(uuid.uuid4())  # Generate new UUID
             
             db.execute(
-                """
+                text("""
                 INSERT INTO players 
                 (id, name, first_name, last_name, city, year_of_birth, 
                  rating, initial_rating, peak_rating, is_cms, created_at, updated_at)
                 VALUES 
                 (:id, :name, :first_name, :last_name, :city, :year_of_birth,
                  :rating, :initial_rating, :peak_rating, :is_cms, NOW(), NOW())
-                """,
+                """),
                 {
                     'id': player_id,
                     'name': player_data['name'],
@@ -78,7 +79,7 @@ def import_players(json_file='players_export.json'):
         db.commit()
         
         # Verify import
-        result = db.execute("SELECT COUNT(*) FROM players")
+        result = db.execute(text("SELECT COUNT(*) FROM players"))
         final_count = result.scalar()
         
         print(f"\n✅ Successfully imported {imported} players!")
