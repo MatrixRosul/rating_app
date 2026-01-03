@@ -28,6 +28,8 @@ def export_matches(output_file='matches_export.json'):
             match_dict = {
                 'player1_id': match.player1_id,
                 'player2_id': match.player2_id,
+                'player1_name': match.player1_name,
+                'player2_name': match.player2_name,
                 'winner_id': match.winner_id,
                 'player1_score': match.player1_score,
                 'player2_score': match.player2_score,

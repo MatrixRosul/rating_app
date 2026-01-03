@@ -45,8 +45,7 @@ def import_matches(json_file='matches_export.json'):
             db.commit()
             print("🗑️  Cleared existing matches")
         
-        # Get player ID mapping (old ID -> new UUID)
-        # We need to match players by name since IDs are different
+        # Get player ID mapping (name -> UUID)
         result = db.execute(text("SELECT id, name FROM players"))
         players_map = {row[1]: row[0] for row in result}  # name -> id
         
@@ -59,14 +58,37 @@ def import_matches(json_file='matches_export.json'):
         for match_data in matches_data:
             match_id = str(uuid.uuid4())  # Generate new UUID
             
-            # We need to get player names to map to new IDs
-            # This requires looking up in local DB - let's skip for now and use IDs directly
-            # assuming player IDs will match
+            # Map player names to new UUIDs
+            player1_name = match_data.get('player1_name')
+            player2_name = match_data.get('player2_name')
+            
+            # Skip if player names not found
+            if not player1_name or not player2_name:
+                skipped += 1
+                continue
+            
+            if player1_name not in players_map or player2_name not in players_map:
+                if skipped == 0:  # Only print first few
+                    print(f"⚠️  Skipping match: players not found ({player1_name}, {player2_name})")
+                skipped += 1
+                continue
+            
+            # Get new player IDs
+            player1_id_new = players_map[player1_name]
+            player2_id_new = players_map[player2_name]
+            
+            # Determine winner ID
+            winner_id_old = match_data['winner_id']
+            if winner_id_old == match_data['player1_id']:
+                winner_id_new = player1_id_new
+            else:
+                winner_id_new = player2_id_new
             
             db.execute(
                 text("""
                 INSERT INTO matches 
                 (id, player1_id, player2_id, winner_id, 
+                 player1_name, player2_name,
                  player1_score, player2_score, max_score,
                  player1_rating_before, player2_rating_before,
                  player1_rating_after, player2_rating_after,
@@ -74,6 +96,7 @@ def import_matches(json_file='matches_export.json'):
                  date, created_at)
                 VALUES 
                 (:id, :player1_id, :player2_id, :winner_id,
+                 :player1_name, :player2_name,
                  :player1_score, :player2_score, :max_score,
                  :player1_rating_before, :player2_rating_before,
                  :player1_rating_after, :player2_rating_after,
@@ -82,9 +105,11 @@ def import_matches(json_file='matches_export.json'):
                 """),
                 {
                     'id': match_id,
-                    'player1_id': match_data['player1_id'],
-                    'player2_id': match_data['player2_id'],
-                    'winner_id': match_data['winner_id'],
+                    'player1_id': player1_id_new,
+                    'player2_id': player2_id_new,
+                    'winner_id': winner_id_new,
+                    'player1_name': player1_name,
+                    'player2_name': player2_name,
                     'player1_score': match_data['player1_score'],
                     'player2_score': match_data['player2_score'],
                     'max_score': match_data['max_score'],
