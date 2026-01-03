@@ -27,10 +27,10 @@ export default function Leaderboard({ players, matches }: LeaderboardProps) {
           peakRating: stats.highestRating
         };
       }
-      // For players without matches, use their current peak_rating
+      // For players without matches, use their existing peakRating or current rating
       return {
         ...player,
-        peakRating: player.peak_rating || player.rating
+        peakRating: player.peakRating || player.rating
       };
     });
   }, [players, matches]);

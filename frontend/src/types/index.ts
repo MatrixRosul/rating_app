@@ -10,6 +10,7 @@ export interface Player {
   age?: number;
   rating: number;
   initialRating?: number; // Початковий рейтинг після калібрування (для графіка)
+  peakRating?: number; // Найвищий рейтинг гравця
   isCMS?: boolean; // Кандидат у майстри спорту (реальне звання)
   matches: string[]; // Match IDs
   createdAt: Date;
