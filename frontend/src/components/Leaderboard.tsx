@@ -18,15 +18,21 @@ export default function Leaderboard({ players, matches }: LeaderboardProps) {
   
   // Calculate peak ratings for all players
   const playersWithPeakRating = useMemo(() => {
-    return players
-      .filter(player => player.matches && player.matches.length > 0)
-      .map(player => {
+    return players.map(player => {
+      // Only calculate stats if player has matches
+      if (player.matches && player.matches.length > 0) {
         const stats = calculatePlayerStats(player, matches);
         return {
           ...player,
           peakRating: stats.highestRating
         };
-      });
+      }
+      // For players without matches, use their current peak_rating
+      return {
+        ...player,
+        peakRating: player.peak_rating || player.rating
+      };
+    });
   }, [players, matches]);
   
   // Sort players by selected criteria
