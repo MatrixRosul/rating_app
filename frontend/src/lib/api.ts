@@ -5,7 +5,8 @@
 
 import type { Player, Match } from '@/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+// Remove trailing slash from API_URL to avoid double slashes
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 /**
  * Fetch all players from backend
