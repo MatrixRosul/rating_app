@@ -10,7 +10,8 @@ from app.models import Player, Match
 router = APIRouter()
 
 
-@router.get("/")
+@router.get("/", include_in_schema=True)
+@router.get("", include_in_schema=False)  # Support both with and without trailing slash
 async def get_players(
     skip: int = 0,
     limit: int = 1000,
