@@ -9,7 +9,7 @@ cd backend
 
 # Import players
 echo "1️⃣ Importing players..."
-python scripts/import_players.py
+python scripts/import_players_sql.py
 
 echo ""
 
