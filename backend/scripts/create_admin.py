@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from app.database import SessionLocal
 from app.models.user import User, UserRole
-from app.auth import hash_password
+from app.auth import get_password_hash
 
 def create_admin():
     """Create admin user if not exists"""
@@ -30,7 +30,7 @@ def create_admin():
         # Create admin user
         admin = User(
             username="admin",
-            password_hash=hash_password("admin123"),
+            password_hash=get_password_hash("admin123"),
             role=UserRole.ADMIN,
             player_id=None  # Admin is not a player
         )

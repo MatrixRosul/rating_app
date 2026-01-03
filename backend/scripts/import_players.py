@@ -46,6 +46,7 @@ def import_players(json_file='players_export.json'):
         # Import players
         imported = 0
         for player_data in players_data:
+            # Don't include 'id' - let database auto-generate
             player = Player(
                 name=player_data['name'],
                 first_name=player_data.get('first_name'),

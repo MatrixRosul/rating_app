@@ -1,2 +1,68 @@
-[00:00:04.884] Server  LOG     ✓ Ready in 3.8s
-[00:00:30.042] Server  LOG     ○ Compiling /tournaments ...
+[00:00:05.555] Server  LOG     ✓ Ready in 4.1s
+[00:00:26.979] Server  LOG     ○ Compiling / ...
+[00:00:35.683] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:36.098] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_16c4d710-7413-4504-a3c8-2dd00d250c9e__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                  ...
+
