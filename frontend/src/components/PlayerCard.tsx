@@ -35,7 +35,7 @@ export default function PlayerCard({ player, rank, showRank = false, showPeakRat
 
   return (
     <Link 
-      href={`/player/${player.id}`}
+      href={`/player/${encodeURIComponent(player.name)}`}
       className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-3 border-l-4"
       style={{ borderLeftColor: getBorderColor(ratingBand.color) }}
     >

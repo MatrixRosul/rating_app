@@ -16,14 +16,24 @@ interface MatchHistoryProps {
 export default function MatchHistory({ matches, players, playerId, limit, disableSorting = false }: MatchHistoryProps) {
   const getPlayerById = (id: string) => players.find(p => p.id === id);
   
-  // Sort matches by date (newest first), then by match ID number DESC (newest matches first within same date)
+  // Sort matches: if playerId provided (player profile), sort ASC for rating graph; otherwise DESC for recent matches
   const sortedMatches = disableSorting ? matches : [...matches].sort((a, b) => {
-    const dateCompare = new Date(b.date).getTime() - new Date(a.date).getTime();
-    if (dateCompare !== 0) return dateCompare;
-    // If dates are the same, sort by numeric part of ID DESC (newest match first)
-    const aNum = parseInt(a.id.replace('match_', '')) || 0;
-    const bNum = parseInt(b.id.replace('match_', '')) || 0;
-    return bNum - aNum; // DESC - newest match first within same date
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    
+    if (playerId) {
+      // For player profile: ASC (oldest first) for correct rating progression
+      if (dateA !== dateB) return dateA - dateB;
+      const aNum = parseInt(a.id.replace('match_', '')) || 0;
+      const bNum = parseInt(b.id.replace('match_', '')) || 0;
+      return aNum - bNum; // ASC within same date
+    } else {
+      // For general history: DESC (newest first)
+      if (dateA !== dateB) return dateB - dateA;
+      const aNum = parseInt(a.id.replace('match_', '')) || 0;
+      const bNum = parseInt(b.id.replace('match_', '')) || 0;
+      return bNum - aNum; // DESC within same date
+    }
   });
 
   // Apply limit if provided
@@ -73,7 +83,7 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
                   {/* Player 1 */}
                   <div className={`flex-1 ${player1IsTarget ? 'font-semibold' : ''}`}>
                     <Link 
-                      href={`/player/${player1.id}`}
+                      href={`/player/${encodeURIComponent(player1.name)}`}
                       className={`${getRatingBand(match.player1RatingBefore).textColor} hover:opacity-80 transition-colors`}
                     >
                       {player1.name}
@@ -117,7 +127,7 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
                   {/* Player 2 */}
                   <div className={`flex-1 text-right ${player2IsTarget ? 'font-semibold' : ''}`}>
                     <Link 
-                      href={`/player/${player2.id}`}
+                      href={`/player/${encodeURIComponent(player2.name)}`}
                       className={`${getRatingBand(match.player2RatingBefore).textColor} hover:opacity-80 transition-colors`}
                     >
                       {player2.name}
@@ -155,7 +165,7 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
                     <div className="flex items-center space-x-2">
                       <span className="text-sm text-gray-500">Переможець:</span>
                       <Link 
-                        href={`/player/${winner.id}`}
+                        href={`/player/${encodeURIComponent(winner.name)}`}
                         className={`${getRatingBand(match.winnerId === player1.id ? match.player1RatingAfter : match.player2RatingAfter).textColor} font-semibold hover:opacity-80 transition-colors`}
                       >
                         {winner.name}

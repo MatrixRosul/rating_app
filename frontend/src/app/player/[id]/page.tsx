@@ -12,7 +12,10 @@ export default function PlayerProfile() {
   const { state } = useApp();
   const params = useParams();
   // Декодуємо URL-encoded параметр (кирилиця)
-  const playerId = decodeURIComponent(params.id as string);
+  const playerIdentifier = decodeURIComponent(params.id as string);
+  
+  // Знаходимо гравця за іменем або ID (для зворотної сумісності з UUID)
+  const player = state.players.find(p => p.name === playerIdentifier || p.id === playerIdentifier);
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<'history' | 'best'>('history');
 
@@ -53,29 +56,30 @@ export default function PlayerProfile() {
     );
   }
 
-  const player = state.players.find(p => p.id === playerId);
   
   // Якщо гравця немає в списку, але є в матчах — створюємо віртуального гравця
   let virtualPlayer = player;
   if (!player) {
-    // Шукаємо гравця в матчах
+    // Шукаємо гравця в матчах за іменем або ID
     const playerMatches = state.matches.filter(match => 
-      match.player1Id === playerId || match.player2Id === playerId
+      match.player1Id === playerIdentifier || match.player2Id === playerIdentifier ||
+      match.player1Name === playerIdentifier || match.player2Name === playerIdentifier
     );
     
     if (playerMatches.length > 0) {
       // Знаходимо останній матч для отримання актуального рейтингу
       const lastMatch = playerMatches[playerMatches.length - 1];
-      const isPlayer1 = lastMatch.player1Id === playerId;
+      const isPlayer1 = lastMatch.player1Id === playerIdentifier || lastMatch.player1Name === playerIdentifier;
       const currentRating = isPlayer1 ? lastMatch.player1RatingAfter : lastMatch.player2RatingAfter;
+      const actualId = isPlayer1 ? lastMatch.player1Id : lastMatch.player2Id;
       
       // Отримуємо ім'я з матчу
       const playerName = isPlayer1 
-        ? (lastMatch.player1Name || `Гравець ${playerId}`)
-        : (lastMatch.player2Name || `Гравець ${playerId}`);
+        ? (lastMatch.player1Name || `Гравець ${playerIdentifier}`)
+        : (lastMatch.player2Name || `Гравець ${playerIdentifier}`);
       
       virtualPlayer = {
-        id: playerId,
+        id: actualId,
         name: playerName,
         rating: currentRating,
         matches: playerMatches.map(m => m.id),
