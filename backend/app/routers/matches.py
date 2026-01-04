@@ -20,12 +20,10 @@ async def get_matches(
     """
     Get matches, optionally filtered by player_id
     """
-    # Sort by date DESC, then by ID (numeric part) ASC for correct chronological order
-    from sqlalchemy import func, cast, Integer
-    
+    # Sort by date DESC, then by created_at ASC for correct chronological order
     query = db.query(Match).order_by(
         Match.date.desc(),
-        cast(func.replace(Match.id, 'match_', ''), Integer).asc()
+        Match.created_at.asc()
     )
     
     if player_id:
