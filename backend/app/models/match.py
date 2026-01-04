@@ -12,18 +12,18 @@ class Match(Base):
     """
     __tablename__ = "matches"
 
-    id = Column(String, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     
     # Players
-    player1_id = Column(String, ForeignKey("players.id"), nullable=False, index=True)
-    player2_id = Column(String, ForeignKey("players.id"), nullable=False, index=True)
+    player1_id = Column(Integer, ForeignKey("players.id"), nullable=False, index=True)
+    player2_id = Column(Integer, ForeignKey("players.id"), nullable=False, index=True)
     
     # Player names (for display)
     player1_name = Column(String, nullable=True)
     player2_name = Column(String, nullable=True)
     
     # Match result
-    winner_id = Column(String, ForeignKey("players.id"), nullable=False)
+    winner_id = Column(Integer, ForeignKey("players.id"), nullable=False)
     player1_score = Column(Integer, nullable=False)
     player2_score = Column(Integer, nullable=False)
     max_score = Column(Integer, nullable=False)  # Game format (e.g., до 5, до 7)

@@ -146,14 +146,12 @@ def import_csv_data():
         
         player_objects = {}
         for name, stats in players_dict.items():
-            # Generate simple ID from name
-            player_id = name.lower().replace(" ", "_").replace("'", "")
+            # 🔥 НЕ ВКАЗУЄМО ID - PostgreSQL сам згенерує через auto-increment
             
             # 🏆 КМС починають з 1600, інші з 1300
             starting_rating = 1600.0 if is_cms_player(name) else 1300.0
             
             player = Player(
-                id=player_id,
                 name=name,
                 rating=starting_rating,
                 initial_rating=starting_rating,
@@ -224,12 +222,8 @@ def import_csv_data():
             matches_count[player1_name] += 1
             matches_count[player2_name] += 1
             
-            # Generate match ID
-            match_id = f"match_{idx + 1}"
-            
-            # Create match record
+            # Create match record (БЕЗ ID - auto-increment)
             match = Match(
-                id=match_id,
                 player1_id=player1.id,
                 player2_id=player2.id,
                 player1_name=player1_name,

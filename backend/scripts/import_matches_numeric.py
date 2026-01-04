@@ -18,7 +18,9 @@ def import_matches():
     
     try:
         # Read CSV file
-        with open('/app/data/match_results.csv', 'r', encoding='utf-8') as f:
+        import os
+        csv_path = '/app/data/match_results.csv' if os.path.exists('/app/data') else '/Users/maxrosul/ratingAPP/data/match_results.csv'
+        with open(csv_path, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             matches_data = list(reader)
         
@@ -84,15 +86,19 @@ def import_matches():
                 stage = stage_map.get(stage.lower(), stage.lower())
             
             # Insert match
+            max_score = max(result1, result2)
             db.execute(text("""
                 INSERT INTO matches 
-                (player1_id, player2_id, player1_name, player2_name, winner_id, date, tournament, stage, created_at)
-                VALUES (:p1_id, :p2_id, :p1_name, :p2_name, :winner_id, :date, :tournament, :stage, NOW())
+                (player1_id, player2_id, player1_name, player2_name, player1_score, player2_score, max_score, winner_id, date, tournament, stage, created_at)
+                VALUES (:p1_id, :p2_id, :p1_name, :p2_name, :p1_score, :p2_score, :max_score, :winner_id, :date, :tournament, :stage, NOW())
             """), {
                 'p1_id': player1_id,
                 'p2_id': player2_id,
                 'p1_name': player1_name,
                 'p2_name': player2_name,
+                'p1_score': result1,
+                'p2_score': result2,
+                'max_score': max_score,
                 'winner_id': winner_id,
                 'date': match_date,
                 'tournament': tournament,

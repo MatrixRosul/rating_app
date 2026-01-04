@@ -18,7 +18,9 @@ def import_players():
     
     try:
         # Read CSV file
-        with open('/app/data/players.csv', 'r', encoding='utf-8') as f:
+        import os
+        csv_path = '/app/data/players.csv' if os.path.exists('/app/data') else '/Users/maxrosul/ratingAPP/data/players.csv'
+        with open(csv_path, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             players_data = list(reader)
         
