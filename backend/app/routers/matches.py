@@ -53,7 +53,9 @@ async def get_matches(
             "player1_rating_change": float(match.player1_rating_change),
             "player2_rating_change": float(match.player2_rating_change),
             "date": match.date.isoformat(),
-            "created_at": match.created_at.isoformat()
+            "created_at": match.created_at.isoformat(),
+            "tournament": match.tournament,
+            "stage": match.stage
         })
     
     return result

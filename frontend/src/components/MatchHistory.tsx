@@ -16,28 +16,8 @@ interface MatchHistoryProps {
 export default function MatchHistory({ matches, players, playerId, limit, disableSorting = false }: MatchHistoryProps) {
   const getPlayerById = (id: string) => players.find(p => p.id === id);
   
-  // Sort matches: if playerId provided (player profile), sort ASC for rating graph; otherwise DESC for recent matches
-  const sortedMatches = disableSorting ? matches : [...matches].sort((a, b) => {
-    const dateA = new Date(a.date).getTime();
-    const dateB = new Date(b.date).getTime();
-    
-    if (playerId) {
-      // For player profile: ASC (oldest first) for correct rating progression
-      if (dateA !== dateB) return dateA - dateB;
-      const aNum = parseInt(a.id.replace('match_', '')) || 0;
-      const bNum = parseInt(b.id.replace('match_', '')) || 0;
-      return aNum - bNum; // ASC within same date
-    } else {
-      // For general history: DESC (newest first)
-      if (dateA !== dateB) return dateB - dateA;
-      const aNum = parseInt(a.id.replace('match_', '')) || 0;
-      const bNum = parseInt(b.id.replace('match_', '')) || 0;
-      return bNum - aNum; // DESC within same date
-    }
-  });
-
-  // Apply limit if provided
-  const displayedMatches = limit ? sortedMatches.slice(0, limit) : sortedMatches;
+  // Використовуємо порядок як приходить з бекенду (вже відсортовано)
+  const displayedMatches = limit ? matches.slice(0, limit) : matches;
 
   if (displayedMatches.length === 0) {
     return (

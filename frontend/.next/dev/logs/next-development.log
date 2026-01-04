@@ -94,3 +94,2367 @@ It can also happen if the client has a browser extension installed which messes 
 [00:02:59.886] Server  LOG     ✓ Compiled in 2.8s
 [00:03:21.435] Server  LOG     ✓ Compiled in 617ms
 [00:03:30.219] Server  LOG     ✓ Compiled in 430ms
+[00:03:54.930] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:55.525] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_cf11f780-9852-40ed-a010-52c94eec3623__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:04:30.537] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:32.085] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_37dd0f04-eaa5-42af-9250-d85a38252072__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:08:38.147] Server  LOG     ✓ Compiled in 1060ms
+[00:28:10.014] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:28:11.566] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_af182961-5db7-48a7-9c92-0d10323c9e63__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:28:11.566] Browser ERROR   Error loading data from API: {}
+[00:29:39.459] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:29:39.501] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/rating" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_0599c9f4-1eef-4a8b-87c6-89b3dfcaabb5__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="rating/pag...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function RatingPage} serverProvidedParams={{...}}>
+                                    <RatingPage params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100 flex items-center justify-center"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                           bis_skin_checked="1"
+                                          >
+                                          ...
+                  ...
+
+[00:31:05.086] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:31:05.086] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_84a20191-52bf-49ca-a992-025d786fa001__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:32:14.547] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:32:14.913] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+-                           __processed_8c3e231b-24ec-45b2-8fd8-2d78f99329de__="true"
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:35:40.281] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:35:40.967] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+-                           __processed_cd3ee906-18bb-473e-b8a0-8856dc4ee052__="true"
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:36:51.191] Browser ERROR   Login error: {}
+[00:37:56.087] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:37:56.725] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_7575de55-d11f-4f3b-85fd-72c10d78bd05__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:42:18.480] Server  WARN    ⚠ Fast Refresh had to perform a full reload when ./src/lib/api.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:42:18.775] Server  WARN    ⚠ Fast Refresh had to perform a full reload when ./src/lib/api.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:42:18.803] Server  LOG     ✓ Compiled in 1330ms
+[00:42:25.607] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:42:26.401] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+-                           __processed_740b2786-d3bd-47b5-bd86-2ab8be45eeb4__="true"
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:42:58.353] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:42:58.836] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_776ee289-e6d5-40c0-99fd-413e577e73be__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:45:04.869] Server  LOG     ✓ Compiled in 2.7s
+[00:46:06.807] Server  LOG     ✓ Compiled in 1648ms
+[00:46:20.428] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:46:21.271] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_100901c2-c153-49a7-bda6-2efabc1caa8d__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <SegmentViewNode type="page" pagePath="player/[id...">
+                                <SegmentTrieNode>
+                                <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                  <PlayerProfile params={Promise} searchParams={Promise}>
+                                    <div
+                                      className="min-h-screen bg-gray-100"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <header className="bg-white s...">
+                                        <div
+                                          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex items-center justify-between py-6"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center space-x-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                      <main className="max-w-7xl ...">
+                                        <div
+                                          className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 jus..."
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                           bis_skin_checked="1"
+                                          >
+                                          ...
+                  ...
+
+[00:47:37.039] Server  LOG     ✓ Compiled in 442ms
+[00:47:44.331] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:47:44.773] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_aea3916b-b93e-42e5-999e-9814fa940698__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:48:58.375] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:48:58.832] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_4971add1-03bb-48b7-a132-bcd2f82ba303__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:49:42.726] Server  LOG     ✓ Compiled in 666ms
+[00:50:09.529] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:50:09.824] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_c489e911-0179-4b18-8e36-ff6bec298dbb__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:50:37.356] Server  LOG     ✓ Compiled in 1354ms
+[00:50:43.332] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:50:43.756] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_464a58c4-0eba-48ee-a016-f9cb33dd62ca__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:52:00.535] Server  LOG     ✓ Compiled in 2.1s
+[00:52:13.254] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:52:13.744] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_404826b3-cf27-4187-8322-f7207065c047__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:53:46.574] Server  LOG     ✓ Compiled in 968ms
+[00:54:15.854] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:54:16.174] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_7a910f03-1dfe-4d94-a393-45725bbebc1e__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[00:55:51.909] Server  LOG     ✓ Compiled in 890ms
+[00:56:01.698] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:56:02.131] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_0e6e7135-ecd5-49c1-8a02-b404138ca8c9__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <SegmentViewNode type="page" pagePath="player/[id...">
+                                <SegmentTrieNode>
+                                <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                  <PlayerProfile params={Promise} searchParams={Promise}>
+                                    <div
+                                      className="min-h-screen bg-gray-100"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <header className="bg-white s...">
+                                        <div
+                                          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex items-center justify-between py-6"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center space-x-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                      <main className="max-w-7xl ...">
+                                        <div
+                                          className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 jus..."
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                           bis_skin_checked="1"
+                                          >
+                                          ...
+                  ...
+
+[00:59:39.165] Server  LOG     ✓ Compiled in 1230ms
+[01:00:17.809] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:00:18.185] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_440ec48f-fe96-4ce4-9b8b-ef1813ae5cb0__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[01:01:29.869] Server  LOG     ✓ Compiled in 1579ms
+[01:01:42.616] Server  LOG     ✓ Compiled in 0ms
+[01:01:46.067] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:01:46.732] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_9a345e71-d8bd-4ea5-9408-b13989ca26d1__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[01:02:19.462] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:02:20.178] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_f671772b-32b5-4baa-9fd4-dd97de5ed9e3__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <SegmentViewNode type="page" pagePath="player/[id...">
+                                <SegmentTrieNode>
+                                <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                  <PlayerProfile params={Promise} searchParams={Promise}>
+                                    <div
+                                      className="min-h-screen bg-gray-100"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <header className="bg-white s...">
+                                        <div
+                                          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex items-center justify-between py-6"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center space-x-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                      <main className="max-w-7xl ...">
+                                        <div
+                                          className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 jus..."
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                           bis_skin_checked="1"
+                                          >
+                                          ...
+                  ...
+
+[01:05:05.378] Server  LOG     ✓ Compiled in 3.1s
+[01:05:05.531] Browser ERROR   ./src/app/player/[id]/page.tsx
+Error evaluating Node.js code
+SyntaxError: /Users/maxrosul/ratingAPP/frontend/src/app/player/[id]/page.tsx: Identifier 'playerMatches' has already been declared. (138:8)
+
+  136 |   const ratingBand = getRatingBand(virtualPlayer.rating);
+  137 |   const stats = calculatePlayerStats(virtualPlayer, state.matches);
+> 138 |   const playerMatches = state.matches.filter(match => 
+      |         ^
+  139 |     match.player1Id === virtualPlayer.id || match.player2Id === virtualPlayer.id
+  140 |   );
+  141 |
+    [at constructor (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:137105)]
+    [at TypeScriptParserMixin.raise (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:194164)]
+    [at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:163166)]
+    [at TypeScriptScopeHandler.declareName (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:162529)]
+    [at TypeScriptScopeHandler.declareName (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:271160)]
+    [at TypeScriptParserMixin.declareNameFromIdentifier (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:279226)]
+    [at TypeScriptParserMixin.checkIdentifier (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:279152)]
+    [at TypeScriptParserMixin.checkLVal (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:278197)]
+    [at TypeScriptParserMixin.parseVarId (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:403644)]
+    [at TypeScriptParserMixin.parseVarId (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:329902)]
+    [at TypeScriptParserMixin.parseVar (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:402884)]
+    [at TypeScriptParserMixin.parseVarStatement (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:399366)]
+    [at TypeScriptParserMixin.parseVarStatement (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:323322)]
+    [at TypeScriptParserMixin.parseStatementContent (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:391398)]
+    [at TypeScriptParserMixin.parseStatementContent (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseStatementListItem (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:389120)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:401423)]
+    [at TypeScriptParserMixin.parseBlockBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseBlock (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:400923)]
+    [at TypeScriptParserMixin.parseFunctionBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:378053)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:377675)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:318173)]
+    [at /Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:404308]
+    [at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:383677)]
+    [at TypeScriptParserMixin.parseFunction (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:404262)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:414860)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:323209)]
+    [at TypeScriptParserMixin.parseExport (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:413097)]
+    [at TypeScriptParserMixin.parseExport (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:322862)]
+    [at TypeScriptParserMixin.parseStatementContent (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:391808)]
+    [at TypeScriptParserMixin.parseStatementContent (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseModuleItem (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:389055)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:401400)]
+    [at TypeScriptParserMixin.parseBlockBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseProgram (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:386857)]
+    [at TypeScriptParserMixin.parseTopLevel (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:386575)]
+    [at TypeScriptParserMixin.parse (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:426834)]
+    [at TypeScriptParserMixin.parse (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:337631)]
+    [at parse (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:427092)]
+    [at parser (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:1:142018)]
+    [at <anonymous>]
+    [at normalizeFile (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:13:13275)]
+    [at <anonymous>]
+    [at consumeIterator (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/build/babel/loader/util.js:13:38)]
+    [at transform (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/build/babel/loader/transform.js:89:44)]
+    [at async (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/build/babel/loader/index.js:36:108)]
+    at async DummySpan.traceAsyncFn (turbopack:///[turbopack-node]/transforms/webpack-loaders.ts:115:12) [/Users/maxrosul/ratingAPP/frontend/.next/dev/build/chunks/[root-of-the-server]__6e020478._.js:126:16]
+    [at async nextBabelLoader (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/build/babel/loader/index.js:36:63)]
+
+Import traces:
+  Client Component Browser:
+    ./src/app/player/[id]/page.tsx [Client Component Browser]
+    ./src/app/player/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/player/[id]/page.tsx [Client Component SSR]
+    ./src/app/player/[id]/page.tsx [Server Component]
+[01:05:05.531] Browser ERROR   ./src/app/player/[id]/page.tsx:138:9
+Ecmascript file had an error
+  136 |   const ratingBand = getRatingBand(virtualPlayer.rating);
+  137 |   const stats = calculatePlayerStats(virtualPlayer, state.matches);
+> 138 |   const playerMatches = state.matches.filter(match => 
+      |         ^^^^^^^^^^^^^
+  139 |     match.player1Id === virtualPlayer.id || match.player2Id === virtualPlayer.id
+  140 |   );
+  141 |
+
+the name `playerMatches` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./src/app/player/[id]/page.tsx [Client Component Browser]
+    ./src/app/player/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/player/[id]/page.tsx [Client Component SSR]
+    ./src/app/player/[id]/page.tsx [Server Component]
+[01:05:05.531] Browser ERROR   ./src/app/player/[id]/page.tsx
+Error evaluating Node.js code
+SyntaxError: /Users/maxrosul/ratingAPP/frontend/src/app/player/[id]/page.tsx: Identifier 'playerMatches' has already been declared. (138:8)
+
+  136 |   const ratingBand = getRatingBand(virtualPlayer.rating);
+  137 |   const stats = calculatePlayerStats(virtualPlayer, state.matches);
+> 138 |   const playerMatches = state.matches.filter(match => 
+      |         ^
+  139 |     match.player1Id === virtualPlayer.id || match.player2Id === virtualPlayer.id
+  140 |   );
+  141 |
+    [at constructor (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:137105)]
+    [at TypeScriptParserMixin.raise (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:194164)]
+    [at TypeScriptScopeHandler.checkRedeclarationInScope (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:163166)]
+    [at TypeScriptScopeHandler.declareName (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:162529)]
+    [at TypeScriptScopeHandler.declareName (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:271160)]
+    [at TypeScriptParserMixin.declareNameFromIdentifier (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:279226)]
+    [at TypeScriptParserMixin.checkIdentifier (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:279152)]
+    [at TypeScriptParserMixin.checkLVal (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:278197)]
+    [at TypeScriptParserMixin.parseVarId (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:403644)]
+    [at TypeScriptParserMixin.parseVarId (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:329902)]
+    [at TypeScriptParserMixin.parseVar (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:402884)]
+    [at TypeScriptParserMixin.parseVarStatement (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:399366)]
+    [at TypeScriptParserMixin.parseVarStatement (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:323322)]
+    [at TypeScriptParserMixin.parseStatementContent (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:391398)]
+    [at TypeScriptParserMixin.parseStatementContent (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseStatementListItem (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:389120)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:401423)]
+    [at TypeScriptParserMixin.parseBlockBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseBlock (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:400923)]
+    [at TypeScriptParserMixin.parseFunctionBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:378053)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:377675)]
+    [at TypeScriptParserMixin.parseFunctionBodyAndFinish (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:318173)]
+    [at /Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:404308]
+    [at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:383677)]
+    [at TypeScriptParserMixin.parseFunction (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:404262)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:414860)]
+    [at TypeScriptParserMixin.parseExportDefaultExpression (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:323209)]
+    [at TypeScriptParserMixin.parseExport (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:413097)]
+    [at TypeScriptParserMixin.parseExport (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:322862)]
+    [at TypeScriptParserMixin.parseStatementContent (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:391808)]
+    [at TypeScriptParserMixin.parseStatementContent (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:324042)]
+    [at TypeScriptParserMixin.parseStatementLike (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:389494)]
+    [at TypeScriptParserMixin.parseModuleItem (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:389055)]
+    [at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:401400)]
+    [at TypeScriptParserMixin.parseBlockBody (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:401223)]
+    [at TypeScriptParserMixin.parseProgram (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:386857)]
+    [at TypeScriptParserMixin.parseTopLevel (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:386575)]
+    [at TypeScriptParserMixin.parse (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:426834)]
+    [at TypeScriptParserMixin.parse (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:337631)]
+    [at parse (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:191:427092)]
+    [at parser (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:1:142018)]
+    [at <anonymous>]
+    [at normalizeFile (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/compiled/babel/bundle.js:13:13275)]
+    [at <anonymous>]
+    [at consumeIterator (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/build/babel/loader/util.js:13:38)]
+    [at transform (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/build/babel/loader/transform.js:89:44)]
+    [at async (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/build/babel/loader/index.js:36:108)]
+    at async DummySpan.traceAsyncFn (turbopack:///[turbopack-node]/transforms/webpack-loaders.ts:115:12) [/Users/maxrosul/ratingAPP/frontend/.next/dev/build/chunks/[root-of-the-server]__6e020478._.js:126:16]
+    [at async nextBabelLoader (/Users/maxrosul/ratingAPP/frontend/node_modules/next/dist/build/babel/loader/index.js:36:63)]
+
+Import traces:
+  Client Component Browser:
+    ./src/app/player/[id]/page.tsx [Client Component Browser]
+    ./src/app/player/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/player/[id]/page.tsx [Client Component SSR]
+    ./src/app/player/[id]/page.tsx [Server Component]
+[01:05:05.532] Browser ERROR   ./src/app/player/[id]/page.tsx:138:9
+Ecmascript file had an error
+  136 |   const ratingBand = getRatingBand(virtualPlayer.rating);
+  137 |   const stats = calculatePlayerStats(virtualPlayer, state.matches);
+> 138 |   const playerMatches = state.matches.filter(match => 
+      |         ^^^^^^^^^^^^^
+  139 |     match.player1Id === virtualPlayer.id || match.player2Id === virtualPlayer.id
+  140 |   );
+  141 |
+
+the name `playerMatches` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./src/app/player/[id]/page.tsx [Client Component Browser]
+    ./src/app/player/[id]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/player/[id]/page.tsx [Client Component SSR]
+    ./src/app/player/[id]/page.tsx [Server Component]
+[01:05:15.600] Server  LOG     ✓ Compiled in 1433ms
+[01:05:27.514] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:05:27.514] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_bdede3e8-5925-44b9-a001-ef64dbe858e7__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[01:06:37.136] Server  LOG     ✓ Compiled in 929ms
+[01:06:58.536] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:06:59.353] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_0f2098ad-7066-4c63-8805-0a8bd6889eb5__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            ...
+                              <Header>
+                                <header className="bg-white s...">
+                                  <div
+                                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+                                      className="flex justify-between items-center py-4"
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h1>
+                                      <div
+                                        className="flex items-center space-x-4"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <nav>
+                                        <div
+                                          className="border-l border-gray-300 pl-4"
+-                                         bis_skin_checked="1"
+                                        >
+                                ...
+                              ...
+                                <SegmentViewNode type="page" pagePath="player/[id...">
+                                  <SegmentTrieNode>
+                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
+                                    <PlayerProfile params={Promise} searchParams={Promise}>
+                                      <div
+                                        className="min-h-screen bg-gray-100"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <header className="bg-white s...">
+                                          <div
+                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="flex items-center justify-between py-6"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center space-x-4"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <main className="max-w-7xl ...">
+                                          <div
+                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
+-                                           bis_skin_checked="1"
+                                          >
+                                            <div
+                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+-                                             bis_skin_checked="1"
+                                            >
+                                            ...
+                  ...
+
+[01:07:15.187] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:07:15.839] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="uk">
+                          <body
+-                           __processed_088e0903-e5d3-4b6e-bab6-c8c35e77558a__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                  ...
+

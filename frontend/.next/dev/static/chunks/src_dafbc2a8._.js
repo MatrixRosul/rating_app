@@ -1483,15 +1483,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts
 ;
 ;
 function MatchHistory(t0) {
-    const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(20);
-    if ($[0] !== "70316ffc789983881022b1179c00a408623edcc66800547f08b3e20f3b508200") {
-        for(let $i = 0; $i < 20; $i += 1){
+    const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(16);
+    if ($[0] !== "914c13db89b16dd96bc9e9a01040beeb9f7ebb19ff788652161ea68e09ada9d6") {
+        for(let $i = 0; $i < 16; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "70316ffc789983881022b1179c00a408623edcc66800547f08b3e20f3b508200";
+        $[0] = "914c13db89b16dd96bc9e9a01040beeb9f7ebb19ff788652161ea68e09ada9d6";
     }
     const { matches, players, playerId, limit, disableSorting: t1 } = t0;
-    const disableSorting = t1 === undefined ? false : t1;
+    t1 === undefined ? false : t1;
     let t2;
     if ($[1] !== players) {
         t2 = ({
@@ -1506,52 +1506,19 @@ function MatchHistory(t0) {
     }
     const getPlayerById = t2;
     let t3;
-    if ($[3] !== disableSorting || $[4] !== matches || $[5] !== playerId) {
-        t3 = disableSorting ? matches : [
-            ...matches
-        ].sort({
-            "MatchHistory[(anonymous)()]": (a, b)=>{
-                const dateA = new Date(a.date).getTime();
-                const dateB = new Date(b.date).getTime();
-                if (playerId) {
-                    if (dateA !== dateB) {
-                        return dateA - dateB;
-                    }
-                    const aNum = parseInt(a.id.replace("match_", "")) || 0;
-                    const bNum = parseInt(b.id.replace("match_", "")) || 0;
-                    return aNum - bNum;
-                } else {
-                    if (dateA !== dateB) {
-                        return dateB - dateA;
-                    }
-                    const aNum_0 = parseInt(a.id.replace("match_", "")) || 0;
-                    const bNum_0 = parseInt(b.id.replace("match_", "")) || 0;
-                    return bNum_0 - aNum_0;
-                }
-            }
-        }["MatchHistory[(anonymous)()]"]);
-        $[3] = disableSorting;
+    if ($[3] !== limit || $[4] !== matches) {
+        t3 = limit ? matches.slice(0, limit) : matches;
+        $[3] = limit;
         $[4] = matches;
-        $[5] = playerId;
-        $[6] = t3;
+        $[5] = t3;
     } else {
-        t3 = $[6];
+        t3 = $[5];
     }
-    const sortedMatches = t3;
-    let t4;
-    if ($[7] !== limit || $[8] !== sortedMatches) {
-        t4 = limit ? sortedMatches.slice(0, limit) : sortedMatches;
-        $[7] = limit;
-        $[8] = sortedMatches;
-        $[9] = t4;
-    } else {
-        t4 = $[9];
-    }
-    const displayedMatches = t4;
+    const displayedMatches = t3;
     if (displayedMatches.length === 0) {
-        let t5;
-        if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-            t5 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        let t4;
+        if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
+            t4 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "bg-white rounded-lg shadow-md p-8 text-center",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -1566,12 +1533,12 @@ function MatchHistory(t0) {
                             d: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                         }, void 0, false, {
                             fileName: "[project]/src/components/MatchHistory.tsx",
-                            lineNumber: 88,
+                            lineNumber: 57,
                             columnNumber: 178
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/MatchHistory.tsx",
-                        lineNumber: 88,
+                        lineNumber: 57,
                         columnNumber: 75
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1579,7 +1546,7 @@ function MatchHistory(t0) {
                         children: "Матчів поки немає"
                     }, void 0, false, {
                         fileName: "[project]/src/components/MatchHistory.tsx",
-                        lineNumber: 88,
+                        lineNumber: 57,
                         columnNumber: 374
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1587,26 +1554,26 @@ function MatchHistory(t0) {
                         children: "Історія матчів з'явиться після першої гри"
                     }, void 0, false, {
                         fileName: "[project]/src/components/MatchHistory.tsx",
-                        lineNumber: 88,
+                        lineNumber: 57,
                         columnNumber: 451
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/MatchHistory.tsx",
-                lineNumber: 88,
+                lineNumber: 57,
                 columnNumber: 12
             }, this);
-            $[10] = t5;
+            $[6] = t4;
         } else {
-            t5 = $[10];
+            t4 = $[6];
         }
-        return t5;
+        return t4;
     }
-    let t5;
-    if ($[11] !== displayedMatches || $[12] !== getPlayerById || $[13] !== playerId) {
-        let t6;
-        if ($[15] !== getPlayerById || $[16] !== playerId) {
-            t6 = ({
+    let t4;
+    if ($[7] !== displayedMatches || $[8] !== getPlayerById || $[9] !== playerId) {
+        let t5;
+        if ($[11] !== getPlayerById || $[12] !== playerId) {
+            t5 = ({
                 "MatchHistory[displayedMatches.map()]": (match)=>{
                     const player1 = getPlayerById(match.player1Id);
                     const player2 = getPlayerById(match.player2Id);
@@ -1637,7 +1604,7 @@ function MatchHistory(t0) {
                                                         children: player1.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 80,
                                                         columnNumber: 420
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1648,7 +1615,7 @@ function MatchHistory(t0) {
                                                                 children: match.player1RatingBefore
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 653
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1656,7 +1623,7 @@ function MatchHistory(t0) {
                                                                 children: "→"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 756
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1664,7 +1631,7 @@ function MatchHistory(t0) {
                                                                 children: match.player1RatingAfter
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 796
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1677,7 +1644,7 @@ function MatchHistory(t0) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 897
                                                             }, this),
                                                             (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getRatingBand"])(match.player1RatingBefore).name !== (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getRatingBand"])(match.player1RatingAfter).name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1688,19 +1655,19 @@ function MatchHistory(t0) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 1221
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 80,
                                                         columnNumber: 603
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 80,
                                                 columnNumber: 352
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1715,7 +1682,7 @@ function MatchHistory(t0) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 80,
                                                         columnNumber: 1449
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1726,13 +1693,13 @@ function MatchHistory(t0) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 80,
                                                         columnNumber: 1547
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 80,
                                                 columnNumber: 1420
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1744,7 +1711,7 @@ function MatchHistory(t0) {
                                                         children: player2.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 80,
                                                         columnNumber: 1696
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1758,7 +1725,7 @@ function MatchHistory(t0) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 2040
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1771,7 +1738,7 @@ function MatchHistory(t0) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 2227
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1779,7 +1746,7 @@ function MatchHistory(t0) {
                                                                 children: match.player2RatingAfter
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 2452
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1787,7 +1754,7 @@ function MatchHistory(t0) {
                                                                 children: "←"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 2553
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1795,25 +1762,25 @@ function MatchHistory(t0) {
                                                                 children: match.player2RatingBefore
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 2593
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 80,
                                                         columnNumber: 1879
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 80,
                                                 columnNumber: 1617
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                        lineNumber: 111,
+                                        lineNumber: 80,
                                         columnNumber: 307
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1830,7 +1797,7 @@ function MatchHistory(t0) {
                                                                 children: "Переможець:"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 2856
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1839,13 +1806,13 @@ function MatchHistory(t0) {
                                                                 children: winner.name
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 2914
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 80,
                                                         columnNumber: 2811
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1859,7 +1826,7 @@ function MatchHistory(t0) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 3239
                                                             }, this),
                                                             match.stage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1870,19 +1837,19 @@ function MatchHistory(t0) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 80,
                                                                 columnNumber: 3322
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 80,
                                                         columnNumber: 3173
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 80,
                                                 columnNumber: 2770
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1896,63 +1863,63 @@ function MatchHistory(t0) {
                                                 })
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 80,
                                                 columnNumber: 4122
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/MatchHistory.tsx",
-                                        lineNumber: 111,
+                                        lineNumber: 80,
                                         columnNumber: 2714
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/MatchHistory.tsx",
-                                lineNumber: 111,
+                                lineNumber: 80,
                                 columnNumber: 283
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/MatchHistory.tsx",
-                            lineNumber: 111,
+                            lineNumber: 80,
                             columnNumber: 232
                         }, this)
                     }, match.id, false, {
                         fileName: "[project]/src/components/MatchHistory.tsx",
-                        lineNumber: 111,
+                        lineNumber: 80,
                         columnNumber: 18
                     }, this);
                 }
             })["MatchHistory[displayedMatches.map()]"];
-            $[15] = getPlayerById;
-            $[16] = playerId;
-            $[17] = t6;
+            $[11] = getPlayerById;
+            $[12] = playerId;
+            $[13] = t5;
         } else {
-            t6 = $[17];
+            t5 = $[13];
         }
-        t5 = displayedMatches.map(t6);
-        $[11] = displayedMatches;
-        $[12] = getPlayerById;
-        $[13] = playerId;
-        $[14] = t5;
+        t4 = displayedMatches.map(t5);
+        $[7] = displayedMatches;
+        $[8] = getPlayerById;
+        $[9] = playerId;
+        $[10] = t4;
     } else {
-        t5 = $[14];
+        t4 = $[10];
     }
-    let t6;
-    if ($[18] !== t5) {
-        t6 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+    let t5;
+    if ($[14] !== t4) {
+        t5 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "space-y-4",
-            children: t5
+            children: t4
         }, void 0, false, {
             fileName: "[project]/src/components/MatchHistory.tsx",
-            lineNumber: 136,
+            lineNumber: 105,
             columnNumber: 10
         }, this);
-        $[18] = t5;
-        $[19] = t6;
+        $[14] = t4;
+        $[15] = t5;
     } else {
-        t6 = $[19];
+        t5 = $[15];
     }
-    return t6;
+    return t5;
 }
 _c = MatchHistory;
 var _c;
@@ -2857,7 +2824,6 @@ __turbopack_context__.s([
     ()=>PlayerProfile
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/compiler-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/context/AppContext.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/utils/rating.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MatchHistory$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/MatchHistory.tsx [app-client] (ecmascript)");
@@ -2865,6 +2831,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$RatingC
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/api.ts [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
@@ -2878,1266 +2845,810 @@ var _s = __turbopack_context__.k.signature();
 ;
 function PlayerProfile() {
     _s();
-    const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(135);
-    if ($[0] !== "4d848f7673781318f1467f1611cebc2da35578976a70441d28578366187a9d84") {
-        for(let $i = 0; $i < 135; $i += 1){
-            $[$i] = Symbol.for("react.memo_cache_sentinel");
-        }
-        $[0] = "4d848f7673781318f1467f1611cebc2da35578976a70441d28578366187a9d84";
-    }
     const { state } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useApp"])();
     const params = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"])();
+    // Декодуємо URL-encoded параметр (кирилиця)
     const playerIdentifier = decodeURIComponent(params.id);
-    let t0;
-    if ($[1] !== playerIdentifier) {
-        t0 = ({
-            "PlayerProfile[state.players.find()]": (p)=>p.name === playerIdentifier || p.id === playerIdentifier
-        })["PlayerProfile[state.players.find()]"];
-        $[1] = playerIdentifier;
-        $[2] = t0;
-    } else {
-        t0 = $[2];
-    }
-    const player = state.players.find(t0);
+    // Знаходимо гравця за іменем або ID (для зворотної сумісності з UUID)
+    const player = state.players.find((p)=>p.name === playerIdentifier || p.id === playerIdentifier);
     const [mounted, setMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("history");
-    let t1;
-    let t2;
-    if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
-        t1 = ({
-            "PlayerProfile[useEffect()]": ()=>{
-                setMounted(true);
-            }
-        })["PlayerProfile[useEffect()]"];
-        t2 = [];
-        $[3] = t1;
-        $[4] = t2;
-    } else {
-        t1 = $[3];
-        t2 = $[4];
-    }
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])(t1, t2);
+    const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('history');
+    const [playerMatches, setPlayerMatches] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [matchesLoading, setMatchesLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    // Завантажуємо матчі гравця з API
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "PlayerProfile.useEffect": ()=>{
+            const loadPlayerMatches = {
+                "PlayerProfile.useEffect.loadPlayerMatches": async ()=>{
+                    if (player) {
+                        setMatchesLoading(true);
+                        try {
+                            const matches = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["fetchMatches"])(player.id);
+                            // Реверсуємо щоб показувати найновіші зверху
+                            setPlayerMatches(matches.reverse());
+                        } catch (error) {
+                            console.error('Error loading player matches:', error);
+                        } finally{
+                            setMatchesLoading(false);
+                        }
+                    }
+                }
+            }["PlayerProfile.useEffect.loadPlayerMatches"];
+            loadPlayerMatches();
+        }
+    }["PlayerProfile.useEffect"], [
+        player?.id
+    ]);
+    // Prevent hydration mismatch
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "PlayerProfile.useEffect": ()=>{
+            setMounted(true);
+        }
+    }["PlayerProfile.useEffect"], []);
     if (!mounted || state.loading) {
-        let t3;
-        if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-            t3 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-                className: "bg-white shadow-md",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "min-h-screen bg-gray-100",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
+                    className: "bg-white shadow-md",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center justify-between py-6",
+                        className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center space-x-4",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    href: "/",
-                                    className: "text-gray-600 hover:text-gray-900 transition-colors",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                        className: "h-6 w-6",
-                                        fill: "none",
-                                        viewBox: "0 0 24 24",
-                                        stroke: "currentColor",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                            strokeLinecap: "round",
-                                            strokeLinejoin: "round",
-                                            strokeWidth: 2,
-                                            d: "M15 19l-7-7 7-7"
+                            className: "flex items-center justify-between py-6",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center space-x-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: "/",
+                                        className: "text-gray-600 hover:text-gray-900 transition-colors",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                            className: "h-6 w-6",
+                                            fill: "none",
+                                            viewBox: "0 0 24 24",
+                                            stroke: "currentColor",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                strokeLinecap: "round",
+                                                strokeLinejoin: "round",
+                                                strokeWidth: 2,
+                                                d: "M15 19l-7-7 7-7"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 58,
+                                                columnNumber: 21
+                                            }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                                            lineNumber: 56,
-                                            columnNumber: 366
+                                            lineNumber: 57,
+                                            columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
                                         lineNumber: 56,
-                                        columnNumber: 287
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                        className: "text-2xl font-bold text-gray-900",
+                                        children: "Профіль гравця"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 61,
+                                        columnNumber: 17
                                     }, this)
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                                    lineNumber: 56,
-                                    columnNumber: 208
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                    className: "text-2xl font-bold text-gray-900",
-                                    children: "Профіль гравця"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                                    lineNumber: 56,
-                                    columnNumber: 468
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 55,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 56,
-                            columnNumber: 163
+                            lineNumber: 54,
+                            columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 56,
-                        columnNumber: 107
+                        lineNumber: 53,
+                        columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 56,
-                    columnNumber: 51
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/app/player/[id]/page.tsx",
-                lineNumber: 56,
-                columnNumber: 12
-            }, this);
-            $[5] = t3;
-        } else {
-            t3 = $[5];
-        }
-        let t4;
-        if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-            t4 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "min-h-screen bg-gray-100",
-                children: [
-                    t3,
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
-                        className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 justify-center",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                                    lineNumber: 63,
-                                    columnNumber: 214
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-lg",
-                                    children: "Завантаження..."
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                                    lineNumber: 63,
-                                    columnNumber: 294
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 63,
-                            columnNumber: 120
-                        }, this)
-                    }, void 0, false, {
+                    lineNumber: 52,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+                    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 justify-center",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 70,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "text-lg",
+                                children: "Завантаження..."
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 71,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 63,
-                        columnNumber: 58
+                        lineNumber: 69,
+                        columnNumber: 11
                     }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/src/app/player/[id]/page.tsx",
-                lineNumber: 63,
-                columnNumber: 12
-            }, this);
-            $[6] = t4;
-        } else {
-            t4 = $[6];
-        }
-        return t4;
+                }, void 0, false, {
+                    fileName: "[project]/src/app/player/[id]/page.tsx",
+                    lineNumber: 68,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/app/player/[id]/page.tsx",
+            lineNumber: 51,
+            columnNumber: 12
+        }, this);
     }
+    // Якщо гравця немає в списку, але є в матчах — створюємо віртуального гравця
     let virtualPlayer = player;
     if (!player) {
-        let t3;
-        if ($[7] !== playerIdentifier) {
-            t3 = ({
-                "PlayerProfile[state.matches.filter()]": (match)=>match.player1Id === playerIdentifier || match.player2Id === playerIdentifier || match.player1Name === playerIdentifier || match.player2Name === playerIdentifier
-            })["PlayerProfile[state.matches.filter()]"];
-            $[7] = playerIdentifier;
-            $[8] = t3;
-        } else {
-            t3 = $[8];
-        }
-        const playerMatches = state.matches.filter(t3);
-        if (playerMatches.length > 0) {
-            const lastMatch = playerMatches[playerMatches.length - 1];
+        // Шукаємо гравця в матчах за іменем або ID
+        const playerMatches_0 = state.matches.filter((match)=>match.player1Id === playerIdentifier || match.player2Id === playerIdentifier || match.player1Name === playerIdentifier || match.player2Name === playerIdentifier);
+        if (playerMatches_0.length > 0) {
+            // Знаходимо останній матч для отримання актуального рейтингу
+            const lastMatch = playerMatches_0[playerMatches_0.length - 1];
             const isPlayer1 = lastMatch.player1Id === playerIdentifier || lastMatch.player1Name === playerIdentifier;
             const currentRating = isPlayer1 ? lastMatch.player1RatingAfter : lastMatch.player2RatingAfter;
             const actualId = isPlayer1 ? lastMatch.player1Id : lastMatch.player2Id;
+            // Отримуємо ім'я з матчу
             const playerName = isPlayer1 ? lastMatch.player1Name || `Гравець ${playerIdentifier}` : lastMatch.player2Name || `Гравець ${playerIdentifier}`;
             virtualPlayer = {
                 id: actualId,
                 name: playerName,
                 rating: currentRating,
-                matches: playerMatches.map(_PlayerProfilePlayerMatchesMap),
-                createdAt: new Date(playerMatches[0].date),
+                matches: playerMatches_0.map((m)=>m.id),
+                createdAt: new Date(playerMatches_0[0].date),
                 updatedAt: new Date(lastMatch.date)
             };
         }
     }
     if (!virtualPlayer) {
-        let t3;
-        if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-            t3 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "min-h-screen bg-gray-100 flex items-center justify-center",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-white rounded-lg shadow-lg p-8 text-center",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-gray-400 mb-4",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                className: "mx-auto h-12 w-12",
-                                fill: "none",
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                    strokeLinecap: "round",
-                                    strokeLinejoin: "round",
-                                    strokeWidth: 2,
-                                    d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                                    lineNumber: 102,
-                                    columnNumber: 275
-                                }, this)
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "min-h-screen bg-gray-100 flex items-center justify-center",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "bg-white rounded-lg shadow-lg p-8 text-center",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "text-gray-400 mb-4",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                            className: "mx-auto h-12 w-12",
+                            fill: "none",
+                            viewBox: "0 0 24 24",
+                            stroke: "currentColor",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round",
+                                strokeWidth: 2,
+                                d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 102,
-                                columnNumber: 186
+                                lineNumber: 106,
+                                columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 102,
-                            columnNumber: 150
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-xl font-bold text-gray-900 mb-2",
-                            children: "Гравця не знайдено"
-                        }, void 0, false, {
-                            fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 102,
-                            columnNumber: 428
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-gray-600 mb-4",
-                            children: "Гравець з таким ID не існує"
-                        }, void 0, false, {
-                            fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 102,
-                            columnNumber: 504
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                            href: "/",
-                            className: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block",
-                            children: "Повернутися до рейтингу"
-                        }, void 0, false, {
-                            fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 102,
-                            columnNumber: 569
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 102,
-                    columnNumber: 87
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/app/player/[id]/page.tsx",
-                lineNumber: 102,
-                columnNumber: 12
-            }, this);
-            $[9] = t3;
-        } else {
-            t3 = $[9];
-        }
-        return t3;
-    }
-    const ratingBand = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getRatingBand"])(virtualPlayer.rating);
-    const stats = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["calculatePlayerStats"])(virtualPlayer, state.matches);
-    const playerMatches_0 = state.matches.filter({
-        "PlayerProfile[state.matches.filter()]": (match_0)=>match_0.player1Id === virtualPlayer.id || match_0.player2Id === virtualPlayer.id
-    }["PlayerProfile[state.matches.filter()]"]);
-    const bestMatches = [
-        ...playerMatches_0
-    ].sort({
-        "PlayerProfile[(anonymous)()]": (a, b)=>{
-            const aChange = a.player1Id === virtualPlayer.id ? a.player1RatingChange : a.player2RatingChange;
-            const bChange = b.player1Id === virtualPlayer.id ? b.player1RatingChange : b.player2RatingChange;
-            return bChange - aChange;
-        }
-    }["PlayerProfile[(anonymous)()]"]);
-    const sortedPlayers = [
-        ...state.players
-    ].sort(_PlayerProfileAnonymous);
-    const playerRank = sortedPlayers.findIndex({
-        "PlayerProfile[sortedPlayers.findIndex()]": (p_0)=>p_0.id === virtualPlayer.id
-    }["PlayerProfile[sortedPlayers.findIndex()]"]) + 1;
-    const highestRatingBand = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getRatingBand"])(stats.highestRating);
-    const hasRankChanged = highestRatingBand.name !== ratingBand.name;
-    let t3;
-    if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-        t3 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-            className: "bg-white shadow-md",
-            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "flex items-center justify-between py-6",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center space-x-4",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    href: "/",
-                                    className: "text-gray-600 hover:text-gray-900 transition-colors",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                        className: "h-6 w-6",
-                                        fill: "none",
-                                        viewBox: "0 0 24 24",
-                                        stroke: "currentColor",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                            strokeLinecap: "round",
-                                            strokeLinejoin: "round",
-                                            strokeWidth: 2,
-                                            d: "M15 19l-7-7 7-7"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/player/[id]/page.tsx",
-                                            lineNumber: 129,
-                                            columnNumber: 364
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 129,
-                                        columnNumber: 285
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                                    lineNumber: 129,
-                                    columnNumber: 206
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                    className: "text-2xl font-bold text-gray-900",
-                                    children: "Профіль гравця"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                                    lineNumber: 129,
-                                    columnNumber: 466
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 129,
-                            columnNumber: 161
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                            href: "/",
-                            className: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors",
-                            children: "До рейтингу"
-                        }, void 0, false, {
-                            fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 129,
-                            columnNumber: 540
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 129,
-                    columnNumber: 105
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/app/player/[id]/page.tsx",
-                lineNumber: 129,
-                columnNumber: 49
-            }, this)
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 129,
-            columnNumber: 10
-        }, this);
-        $[10] = t3;
-    } else {
-        t3 = $[10];
-    }
-    let t4;
-    if ($[11] !== playerRank) {
-        t4 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full text-xl font-bold text-gray-600",
-            children: [
-                "#",
-                playerRank
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 136,
-            columnNumber: 10
-        }, this);
-        $[11] = playerRank;
-        $[12] = t4;
-    } else {
-        t4 = $[12];
-    }
-    const t5 = `text-3xl font-bold ${ratingBand.textColor}`;
-    let t6;
-    if ($[13] !== t5 || $[14] !== virtualPlayer.name) {
-        t6 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-            className: t5,
-            children: virtualPlayer.name
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 145,
-            columnNumber: 10
-        }, this);
-        $[13] = t5;
-        $[14] = virtualPlayer.name;
-        $[15] = t6;
-    } else {
-        t6 = $[15];
-    }
-    let t7;
-    if ($[16] !== virtualPlayer.isCMS) {
-        t7 = virtualPlayer.isCMS && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-            className: "text-amber-600 text-sm font-extrabold italic tracking-wide px-2 py-1 bg-amber-50 rounded border border-amber-300",
-            title: "\u041A\u0430\u043D\u0434\u0438\u0434\u0430\u0442 \u0443 \u041C\u0430\u0439\u0441\u0442\u0440\u0438 \u0421\u043F\u043E\u0440\u0442\u0443 \u0423\u043A\u0440\u0430\u0457\u043D\u0438",
-            style: {
-                transform: "skewX(-3deg)"
-            },
-            children: "КМСУ"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 154,
-            columnNumber: 33
-        }, this);
-        $[16] = virtualPlayer.isCMS;
-        $[17] = t7;
-    } else {
-        t7 = $[17];
-    }
-    let t8;
-    if ($[18] !== t6 || $[19] !== t7) {
-        t8 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "flex items-center gap-3",
-            children: [
-                t6,
-                t7
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 164,
-            columnNumber: 10
-        }, this);
-        $[18] = t6;
-        $[19] = t7;
-        $[20] = t8;
-    } else {
-        t8 = $[20];
-    }
-    let t9;
-    if ($[21] !== ratingBand.name) {
-        t9 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-            children: ratingBand.name
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 173,
-            columnNumber: 10
-        }, this);
-        $[21] = ratingBand.name;
-        $[22] = t9;
-    } else {
-        t9 = $[22];
-    }
-    let t10;
-    if ($[23] !== virtualPlayer.city || $[24] !== virtualPlayer.yearOfBirth) {
-        t10 = (virtualPlayer.city || virtualPlayer.yearOfBirth) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-            className: "text-sm",
-            children: [
-                virtualPlayer.city,
-                virtualPlayer.yearOfBirth && `${virtualPlayer.yearOfBirth} р.н.`
-            ].filter(Boolean).join(" \u2022 ")
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 181,
-            columnNumber: 64
-        }, this);
-        $[23] = virtualPlayer.city;
-        $[24] = virtualPlayer.yearOfBirth;
-        $[25] = t10;
-    } else {
-        t10 = $[25];
-    }
-    let t11;
-    if ($[26] !== t10 || $[27] !== t9) {
-        t11 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-lg text-gray-600 space-y-1",
-            children: [
-                t9,
-                t10
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 190,
-            columnNumber: 11
-        }, this);
-        $[26] = t10;
-        $[27] = t9;
-        $[28] = t11;
-    } else {
-        t11 = $[28];
-    }
-    let t12;
-    if ($[29] !== t11 || $[30] !== t8) {
-        t12 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            children: [
-                t8,
-                t11
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 199,
-            columnNumber: 11
-        }, this);
-        $[29] = t11;
-        $[30] = t8;
-        $[31] = t12;
-    } else {
-        t12 = $[31];
-    }
-    let t13;
-    if ($[32] !== t12 || $[33] !== t4) {
-        t13 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "flex items-center space-x-4",
-            children: [
-                t4,
-                t12
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 208,
-            columnNumber: 11
-        }, this);
-        $[32] = t12;
-        $[33] = t4;
-        $[34] = t13;
-    } else {
-        t13 = $[34];
-    }
-    const t14 = `text-4xl font-bold ${ratingBand.textColor}`;
-    let t15;
-    if ($[35] !== t14 || $[36] !== virtualPlayer.rating) {
-        t15 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: t14,
-            children: virtualPlayer.rating
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 218,
-            columnNumber: 11
-        }, this);
-        $[35] = t14;
-        $[36] = virtualPlayer.rating;
-        $[37] = t15;
-    } else {
-        t15 = $[37];
-    }
-    const t16 = `w-4 h-4 rounded-full ${ratingBand.color}`;
-    let t17;
-    if ($[38] !== t16) {
-        t17 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: t16
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 228,
-            columnNumber: 11
-        }, this);
-        $[38] = t16;
-        $[39] = t17;
-    } else {
-        t17 = $[39];
-    }
-    const t18 = `text-sm font-medium ${ratingBand.textColor}`;
-    let t19;
-    if ($[40] !== ratingBand.name || $[41] !== t18) {
-        t19 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-            className: t18,
-            children: ratingBand.name
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 237,
-            columnNumber: 11
-        }, this);
-        $[40] = ratingBand.name;
-        $[41] = t18;
-        $[42] = t19;
-    } else {
-        t19 = $[42];
-    }
-    let t20;
-    if ($[43] !== t17 || $[44] !== t19) {
-        t20 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "flex items-center justify-end space-x-2 mt-2",
-            children: [
-                t17,
-                t19
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 246,
-            columnNumber: 11
-        }, this);
-        $[43] = t17;
-        $[44] = t19;
-        $[45] = t20;
-    } else {
-        t20 = $[45];
-    }
-    let t21;
-    if ($[46] !== t15 || $[47] !== t20) {
-        t21 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-right",
-            children: [
-                t15,
-                t20
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 255,
-            columnNumber: 11
-        }, this);
-        $[46] = t15;
-        $[47] = t20;
-        $[48] = t21;
-    } else {
-        t21 = $[48];
-    }
-    let t22;
-    if ($[49] !== t13 || $[50] !== t21) {
-        t22 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "flex items-center justify-between mb-6",
-            children: [
-                t13,
-                t21
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 264,
-            columnNumber: 11
-        }, this);
-        $[49] = t13;
-        $[50] = t21;
-        $[51] = t22;
-    } else {
-        t22 = $[51];
-    }
-    let t23;
-    if ($[52] !== stats.totalMatches) {
-        t23 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-2xl font-bold text-blue-600",
-            children: stats.totalMatches
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 273,
-            columnNumber: 11
-        }, this);
-        $[52] = stats.totalMatches;
-        $[53] = t23;
-    } else {
-        t23 = $[53];
-    }
-    let t24;
-    if ($[54] === Symbol.for("react.memo_cache_sentinel")) {
-        t24 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-sm text-gray-600",
-            children: "Матчів"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 281,
-            columnNumber: 11
-        }, this);
-        $[54] = t24;
-    } else {
-        t24 = $[54];
-    }
-    let t25;
-    if ($[55] !== t23) {
-        t25 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center p-4 bg-gray-50 rounded-lg",
-            children: [
-                t23,
-                t24
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 288,
-            columnNumber: 11
-        }, this);
-        $[55] = t23;
-        $[56] = t25;
-    } else {
-        t25 = $[56];
-    }
-    let t26;
-    if ($[57] !== stats.wins) {
-        t26 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-2xl font-bold text-green-600",
-            children: stats.wins
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 296,
-            columnNumber: 11
-        }, this);
-        $[57] = stats.wins;
-        $[58] = t26;
-    } else {
-        t26 = $[58];
-    }
-    let t27;
-    if ($[59] === Symbol.for("react.memo_cache_sentinel")) {
-        t27 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-sm text-gray-600",
-            children: "Перемог"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 304,
-            columnNumber: 11
-        }, this);
-        $[59] = t27;
-    } else {
-        t27 = $[59];
-    }
-    let t28;
-    if ($[60] !== t26) {
-        t28 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center p-4 bg-gray-50 rounded-lg",
-            children: [
-                t26,
-                t27
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 311,
-            columnNumber: 11
-        }, this);
-        $[60] = t26;
-        $[61] = t28;
-    } else {
-        t28 = $[61];
-    }
-    let t29;
-    if ($[62] !== stats.losses) {
-        t29 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-2xl font-bold text-red-600",
-            children: stats.losses
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 319,
-            columnNumber: 11
-        }, this);
-        $[62] = stats.losses;
-        $[63] = t29;
-    } else {
-        t29 = $[63];
-    }
-    let t30;
-    if ($[64] === Symbol.for("react.memo_cache_sentinel")) {
-        t30 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-sm text-gray-600",
-            children: "Поразок"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 327,
-            columnNumber: 11
-        }, this);
-        $[64] = t30;
-    } else {
-        t30 = $[64];
-    }
-    let t31;
-    if ($[65] !== t29) {
-        t31 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center p-4 bg-gray-50 rounded-lg",
-            children: [
-                t29,
-                t30
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 334,
-            columnNumber: 11
-        }, this);
-        $[65] = t29;
-        $[66] = t31;
-    } else {
-        t31 = $[66];
-    }
-    let t32;
-    if ($[67] !== stats.winRate) {
-        t32 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-2xl font-bold text-purple-600",
-            children: [
-                stats.winRate,
-                "%"
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 342,
-            columnNumber: 11
-        }, this);
-        $[67] = stats.winRate;
-        $[68] = t32;
-    } else {
-        t32 = $[68];
-    }
-    let t33;
-    if ($[69] === Symbol.for("react.memo_cache_sentinel")) {
-        t33 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-sm text-gray-600",
-            children: "% Перемог"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 350,
-            columnNumber: 11
-        }, this);
-        $[69] = t33;
-    } else {
-        t33 = $[69];
-    }
-    let t34;
-    if ($[70] !== t32) {
-        t34 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center p-4 bg-gray-50 rounded-lg",
-            children: [
-                t32,
-                t33
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 357,
-            columnNumber: 11
-        }, this);
-        $[70] = t32;
-        $[71] = t34;
-    } else {
-        t34 = $[71];
-    }
-    const t35 = `text-2xl font-bold ${highestRatingBand.textColor}`;
-    let t36;
-    if ($[72] !== stats.highestRating || $[73] !== t35) {
-        t36 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: t35,
-            children: stats.highestRating
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 366,
-            columnNumber: 11
-        }, this);
-        $[72] = stats.highestRating;
-        $[73] = t35;
-        $[74] = t36;
-    } else {
-        t36 = $[74];
-    }
-    let t37;
-    if ($[75] === Symbol.for("react.memo_cache_sentinel")) {
-        t37 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-sm text-gray-600",
-            children: "Макс рейтинг"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 375,
-            columnNumber: 11
-        }, this);
-        $[75] = t37;
-    } else {
-        t37 = $[75];
-    }
-    const t38 = `text-xs font-medium mt-1 ${highestRatingBand.textColor}`;
-    let t39;
-    if ($[76] !== highestRatingBand.name || $[77] !== t38) {
-        t39 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: t38,
-            children: highestRatingBand.name
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 383,
-            columnNumber: 11
-        }, this);
-        $[76] = highestRatingBand.name;
-        $[77] = t38;
-        $[78] = t39;
-    } else {
-        t39 = $[78];
-    }
-    let t40;
-    if ($[79] !== hasRankChanged || $[80] !== player || $[81] !== stats.highestRating) {
-        t40 = player && hasRankChanged && stats.highestRating > player.rating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-xs text-amber-600 font-semibold mt-1",
-            children: "Найкраще звання"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 392,
-            columnNumber: 78
-        }, this);
-        $[79] = hasRankChanged;
-        $[80] = player;
-        $[81] = stats.highestRating;
-        $[82] = t40;
-    } else {
-        t40 = $[82];
-    }
-    let t41;
-    if ($[83] !== t36 || $[84] !== t39 || $[85] !== t40) {
-        t41 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center p-4 bg-gray-50 rounded-lg",
-            children: [
-                t36,
-                t37,
-                t39,
-                t40
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 402,
-            columnNumber: 11
-        }, this);
-        $[83] = t36;
-        $[84] = t39;
-        $[85] = t40;
-        $[86] = t41;
-    } else {
-        t41 = $[86];
-    }
-    const t42 = `text-2xl font-bold ${stats.ratingChange >= 0 ? "text-green-600" : "text-red-600"}`;
-    const t43 = stats.ratingChange >= 0 ? "+" : "";
-    let t44;
-    if ($[87] !== stats.ratingChange || $[88] !== t42 || $[89] !== t43) {
-        t44 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: t42,
-            children: [
-                t43,
-                stats.ratingChange
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 414,
-            columnNumber: 11
-        }, this);
-        $[87] = stats.ratingChange;
-        $[88] = t42;
-        $[89] = t43;
-        $[90] = t44;
-    } else {
-        t44 = $[90];
-    }
-    let t45;
-    if ($[91] === Symbol.for("react.memo_cache_sentinel")) {
-        t45 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-sm text-gray-600",
-            children: "Зміна рейтингу"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 424,
-            columnNumber: 11
-        }, this);
-        $[91] = t45;
-    } else {
-        t45 = $[91];
-    }
-    let t46;
-    if ($[92] !== t44) {
-        t46 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center p-4 bg-gray-50 rounded-lg",
-            children: [
-                t44,
-                t45
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 431,
-            columnNumber: 11
-        }, this);
-        $[92] = t44;
-        $[93] = t46;
-    } else {
-        t46 = $[93];
-    }
-    let t47;
-    if ($[94] !== t25 || $[95] !== t28 || $[96] !== t31 || $[97] !== t34 || $[98] !== t41 || $[99] !== t46) {
-        t47 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4",
-            children: [
-                t25,
-                t28,
-                t31,
-                t34,
-                t41,
-                t46
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 439,
-            columnNumber: 11
-        }, this);
-        $[94] = t25;
-        $[95] = t28;
-        $[96] = t31;
-        $[97] = t34;
-        $[98] = t41;
-        $[99] = t46;
-        $[100] = t47;
-    } else {
-        t47 = $[100];
-    }
-    let t48;
-    if ($[101] !== t22 || $[102] !== t47) {
-        t48 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "bg-white rounded-lg shadow-md p-6 mb-8",
-            children: [
-                t22,
-                t47
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 452,
-            columnNumber: 11
-        }, this);
-        $[101] = t22;
-        $[102] = t47;
-        $[103] = t48;
-    } else {
-        t48 = $[103];
-    }
-    let t49;
-    if ($[104] !== state.matches || $[105] !== state.players || $[106] !== virtualPlayer) {
-        t49 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "mb-8",
-            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$RatingChart$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                player: virtualPlayer,
-                matches: state.matches,
-                players: state.players
-            }, void 0, false, {
-                fileName: "[project]/src/app/player/[id]/page.tsx",
-                lineNumber: 461,
-                columnNumber: 33
-            }, this)
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 461,
-            columnNumber: 11
-        }, this);
-        $[104] = state.matches;
-        $[105] = state.players;
-        $[106] = virtualPlayer;
-        $[107] = t49;
-    } else {
-        t49 = $[107];
-    }
-    let t50;
-    if ($[108] !== setActiveTab) {
-        t50 = ({
-            "PlayerProfile[<button>.onClick]": ()=>setActiveTab("history")
-        })["PlayerProfile[<button>.onClick]"];
-        $[108] = setActiveTab;
-        $[109] = t50;
-    } else {
-        t50 = $[109];
-    }
-    const t51 = `px-4 py-2 font-semibold transition-colors border-b-2 ${activeTab === "history" ? "text-blue-600 border-blue-600" : "text-gray-500 border-transparent hover:text-gray-700"}`;
-    let t52;
-    if ($[110] !== playerMatches_0.length || $[111] !== t50 || $[112] !== t51) {
-        t52 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-            onClick: t50,
-            className: t51,
-            children: [
-                "Історія матчів (",
-                playerMatches_0.length,
-                ")"
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 482,
-            columnNumber: 11
-        }, this);
-        $[110] = playerMatches_0.length;
-        $[111] = t50;
-        $[112] = t51;
-        $[113] = t52;
-    } else {
-        t52 = $[113];
-    }
-    let t53;
-    if ($[114] !== setActiveTab) {
-        t53 = ({
-            "PlayerProfile[<button>.onClick]": ()=>setActiveTab("best")
-        })["PlayerProfile[<button>.onClick]"];
-        $[114] = setActiveTab;
-        $[115] = t53;
-    } else {
-        t53 = $[115];
-    }
-    const t54 = `px-4 py-2 font-semibold transition-colors border-b-2 ${activeTab === "best" ? "text-blue-600 border-blue-600" : "text-gray-500 border-transparent hover:text-gray-700"}`;
-    let t55;
-    if ($[116] !== t53 || $[117] !== t54) {
-        t55 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-            onClick: t53,
-            className: t54,
-            children: "Найкращі матчі"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 503,
-            columnNumber: 11
-        }, this);
-        $[116] = t53;
-        $[117] = t54;
-        $[118] = t55;
-    } else {
-        t55 = $[118];
-    }
-    let t56;
-    if ($[119] !== t52 || $[120] !== t55) {
-        t56 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "flex space-x-4 mb-6 border-b border-gray-200",
-            children: [
-                t52,
-                t55
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 512,
-            columnNumber: 11
-        }, this);
-        $[119] = t52;
-        $[120] = t55;
-        $[121] = t56;
-    } else {
-        t56 = $[121];
-    }
-    let t57;
-    if ($[122] !== activeTab || $[123] !== bestMatches || $[124] !== playerMatches_0 || $[125] !== state.players || $[126] !== virtualPlayer.id) {
-        t57 = playerMatches_0.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MatchHistory$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-            matches: activeTab === "history" ? playerMatches_0 : bestMatches,
-            players: state.players,
-            playerId: virtualPlayer.id,
-            disableSorting: activeTab === "best"
-        }, void 0, false, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 521,
-            columnNumber: 40
-        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center py-12",
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "text-gray-400 mb-4",
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                        className: "mx-auto h-12 w-12",
-                        fill: "none",
-                        viewBox: "0 0 24 24",
-                        stroke: "currentColor",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                            strokeLinecap: "round",
-                            strokeLinejoin: "round",
-                            strokeWidth: 2,
-                            d: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        }, void 0, false, {
-                            fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 521,
-                            columnNumber: 375
+                            lineNumber: 105,
+                            columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 521,
-                        columnNumber: 286
+                        lineNumber: 104,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "text-xl font-bold text-gray-900 mb-2",
+                        children: "Гравця не знайдено"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                        lineNumber: 109,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-gray-600 mb-4",
+                        children: "Гравець з таким ID не існує"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                        lineNumber: 110,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        href: "/",
+                        className: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block",
+                        children: "Повернутися до рейтингу"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                        lineNumber: 111,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/player/[id]/page.tsx",
+                lineNumber: 103,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/src/app/player/[id]/page.tsx",
+            lineNumber: 102,
+            columnNumber: 12
+        }, this);
+    }
+    const ratingBand = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getRatingBand"])(virtualPlayer.rating);
+    const stats = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["calculatePlayerStats"])(virtualPlayer, playerMatches);
+    // Сортуємо матчі за зміною рейтингу для вкладки "Найкращі матчі"
+    // Використовуємо реальну зміну (не абсолютну), щоб найбільший приріст був зверху
+    const bestMatches = [
+        ...playerMatches
+    ].sort((a, b)=>{
+        const aChange = a.player1Id === virtualPlayer.id ? a.player1RatingChange : a.player2RatingChange;
+        const bChange = b.player1Id === virtualPlayer.id ? b.player1RatingChange : b.player2RatingChange;
+        return bChange - aChange;
+    });
+    // Find player's rank
+    const sortedPlayers = [
+        ...state.players
+    ].sort((a_0, b_0)=>b_0.rating - a_0.rating);
+    const playerRank = sortedPlayers.findIndex((p_0)=>p_0.id === virtualPlayer.id) + 1;
+    // Отримуємо звання для максимального рейтингу
+    const highestRatingBand = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getRatingBand"])(stats.highestRating);
+    // Перевіряємо, чи змінилось звання порівняно з поточним
+    const hasRankChanged = highestRatingBand.name !== ratingBand.name;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "min-h-screen bg-gray-100",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
+                className: "bg-white shadow-md",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center justify-between py-6",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center space-x-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: "/",
+                                        className: "text-gray-600 hover:text-gray-900 transition-colors",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                            className: "h-6 w-6",
+                                            fill: "none",
+                                            viewBox: "0 0 24 24",
+                                            stroke: "currentColor",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                strokeLinecap: "round",
+                                                strokeLinejoin: "round",
+                                                strokeWidth: 2,
+                                                d: "M15 19l-7-7 7-7"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 145,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/player/[id]/page.tsx",
+                                            lineNumber: 144,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 143,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                        className: "text-2xl font-bold text-gray-900",
+                                        children: "Профіль гравця"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 148,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 142,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                href: "/",
+                                className: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors",
+                                children: "До рейтингу"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 153,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                        lineNumber: 141,
+                        columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 521,
-                    columnNumber: 250
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                    className: "text-lg font-medium text-gray-900 mb-2",
-                    children: "Матчів поки немає"
-                }, void 0, false, {
-                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 521,
-                    columnNumber: 577
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                    className: "text-gray-600",
-                    children: "Цей гравець ще не грав жодного матчу"
-                }, void 0, false, {
-                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 521,
-                    columnNumber: 654
+                    lineNumber: 140,
+                    columnNumber: 9
                 }, this)
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 521,
-            columnNumber: 215
-        }, this);
-        $[122] = activeTab;
-        $[123] = bestMatches;
-        $[124] = playerMatches_0;
-        $[125] = state.players;
-        $[126] = virtualPlayer.id;
-        $[127] = t57;
-    } else {
-        t57 = $[127];
-    }
-    let t58;
-    if ($[128] !== t56 || $[129] !== t57) {
-        t58 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "bg-white rounded-lg shadow-md p-6",
-            children: [
-                t56,
-                t57
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 533,
-            columnNumber: 11
-        }, this);
-        $[128] = t56;
-        $[129] = t57;
-        $[130] = t58;
-    } else {
-        t58 = $[130];
-    }
-    let t59;
-    if ($[131] !== t48 || $[132] !== t49 || $[133] !== t58) {
-        t59 = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "min-h-screen bg-gray-100",
-            children: [
-                t3,
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
-                    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
-                    children: [
-                        t48,
-                        t49,
-                        t58
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 542,
-                    columnNumber: 57
-                }, this)
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 542,
-            columnNumber: 11
-        }, this);
-        $[131] = t48;
-        $[132] = t49;
-        $[133] = t58;
-        $[134] = t59;
-    } else {
-        t59 = $[134];
-    }
-    return t59;
+            }, void 0, false, {
+                fileName: "[project]/src/app/player/[id]/page.tsx",
+                lineNumber: 139,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+                className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "bg-white rounded-lg shadow-md p-6 mb-8",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center justify-between mb-6",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center space-x-4",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full text-xl font-bold text-gray-600",
+                                                children: [
+                                                    "#",
+                                                    playerRank
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 166,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex items-center gap-3",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                                className: `text-3xl font-bold ${ratingBand.textColor}`,
+                                                                children: virtualPlayer.name
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                                lineNumber: 171,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            virtualPlayer.isCMS && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-amber-600 text-sm font-extrabold italic tracking-wide px-2 py-1 bg-amber-50 rounded border border-amber-300",
+                                                                title: "Кандидат у Майстри Спорту України",
+                                                                style: {
+                                                                    transform: 'skewX(-3deg)'
+                                                                },
+                                                                children: "КМСУ"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                                lineNumber: 172,
+                                                                columnNumber: 43
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                        lineNumber: 170,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "text-lg text-gray-600 space-y-1",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                children: ratingBand.name
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                                lineNumber: 179,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            (virtualPlayer.city || virtualPlayer.yearOfBirth) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-sm",
+                                                                children: [
+                                                                    virtualPlayer.city,
+                                                                    virtualPlayer.yearOfBirth && `${virtualPlayer.yearOfBirth} р.н.`
+                                                                ].filter(Boolean).join(' • ')
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                                lineNumber: 180,
+                                                                columnNumber: 73
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                        lineNumber: 178,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 169,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 165,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-right",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: `text-4xl font-bold ${ratingBand.textColor}`,
+                                                children: virtualPlayer.rating
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 188,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center justify-end space-x-2 mt-2",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: `w-4 h-4 rounded-full ${ratingBand.color}`
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                        lineNumber: 192,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: `text-sm font-medium ${ratingBand.textColor}`,
+                                                        children: ratingBand.name
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                        lineNumber: 193,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 191,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 187,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 164,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-center p-4 bg-gray-50 rounded-lg",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-2xl font-bold text-blue-600",
+                                                children: stats.totalMatches
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 203,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-sm text-gray-600",
+                                                children: "Матчів"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 204,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 202,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-center p-4 bg-gray-50 rounded-lg",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-2xl font-bold text-green-600",
+                                                children: stats.wins
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 207,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-sm text-gray-600",
+                                                children: "Перемог"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 208,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 206,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-center p-4 bg-gray-50 rounded-lg",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-2xl font-bold text-red-600",
+                                                children: stats.losses
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 211,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-sm text-gray-600",
+                                                children: "Поразок"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 212,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 210,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-center p-4 bg-gray-50 rounded-lg",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-2xl font-bold text-purple-600",
+                                                children: [
+                                                    stats.winRate,
+                                                    "%"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 215,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-sm text-gray-600",
+                                                children: "% Перемог"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 216,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 214,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-center p-4 bg-gray-50 rounded-lg",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: `text-2xl font-bold ${highestRatingBand.textColor}`,
+                                                children: stats.highestRating
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 219,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-sm text-gray-600",
+                                                children: "Макс рейтинг"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 222,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: `text-xs font-medium mt-1 ${highestRatingBand.textColor}`,
+                                                children: highestRatingBand.name
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 223,
+                                                columnNumber: 15
+                                            }, this),
+                                            player && hasRankChanged && stats.highestRating > player.rating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-xs text-amber-600 font-semibold mt-1",
+                                                children: "Найкраще звання"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 226,
+                                                columnNumber: 83
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 218,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-center p-4 bg-gray-50 rounded-lg",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: `text-2xl font-bold ${stats.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`,
+                                                children: [
+                                                    stats.ratingChange >= 0 ? '+' : '',
+                                                    stats.ratingChange
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 231,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-sm text-gray-600",
+                                                children: "Зміна рейтингу"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 234,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 230,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 201,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                        lineNumber: 163,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mb-8",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$RatingChart$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                            player: virtualPlayer,
+                            matches: state.matches,
+                            players: state.players
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/player/[id]/page.tsx",
+                            lineNumber: 241,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                        lineNumber: 240,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "bg-white rounded-lg shadow-md p-6",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex space-x-4 mb-6 border-b border-gray-200",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: ()=>setActiveTab('history'),
+                                        className: `px-4 py-2 font-semibold transition-colors border-b-2 ${activeTab === 'history' ? 'text-blue-600 border-blue-600' : 'text-gray-500 border-transparent hover:text-gray-700'}`,
+                                        children: [
+                                            "Історія матчів (",
+                                            playerMatches.length,
+                                            ")"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 248,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: ()=>setActiveTab('best'),
+                                        className: `px-4 py-2 font-semibold transition-colors border-b-2 ${activeTab === 'best' ? 'text-blue-600 border-blue-600' : 'text-gray-500 border-transparent hover:text-gray-700'}`,
+                                        children: "Найкращі матчі"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 251,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 247,
+                                columnNumber: 11
+                            }, this),
+                            playerMatches.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MatchHistory$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                matches: activeTab === 'history' ? playerMatches : bestMatches,
+                                players: state.players,
+                                playerId: virtualPlayer.id
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 256,
+                                columnNumber: 39
+                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-center py-12",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "text-gray-400 mb-4",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                            className: "mx-auto h-12 w-12",
+                                            fill: "none",
+                                            viewBox: "0 0 24 24",
+                                            stroke: "currentColor",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                strokeLinecap: "round",
+                                                strokeLinejoin: "round",
+                                                strokeWidth: 2,
+                                                d: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                                lineNumber: 259,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/player/[id]/page.tsx",
+                                            lineNumber: 258,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 257,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        className: "text-lg font-medium text-gray-900 mb-2",
+                                        children: "Матчів поки немає"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 262,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-gray-600",
+                                        children: "Цей гравець ще не грав жодного матчу"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                                        lineNumber: 263,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/player/[id]/page.tsx",
+                                lineNumber: 256,
+                                columnNumber: 174
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/player/[id]/page.tsx",
+                        lineNumber: 245,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/player/[id]/page.tsx",
+                lineNumber: 161,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/app/player/[id]/page.tsx",
+        lineNumber: 137,
+        columnNumber: 10
+    }, this);
 }
-_s(PlayerProfile, "lnAVhHDx6/pUdjAM1J3AGBBVBNU=", false, function() {
+_s(PlayerProfile, "Q+eTd11rbnIjsOVFPMRT0Hes3AU=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$AppContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useApp"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"]
     ];
 });
 _c = PlayerProfile;
-function _PlayerProfileAnonymous(a_0, b_0) {
-    return b_0.rating - a_0.rating;
-}
-function _PlayerProfilePlayerMatchesMap(m) {
-    return m.id;
-}
 var _c;
 __turbopack_context__.k.register(_c, "PlayerProfile");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {

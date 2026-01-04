@@ -87,6 +87,7 @@ def import_csv_data():
                 # Parse date and stage
                 date_str = row.get('Дата', '').strip()
                 stage = row.get('Стадія', '').strip().lower()
+                tournament = row.get('Турнір', '').strip()
                 
                 # Parse date (format: YYYY-MM-DD)
                 try:
@@ -132,7 +133,8 @@ def import_csv_data():
                     'score1': score1,
                     'score2': score2,
                     'date': match_date,
-                    'stage': stage
+                    'stage': stage,
+                    'tournament': tournament
                 })
         
         # 🔥 СОРТУВАННЯ МАТЧІВ — як на фронтенді (дата → стадія)
@@ -186,6 +188,7 @@ def import_csv_data():
             score2 = match_data['score2']
             match_date = match_data['date']
             stage = match_data.get('stage', None)  # Стадія турніру
+            tournament = match_data.get('tournament', None)  # Назва турніру
             
             player1 = player_objects[player1_name]
             player2 = player_objects[player2_name]
@@ -237,9 +240,13 @@ def import_csv_data():
                 max_score=max_score,
                 player1_rating_before=float(rating1),
                 player2_rating_before=float(rating2),
+                player1_rating_after=float(new_rating1),  # 🔥 РЕЙТИНГ ПІСЛЯ
+                player2_rating_after=float(new_rating2),  # 🔥 РЕЙТИНГ ПІСЛЯ
                 player1_rating_change=float(change1),
                 player2_rating_change=float(change2),
-                date=match_date  # 🔥 РЕАЛЬНА ДАТА З CSV
+                date=match_date,  # 🔥 РЕАЛЬНА ДАТА З CSV
+                stage=stage,  # 🔥 СТАДІЯ ТУРНІРУ
+                tournament=tournament  # 🔥 НАЗВА ТУРНІРУ
             )
             db.add(match)
             

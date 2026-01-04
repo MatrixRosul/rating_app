@@ -7,6 +7,8 @@ import RatingChart from '@/components/RatingChart';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { fetchMatches } from '@/lib/api';
+import type { Match } from '@/types';
 
 export default function PlayerProfile() {
   const { state } = useApp();
@@ -18,6 +20,27 @@ export default function PlayerProfile() {
   const player = state.players.find(p => p.name === playerIdentifier || p.id === playerIdentifier);
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<'history' | 'best'>('history');
+  const [playerMatches, setPlayerMatches] = useState<Match[]>([]);
+  const [matchesLoading, setMatchesLoading] = useState(true);
+
+  // Завантажуємо матчі гравця з API
+  useEffect(() => {
+    const loadPlayerMatches = async () => {
+      if (player) {
+        setMatchesLoading(true);
+        try {
+          const matches = await fetchMatches(player.id);
+          // Реверсуємо щоб показувати найновіші зверху
+          setPlayerMatches(matches.reverse());
+        } catch (error) {
+          console.error('Error loading player matches:', error);
+        } finally {
+          setMatchesLoading(false);
+        }
+      }
+    };
+    loadPlayerMatches();
+  }, [player?.id]);
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -112,10 +135,7 @@ export default function PlayerProfile() {
   }
 
   const ratingBand = getRatingBand(virtualPlayer.rating);
-  const stats = calculatePlayerStats(virtualPlayer, state.matches);
-  const playerMatches = state.matches.filter(match => 
-    match.player1Id === virtualPlayer.id || match.player2Id === virtualPlayer.id
-  );
+  const stats = calculatePlayerStats(virtualPlayer, playerMatches);
 
   // Сортуємо матчі за зміною рейтингу для вкладки "Найкращі матчі"
   // Використовуємо реальну зміну (не абсолютну), щоб найбільший приріст був зверху
@@ -298,7 +318,6 @@ export default function PlayerProfile() {
               matches={activeTab === 'history' ? playerMatches : bestMatches}
               players={state.players}
               playerId={virtualPlayer.id}
-              disableSorting={activeTab === 'best'}
             />
           ) : (
             <div className="text-center py-12">

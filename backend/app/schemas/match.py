@@ -43,16 +43,22 @@ class MatchResponse(BaseModel):
     id: str
     player1_id: str
     player2_id: str
+    player1_name: Optional[str] = None
+    player2_name: Optional[str] = None
     winner_id: str
     player1_score: int
     player2_score: int
     max_score: int
     player1_rating_before: float
     player2_rating_before: float
+    player1_rating_after: float
+    player2_rating_after: float
     player1_rating_change: float
     player2_rating_change: float
     date: datetime
     created_at: datetime
+    tournament: Optional[str] = None
+    stage: Optional[str] = None
 
     class Config:
         from_attributes = True

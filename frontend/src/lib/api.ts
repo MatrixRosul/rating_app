@@ -86,6 +86,8 @@ export async function fetchMatches(playerId?: string): Promise<Match[]> {
     player1RatingChange: m.player1_rating_change,
     player2RatingChange: m.player2_rating_change,
     date: new Date(m.date),
-    createdAt: new Date(m.created_at)
+    createdAt: new Date(m.created_at),
+    tournament: m.tournament,
+    stage: m.stage
   }));
 }

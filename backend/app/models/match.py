@@ -43,6 +43,8 @@ class Match(Base):
     # Match metadata
     date = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    tournament = Column(String, nullable=True)  # Tournament name
+    stage = Column(String, nullable=True)  # Stage: group, round16, quarterfinal, semifinal, final
 
     def __repr__(self):
         return f"<Match(id={self.id}, {self.player1_name} vs {self.player2_name}, winner={self.winner_id})>"
