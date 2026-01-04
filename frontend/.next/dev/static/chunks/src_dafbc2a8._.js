@@ -9,49 +9,49 @@ __turbopack_context__.s([
 ]);
 const RATING_BANDS = [
     {
-        name: 'Newbie',
+        name: 'Новачок',
         color: 'bg-gray-500',
         textColor: 'text-gray-500',
         minRating: 0,
         maxRating: 1199
     },
     {
-        name: 'Pupil',
+        name: 'Учень',
         color: 'bg-green-500',
         textColor: 'text-green-500',
         minRating: 1200,
         maxRating: 1399
     },
     {
-        name: 'Specialist',
+        name: 'Спеціаліст',
         color: 'bg-cyan-500',
         textColor: 'text-cyan-500',
         minRating: 1400,
         maxRating: 1599
     },
     {
-        name: 'Expert',
+        name: 'Експерт',
         color: 'bg-blue-500',
         textColor: 'text-blue-500',
         minRating: 1600,
         maxRating: 1799
     },
     {
-        name: 'Candidate Master',
+        name: 'Кандидат у Майстри',
         color: 'bg-purple-500',
         textColor: 'text-purple-500',
         minRating: 1800,
         maxRating: 2299
     },
     {
-        name: 'Master',
+        name: 'Майстер',
         color: 'bg-orange-500',
         textColor: 'text-orange-500',
         minRating: 2300,
         maxRating: 2499
     },
     {
-        name: 'Grandmaster',
+        name: 'Гросмейстер',
         color: 'bg-red-500',
         textColor: 'text-red-500',
         minRating: 2500,
@@ -1484,11 +1484,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts
 ;
 function MatchHistory(t0) {
     const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(16);
-    if ($[0] !== "914c13db89b16dd96bc9e9a01040beeb9f7ebb19ff788652161ea68e09ada9d6") {
+    if ($[0] !== "cfe20137b4d8bf2fff83065edc1b2c98b5814117cf45e1cfb1c22faf950de22d") {
         for(let $i = 0; $i < 16; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "914c13db89b16dd96bc9e9a01040beeb9f7ebb19ff788652161ea68e09ada9d6";
+        $[0] = "cfe20137b4d8bf2fff83065edc1b2c98b5814117cf45e1cfb1c22faf950de22d";
     }
     const { matches, players, playerId, limit, disableSorting: t1 } = t0;
     t1 === undefined ? false : t1;
@@ -1820,11 +1820,8 @@ function MatchHistory(t0) {
                                                         children: [
                                                             match.tournament && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "text-xs text-gray-600",
-                                                                children: [
-                                                                    "📌 ",
-                                                                    match.tournament
-                                                                ]
-                                                            }, void 0, true, {
+                                                                children: match.tournament
+                                                            }, void 0, false, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
                                                                 lineNumber: 80,
                                                                 columnNumber: 3239
@@ -1832,13 +1829,13 @@ function MatchHistory(t0) {
                                                             match.stage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: `text-xs font-semibold px-2 py-0.5 rounded ${match.stage === "final" ? "bg-yellow-100 text-yellow-800" : match.stage === "semifinal" ? "bg-orange-100 text-orange-800" : match.stage === "quarterfinal" ? "bg-purple-100 text-purple-800" : match.stage === "round16" ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"}`,
                                                                 children: [
-                                                                    match.stage === "final" ? "\uD83C\uDFC6 \u0424\u0456\u043D\u0430\u043B" : match.stage === "semifinal" ? "\uD83E\uDD48 \u041F\u0456\u0432\u0444\u0456\u043D\u0430\u043B" : match.stage === "quarterfinal" ? "\uD83E\uDD49 \u0427\u0432\u0435\u0440\u0442\u044C\u0444\u0456\u043D\u0430\u043B" : match.stage === "round16" ? "\u2694\uFE0F 1/8" : `📍 ${match.stage}`,
+                                                                    match.stage === "final" ? "\u0424\u0456\u043D\u0430\u043B" : match.stage === "semifinal" ? "\u041F\u0456\u0432\u0444\u0456\u043D\u0430\u043B" : match.stage === "quarterfinal" ? "\u0427\u0432\u0435\u0440\u0442\u044C\u0444\u0456\u043D\u0430\u043B" : match.stage === "round16" ? "1/8" : match.stage,
                                                                     match.matchWeight && match.matchWeight > 1 && ` ×${match.matchWeight.toFixed(1)}`
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
                                                                 lineNumber: 80,
-                                                                columnNumber: 3322
+                                                                columnNumber: 3319
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
@@ -1864,7 +1861,7 @@ function MatchHistory(t0) {
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/MatchHistory.tsx",
                                                 lineNumber: 80,
-                                                columnNumber: 4122
+                                                columnNumber: 4059
                                             }, this)
                                         ]
                                     }, void 0, true, {
@@ -1951,53 +1948,53 @@ const RATING_BANDS = [
         min: 0,
         max: 1199,
         color: '#808080',
-        name: 'Newbie'
+        name: 'Новачок'
     },
     {
         min: 1200,
         max: 1399,
         color: '#008000',
-        name: 'Pupil'
+        name: 'Учень'
     },
     {
         min: 1400,
         max: 1599,
         color: '#03A89E',
-        name: 'Specialist'
+        name: 'Спеціаліст'
     },
     {
         min: 1600,
         max: 1799,
         color: '#0000FF',
-        name: 'Expert'
+        name: 'Експерт'
     },
     {
         min: 1800,
         max: 2299,
         color: '#AA00AA',
-        name: 'Candidate Master'
+        name: 'Кандидат у Майстри'
     },
     {
         min: 2300,
         max: 2499,
         color: '#FF8C00',
-        name: 'Master'
+        name: 'Майстер'
     },
     {
         min: 2500,
         max: 9999,
         color: '#FF0000',
-        name: 'Grandmaster'
+        name: 'Гросмейстер'
     }
 ];
 function RatingChart(t0) {
     _s();
     const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(93);
-    if ($[0] !== "619b702b8a3103c31f754ede17045af894e9ff5760e70a4a4762b9c45772ec07") {
+    if ($[0] !== "dfb6a68ec352a709cd0382361f77654f013204c3abe0df619dd004b8eb12fedb") {
         for(let $i = 0; $i < 93; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "619b702b8a3103c31f754ede17045af894e9ff5760e70a4a4762b9c45772ec07";
+        $[0] = "dfb6a68ec352a709cd0382361f77654f013204c3abe0df619dd004b8eb12fedb";
     }
     const { player, matches, players: t1, className: t2 } = t0;
     let t3;

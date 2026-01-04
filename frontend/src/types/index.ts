@@ -49,13 +49,13 @@ export interface RatingBand {
 }
 
 export const RATING_BANDS: RatingBand[] = [
-  { name: 'Newbie', color: 'bg-gray-500', textColor: 'text-gray-500', minRating: 0, maxRating: 1199 },
-  { name: 'Pupil', color: 'bg-green-500', textColor: 'text-green-500', minRating: 1200, maxRating: 1399 },
-  { name: 'Specialist', color: 'bg-cyan-500', textColor: 'text-cyan-500', minRating: 1400, maxRating: 1599 },
-  { name: 'Expert', color: 'bg-blue-500', textColor: 'text-blue-500', minRating: 1600, maxRating: 1799 },
-  { name: 'Candidate Master', color: 'bg-purple-500', textColor: 'text-purple-500', minRating: 1800, maxRating: 2299 },
-  { name: 'Master', color: 'bg-orange-500', textColor: 'text-orange-500', minRating: 2300, maxRating: 2499 },
-  { name: 'Grandmaster', color: 'bg-red-500', textColor: 'text-red-500', minRating: 2500, maxRating: Infinity },
+  { name: 'Новачок', color: 'bg-gray-500', textColor: 'text-gray-500', minRating: 0, maxRating: 1199 },
+  { name: 'Учень', color: 'bg-green-500', textColor: 'text-green-500', minRating: 1200, maxRating: 1399 },
+  { name: 'Спеціаліст', color: 'bg-cyan-500', textColor: 'text-cyan-500', minRating: 1400, maxRating: 1599 },
+  { name: 'Експерт', color: 'bg-blue-500', textColor: 'text-blue-500', minRating: 1600, maxRating: 1799 },
+  { name: 'Кандидат у Майстри', color: 'bg-purple-500', textColor: 'text-purple-500', minRating: 1800, maxRating: 2299 },
+  { name: 'Майстер', color: 'bg-orange-500', textColor: 'text-orange-500', minRating: 2300, maxRating: 2499 },
+  { name: 'Гросмейстер', color: 'bg-red-500', textColor: 'text-red-500', minRating: 2500, maxRating: Infinity },
 ];
 
 export interface PlayerStats {

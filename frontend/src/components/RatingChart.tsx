@@ -21,13 +21,13 @@ interface RatingChartProps {
 
 // Кольорові зони рейтингу (як в Codeforces)
 const RATING_BANDS = [
-  { min: 0, max: 1199, color: '#808080', name: 'Newbie' },
-  { min: 1200, max: 1399, color: '#008000', name: 'Pupil' },
-  { min: 1400, max: 1599, color: '#03A89E', name: 'Specialist' },
-  { min: 1600, max: 1799, color: '#0000FF', name: 'Expert' },
-  { min: 1800, max: 2299, color: '#AA00AA', name: 'Candidate Master' },
-  { min: 2300, max: 2499, color: '#FF8C00', name: 'Master' },
-  { min: 2500, max: 9999, color: '#FF0000', name: 'Grandmaster' },
+  { min: 0, max: 1199, color: '#808080', name: 'Новачок' },
+  { min: 1200, max: 1399, color: '#008000', name: 'Учень' },
+  { min: 1400, max: 1599, color: '#03A89E', name: 'Спеціаліст' },
+  { min: 1600, max: 1799, color: '#0000FF', name: 'Експерт' },
+  { min: 1800, max: 2299, color: '#AA00AA', name: 'Кандидат у Майстри' },
+  { min: 2300, max: 2499, color: '#FF8C00', name: 'Майстер' },
+  { min: 2500, max: 9999, color: '#FF0000', name: 'Гросмейстер' },
 ];
 
 export default function RatingChart({ player, matches, players = [], className = '' }: RatingChartProps) {

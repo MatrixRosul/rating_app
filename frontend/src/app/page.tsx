@@ -75,52 +75,52 @@ export default function Home() {
           <div className="space-y-3">
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-gray-500 text-white rounded font-medium">Newbie</span>
+                <span className="px-3 py-1 bg-gray-500 text-white rounded font-medium">Новачок</span>
                 <span className="text-gray-700">0 - 1199</span>
               </div>
               <span className="text-sm text-gray-500">Початківець</span>
             </div>
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-green-500 text-white rounded font-medium">Pupil</span>
+                <span className="px-3 py-1 bg-green-500 text-white rounded font-medium">Учень</span>
                 <span className="text-gray-700">1200 - 1399</span>
               </div>
-              <span className="text-sm text-gray-500">Учень</span>
+              <span className="text-sm text-gray-500">Базовий рівень</span>
             </div>
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-cyan-500 text-white rounded font-medium">Specialist</span>
+                <span className="px-3 py-1 bg-cyan-500 text-white rounded font-medium">Спеціаліст</span>
                 <span className="text-gray-700">1400 - 1599</span>
               </div>
-              <span className="text-sm text-gray-500">Спеціаліст</span>
+              <span className="text-sm text-gray-500">Середній рівень</span>
             </div>
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-blue-500 text-white rounded font-medium">Expert</span>
+                <span className="px-3 py-1 bg-blue-500 text-white rounded font-medium">Експерт</span>
                 <span className="text-gray-700">1600 - 1799</span>
               </div>
-              <span className="text-sm text-gray-500">Експерт</span>
+              <span className="text-sm text-gray-500">Просунутий рівень</span>
             </div>
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-purple-500 text-white rounded font-medium">Candidate Master</span>
+                <span className="px-3 py-1 bg-purple-500 text-white rounded font-medium">Кандидат у Майстри</span>
                 <span className="text-gray-700">1800 - 2299</span>
               </div>
-              <span className="text-sm text-gray-500">Кандидат у Майстри</span>
+              <span className="text-sm text-gray-500">Високий рівень</span>
             </div>
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-orange-500 text-white rounded font-medium">Master</span>
+                <span className="px-3 py-1 bg-orange-500 text-white rounded font-medium">Майстер</span>
                 <span className="text-gray-700">2300 - 2499</span>
               </div>
-              <span className="text-sm text-gray-500">Майстер</span>
+              <span className="text-sm text-gray-500">Майстерський рівень</span>
             </div>
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-red-500 text-white rounded font-medium">Grandmaster</span>
+                <span className="px-3 py-1 bg-red-500 text-white rounded font-medium">Гросмейстер</span>
                 <span className="text-gray-700">2500+</span>
               </div>
-              <span className="text-sm text-gray-500">Гросмейстер</span>
+              <span className="text-sm text-gray-500">Елітний рівень</span>
             </div>
           </div>
         </div>

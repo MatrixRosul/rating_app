@@ -66,8 +66,8 @@ export default function Leaderboard({ players, matches }: LeaderboardProps) {
   });
 
   const ratingBands = [
-    'all', 'Newbie', 'Pupil', 'Specialist', 'Expert', 
-    'Candidate Master', 'Master', 'International Master', 'Grandmaster'
+    'all', 'Новачок', 'Учень', 'Спеціаліст', 'Експерт', 
+    'Кандидат у Майстри', 'Майстер', 'Міжнародний Майстер', 'Гросмейстер'
   ];
 
   return (
