@@ -34,9 +34,10 @@ def import_matches():
         skipped = 0
         
         for row in matches_data:
-            player1_name = row.get('Гравець 1', '').strip()
-            player2_name = row.get('Гравець 2', '').strip()
-            winner_name = row.get('Переможець', '').strip()
+            player1_name = row.get("Ім'я Фамілія 1", '').strip()
+            player2_name = row.get("Ім'я Фамілія 2", '').strip()
+            result1 = int(row.get('Результат 1', 0))
+            result2 = int(row.get('Результат 2', 0))
             date_str = row.get('Дата', '').strip()
             tournament = row.get('Турнір', '').strip() or None
             stage = row.get('Стадія', '').strip() or None
@@ -51,9 +52,9 @@ def import_matches():
             
             # Determine winner
             winner_id = None
-            if winner_name == player1_name:
+            if result1 > result2:
                 winner_id = player1_id
-            elif winner_name == player2_name:
+            elif result2 > result1:
                 winner_id = player2_id
             
             # Parse date
