@@ -135,7 +135,7 @@ export default function Leaderboard({ players, matches }: LeaderboardProps) {
                 }`}
                 title="Кандидати у Майстри Спорту"
               >
-                🏆 КМС
+                КМС
               </button>
             </div>
           </div>

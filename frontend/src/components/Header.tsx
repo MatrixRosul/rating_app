@@ -27,7 +27,7 @@ export default function Header() {
               className="text-xl font-bold text-gray-900 cursor-pointer hover:text-blue-600 transition"
               onClick={() => router.push('/')}
             >
-              🎱 Рейтинг Більярду
+              Рейтинг Більярду
             </h1>
             
             <div className="flex items-center space-x-4">
@@ -71,7 +71,7 @@ export default function Header() {
                     <div className="text-sm">
                       <div className="font-medium text-gray-900">{user?.username}</div>
                       <div className="text-xs text-gray-500">
-                        {isAdmin() ? '👑 Admin' : '👤 User'}
+                        {isAdmin() ? 'Admin' : 'User'}
                       </div>
                     </div>
                     <button

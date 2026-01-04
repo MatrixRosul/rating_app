@@ -154,7 +154,7 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
                     <div className="flex items-center space-x-2">
                       {match.tournament && (
                         <div className="text-xs text-gray-600">
-                          📌 {match.tournament}
+                          {match.tournament}
                         </div>
                       )}
                       {match.stage && (
@@ -165,11 +165,11 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
                           match.stage === 'round16' ? 'bg-blue-100 text-blue-800' :
                           'bg-gray-100 text-gray-800'
                         }`}>
-                          {match.stage === 'final' ? '🏆 Фінал' :
-                           match.stage === 'semifinal' ? '🥈 Півфінал' :
-                           match.stage === 'quarterfinal' ? '🥉 Чвертьфінал' :
-                           match.stage === 'round16' ? '⚔️ 1/8' :
-                           `📍 ${match.stage}`}
+                          {match.stage === 'final' ? 'Фінал' :
+                           match.stage === 'semifinal' ? 'Півфінал' :
+                           match.stage === 'quarterfinal' ? 'Чвертьфінал' :
+                           match.stage === 'round16' ? '1/8' :
+                           match.stage}
                           {match.matchWeight && match.matchWeight > 1.0 && ` ×${match.matchWeight.toFixed(1)}`}
                         </div>
                       )}

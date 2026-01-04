@@ -158,7 +158,7 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
                 )}
                 {tournament.discipline && (
                   <div className="px-2 py-0.5 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-                    🎱 {getDisciplineLabel(tournament.discipline)}
+                    {getDisciplineLabel(tournament.discipline)}
                   </div>
                 )}
               </div>
