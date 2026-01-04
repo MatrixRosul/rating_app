@@ -1,7 +1,7 @@
-[00:00:04.351] Server  LOG     ✓ Ready in 3.5s
-[00:01:16.523] Server  LOG     ○ Compiling /player/[id] ...
-[00:01:24.497] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:25.008] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[00:00:02.172] Server  LOG     ✓ Ready in 1555ms
+[00:00:11.823] Server  LOG     ○ Compiling / ...
+[00:00:14.658] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:14.746] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -19,7 +19,7 @@ It can also happen if the client has a browser extension installed which messes 
         <ReplaySsrOnlyErrors>
         <DevRootHTTPAccessFallbackBoundary>
           <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
-            <HTTPAccessFallbackErrorBoundary pathname="/player/%D..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
               <RedirectBoundary>
                 <RedirectErrorBoundary router={{...}}>
                   <Head headCacheNode={{rsc:<Fragment>, ...}}>
@@ -38,7 +38,7 @@ It can also happen if the client has a browser extension installed which messes 
                       <RootLayout>
                         <html lang="uk">
                           <body
--                           __processed_e7cdd1a4-09b5-4cb4-bb4f-b573f2d1d50f__="true"
+-                           __processed_72d2f384-df84-426a-8302-c98481e527fe__="true"
 -                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
                           >
                             ...
@@ -64,40 +64,5 @@ It can also happen if the client has a browser extension installed which messes 
                                         >
                                 ...
                               ...
-                                <SegmentViewNode type="page" pagePath="player/[id...">
-                                  <SegmentTrieNode>
-                                  <ClientPageRoot Component={function PlayerProfile} serverProvidedParams={{...}}>
-                                    <PlayerProfile params={Promise} searchParams={Promise}>
-                                      <div
-                                        className="min-h-screen bg-gray-100"
--                                       bis_skin_checked="1"
-                                      >
-                                        <header className="bg-white s...">
-                                          <div
-                                            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
--                                           bis_skin_checked="1"
-                                          >
-                                            <div
-                                              className="flex items-center justify-between py-6"
--                                             bis_skin_checked="1"
-                                            >
-                                              <div
-                                                className="flex items-center space-x-4"
--                                               bis_skin_checked="1"
-                                              >
-                                        <main className="max-w-7xl ...">
-                                          <div
-                                            className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 j..."
--                                           bis_skin_checked="1"
-                                          >
-                                            <div
-                                              className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
--                                             bis_skin_checked="1"
-                                            >
-                                            ...
                   ...
 
-[00:02:18.522] Server  LOG     ✓ Compiled in 5.3s
-[00:02:51.719] Browser ERROR   Login error: {}
-[00:03:43.645] Server  LOG     ✓ Compiled in 2.6s
-[00:04:21.796] Server  LOG     ✓ Compiled in 154ms
