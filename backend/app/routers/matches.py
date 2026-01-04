@@ -20,16 +20,16 @@ async def get_matches(
     """
     Get matches, optionally filtered by player_id
     """
-    # Sort by date DESC, then by created_at ASC for correct chronological order
-    query = db.query(Match).order_by(
-        Match.date.desc(),
-        Match.created_at.asc()
-    )
+    query = db.query(Match)
     
     if player_id:
+        # For player profile: sort by date ASC for correct rating graph
         query = query.filter(
             (Match.player1_id == player_id) | (Match.player2_id == player_id)
-        )
+        ).order_by(Match.date.asc(), Match.created_at.asc())
+    else:
+        # For general list: sort by date DESC to show recent matches first
+        query = query.order_by(Match.date.desc(), Match.created_at.asc())
     
     matches = query.offset(skip).limit(limit).all()
     
