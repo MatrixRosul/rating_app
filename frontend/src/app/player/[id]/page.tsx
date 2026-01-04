@@ -19,7 +19,7 @@ export default function PlayerProfile() {
   // Знаходимо гравця за іменем або ID (для зворотної сумісності з UUID)
   const player = state.players.find(p => p.name === playerIdentifier || p.id === playerIdentifier);
   const [mounted, setMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<'history' | 'best'>('history');
+  const [activeTab, setActiveTab] = useState<'history' | 'best' | 'awards'>('history');
   const [playerMatches, setPlayerMatches] = useState<Match[]>([]);
   const [matchesLoading, setMatchesLoading] = useState(true);
 
@@ -148,6 +148,97 @@ export default function PlayerProfile() {
       : b.player2RatingChange;
     return bChange - aChange;
   });
+
+  // Розраховуємо нагороди гравця
+  interface Award {
+    tournament: string;
+    place: number;
+    placeText: string;
+    date: Date;
+    stage: string;
+    isWinner: boolean;
+  }
+
+  const calculateAwards = (): Award[] => {
+    const tournamentResults: Record<string, { bestStage: string; date: Date; isWinner: boolean }> = {};
+    
+    playerMatches.forEach(match => {
+      if (!match.tournament || !match.stage) return;
+      
+      const isPlayer = match.player1Id === virtualPlayer.id || match.player2Id === virtualPlayer.id;
+      if (!isPlayer) return;
+      
+      const isWinner = match.winnerId === virtualPlayer.id;
+      const stage = match.stage.toLowerCase();
+      
+      // Визначаємо вагу стадії (більше = краще)
+      const stageWeight: Record<string, number> = {
+        'group': 0,
+        'round16': 1,
+        'quarterfinal': 2,
+        'semifinal': 3,
+        'final': 4
+      };
+      
+      const currentWeight = stageWeight[stage] || 0;
+      const existing = tournamentResults[match.tournament];
+      const existingWeight = existing ? stageWeight[existing.bestStage] || 0 : -1;
+      
+      // Оновлюємо результат якщо це краща стадія для цього турніру
+      if (currentWeight > existingWeight) {
+        tournamentResults[match.tournament] = {
+          bestStage: stage,
+          date: new Date(match.date),
+          isWinner: isWinner
+        };
+      }
+    });
+    
+    // Перетворюємо результати в нагороди
+    const awards: Award[] = Object.entries(tournamentResults).map(([tournament, result]) => {
+      let place = 0;
+      let placeText = '';
+      
+      switch (result.bestStage) {
+        case 'final':
+          place = result.isWinner ? 1 : 2;
+          placeText = result.isWinner ? '1 місце' : '2 місце';
+          break;
+        case 'semifinal':
+          place = 3;
+          placeText = '3 місце';
+          break;
+        case 'quarterfinal':
+          place = 5;
+          placeText = '1/4 фіналу';
+          break;
+        case 'round16':
+          place = 9;
+          placeText = '1/8 фіналу';
+          break;
+        default:
+          place = 17;
+          placeText = 'Групова стадія';
+      }
+      
+      return {
+        tournament,
+        place,
+        placeText,
+        date: result.date,
+        stage: result.bestStage,
+        isWinner: result.isWinner && result.bestStage === 'final'
+      };
+    });
+    
+    // Сортуємо: спочатку по місцю, потім по даті
+    return awards.sort((a, b) => {
+      if (a.place !== b.place) return a.place - b.place;
+      return b.date.getTime() - a.date.getTime();
+    });
+  };
+
+  const awards = calculateAwards();
 
   // Find player's rank
   const sortedPlayers = [...state.players].sort((a, b) => b.rating - a.rating);
@@ -311,9 +402,82 @@ export default function PlayerProfile() {
             >
               Найкращі матчі
             </button>
+            <button
+              onClick={() => setActiveTab('awards')}
+              className={`px-4 py-2 font-semibold transition-colors border-b-2 ${
+                activeTab === 'awards'
+                  ? 'text-blue-600 border-blue-600'
+                  : 'text-gray-500 border-transparent hover:text-gray-700'
+              }`}
+            >
+              Нагороди ({awards.length})
+            </button>
           </div>
           
-          {playerMatches.length > 0 ? (
+          {activeTab === 'awards' ? (
+            awards.length > 0 ? (
+              <div className="space-y-4">
+                {awards.map((award, index) => {
+                  // Визначаємо колір та іконку медалі
+                  const getMedalColor = (place: number) => {
+                    if (place === 1) return 'bg-yellow-400 text-yellow-900';
+                    if (place === 2) return 'bg-gray-300 text-gray-700';
+                    if (place === 3) return 'bg-orange-400 text-orange-900';
+                    return 'bg-blue-100 text-blue-700';
+                  };
+                  
+                  const getMedalIcon = (place: number) => {
+                    if (place === 1) return '🥇';
+                    if (place === 2) return '🥈';
+                    if (place === 3) return '🥉';
+                    return '🏆';
+                  };
+
+                  return (
+                    <div 
+                      key={index}
+                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className={`flex items-center justify-center w-12 h-12 rounded-full ${getMedalColor(award.place)}`}>
+                          <span className="text-2xl">{getMedalIcon(award.place)}</span>
+                        </div>
+                        <div>
+                          <div className="font-semibold text-gray-900">
+                            {award.tournament}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            {award.placeText}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right text-sm text-gray-500">
+                        {new Date(award.date).toLocaleDateString('uk-UA', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                </div>
+                <p className="text-gray-500 text-lg">
+                  Нагород поки немає
+                </p>
+                <p className="text-gray-400 text-sm mt-2">
+                  Беріть участь у турнірах, щоб отримати нагороди
+                </p>
+              </div>
+            )
+          ) : playerMatches.length > 0 ? (
             <MatchHistory 
               matches={activeTab === 'history' ? playerMatches : bestMatches}
               players={state.players}
