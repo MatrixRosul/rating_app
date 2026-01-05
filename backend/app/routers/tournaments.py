@@ -42,7 +42,7 @@ class TournamentUpdate(BaseModel):
 
 
 class RegisterPlayer(BaseModel):
-    player_id: str  # ID гравця з таблиці players
+    player_id: int  # ID гравця з таблиці players
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)

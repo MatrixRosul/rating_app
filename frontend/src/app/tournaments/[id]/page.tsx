@@ -194,7 +194,7 @@ export default function TournamentPage() {
     }
   };
 
-  const handleAddPlayer = async (playerId: string) => {
+  const handleAddPlayer = async (playerId: number) => {
     if (!tournament) return;
 
     try {
@@ -233,7 +233,7 @@ export default function TournamentPage() {
     }
   };
 
-  const handleRemovePlayer = async (playerId: string) => {
+  const handleRemovePlayer = async (playerId: number) => {
     if (!tournament || tournament.status !== 'pending') return;
 
     try {
