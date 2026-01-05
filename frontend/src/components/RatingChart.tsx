@@ -83,6 +83,7 @@ export default function RatingChart({ player, matches, players = [], className =
   };
 
   const ratingHistory = createRatingHistory();
+  const [isExpanded, setIsExpanded] = useState(false);
   
   if (ratingHistory.length < 2) {
     return (
@@ -113,8 +114,11 @@ export default function RatingChart({ player, matches, players = [], className =
     : maxRating + padding;
   const chartRatingRange = chartMaxRating - chartMinRating;
 
-  // Створюємо SVG координати
-  const svgWidth = 800;
+  // Створюємо SVG координати - розтягуємо по кількості матчів
+  const pointsCount = ratingHistory.length;
+  const minWidth = 800; // Мінімальна ширина
+  const pointSpacing = 40; // Відстань між точками
+  const svgWidth = Math.max(minWidth, pointsCount * pointSpacing);
   const svgHeight = 400;
   const chartWidth = svgWidth - 100; // Відступи для осей
   const chartHeight = svgHeight - 80;
@@ -146,16 +150,23 @@ export default function RatingChart({ player, matches, players = [], className =
   );
 
   return (
-    <div className={`bg-white rounded-lg shadow-md p-6 ${className}`}>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Графік рейтингу</h3>
+    <div className={`bg-white rounded-lg shadow-md p-4 sm:p-6 ${className}`}>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900">Графік рейтингу</h3>
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 font-medium px-3 py-1 rounded border border-blue-300 hover:bg-blue-50 transition"
+        >
+          {isExpanded ? '📉 Згорнути' : '📈 Розгорнути'}
+        </button>
+      </div>
       
-      <div className="relative overflow-x-auto">
+      <div className={`relative ${isExpanded ? 'overflow-x-auto' : 'overflow-x-auto'} bg-gray-50 rounded-lg p-2`}>
         <svg 
           width={svgWidth} 
           height={svgHeight} 
-          className="border border-gray-200 rounded min-w-full md:min-w-0"
-          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-          preserveAspectRatio="xMidYMid meet"
+          className="border border-gray-200 rounded bg-white"
+          style={{ minWidth: `${svgWidth}px` }}
         >
           {/* Фонові зони рейтингу */}
           {ratingLevels.map((band, index) => {
@@ -333,12 +344,11 @@ export default function RatingChart({ player, matches, players = [], className =
         {/* Тултип матчу */}
         {hoveredIndex !== null && ratingHistory[hoveredIndex]?.matchId && (
           <div
-            className="fixed bg-gray-900 text-white px-3 py-2 rounded shadow-lg text-xs z-50 pointer-events-none"
+            className="fixed bg-gray-900 text-white px-3 py-2 rounded shadow-lg text-xs z-50 pointer-events-none whitespace-nowrap"
             style={{
               left: `${tooltipPos.x}px`,
               top: `${tooltipPos.y}px`,
               transform: 'translate(-50%, -100%)',
-              minWidth: '200px'
             }}
           >
             {(() => {
@@ -384,19 +394,26 @@ export default function RatingChart({ player, matches, players = [], className =
         )}
 
         {/* Легенда рівнів */}
-        <div className="mt-4 flex flex-wrap gap-3">
+        <div className="mt-4 grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
           {RATING_BANDS.map((band, index) => (
             <div key={index} className="flex items-center gap-2">
               <div 
-                className="w-4 h-4 rounded"
+                className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0"
                 style={{ backgroundColor: band.color }}
               />
-              <span className="text-sm text-gray-600">
-                {band.name} ({band.min}-{band.max === 4000 ? '∞' : band.max})
+              <span className="text-xs sm:text-sm text-gray-600">
+                {band.name} ({band.min}-{band.max === 9999 ? '∞' : band.max})
               </span>
             </div>
           ))}
         </div>
+
+        {/* Підказка */}
+        {pointsCount > 20 && (
+          <div className="mt-3 text-xs text-gray-500 text-center sm:text-left">
+            💡 Наведіть курсор на точку, щоб побачити деталі матчу. Прокрутіть графік горизонтально →
+          </div>
+        )}
       </div>
     </div>
   );
