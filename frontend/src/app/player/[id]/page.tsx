@@ -255,8 +255,8 @@ export default function PlayerProfile() {
       {/* Header */}
       <header className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-6">
-            <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-between py-4 sm:py-6">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Link 
                 href="/"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
@@ -265,14 +265,14 @@ export default function PlayerProfile() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </Link>
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-lg sm:text-2xl font-bold text-gray-900">
                 Профіль гравця
               </h1>
             </div>
             
             <Link 
               href="/"
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+              className="bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm sm:text-base"
             >
               До рейтингу
             </Link>
@@ -281,20 +281,20 @@ export default function PlayerProfile() {
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Player Info */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full text-xl font-bold text-gray-600">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto">
+              <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full text-base sm:text-xl font-bold text-gray-600">
                 #{playerRank}
               </div>
-              <div>
-                <div className="flex items-center gap-3">
-                  <h2 className={`text-3xl font-bold ${ratingBand.textColor}`}>{virtualPlayer.name}</h2>
+              <div className="flex-1 sm:flex-initial">
+                <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                  <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold ${ratingBand.textColor}`}>{virtualPlayer.name}</h2>
                   {virtualPlayer.isCMS && (
                     <span 
-                      className="text-amber-600 text-sm font-extrabold italic tracking-wide px-2 py-1 bg-amber-50 rounded border border-amber-300" 
+                      className="text-amber-600 text-xs sm:text-sm font-extrabold italic tracking-wide px-1.5 sm:px-2 py-0.5 sm:py-1 bg-amber-50 rounded border border-amber-300" 
                       title="Кандидат у Майстри Спорту України"
                       style={{ transform: 'skewX(-3deg)' }}
                     >
@@ -302,10 +302,10 @@ export default function PlayerProfile() {
                     </span>
                   )}
                 </div>
-                <div className="text-lg text-gray-600 space-y-1">
-                  <p>{ratingBand.name}</p>
+                <div className="text-base sm:text-lg text-gray-600 space-y-1 mt-1">
+                  <p className="text-sm sm:text-base">{ratingBand.name}</p>
                   {(virtualPlayer.city || virtualPlayer.yearOfBirth) && (
-                    <p className="text-sm">
+                    <p className="text-xs sm:text-sm">
                       {[virtualPlayer.city, virtualPlayer.yearOfBirth && `${virtualPlayer.yearOfBirth} р.н.`].filter(Boolean).join(' • ')}
                     </p>
                   )}
@@ -313,15 +313,15 @@ export default function PlayerProfile() {
               </div>
             </div>
             
-            <div className="text-right">
-              <div className={`text-4xl font-bold ${ratingBand.textColor}`}>
+            <div className="text-right sm:text-right w-full sm:w-auto">
+              <div className={`text-3xl sm:text-4xl font-bold ${ratingBand.textColor}`}>
                 {virtualPlayer.rating}
               </div>
               <div className="flex items-center justify-end space-x-2 mt-2">
                 <div 
-                  className={`w-4 h-4 rounded-full ${ratingBand.color}`}
+                  className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full ${ratingBand.color}`}
                 ></div>
-                <span className={`text-sm font-medium ${ratingBand.textColor}`}>
+                <span className={`text-xs sm:text-sm font-medium ${ratingBand.textColor}`}>
                   {ratingBand.name}
                 </span>
               </div>
@@ -329,28 +329,28 @@ export default function PlayerProfile() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">{stats.totalMatches}</div>
-              <div className="text-sm text-gray-600">Матчів</div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+              <div className="text-xl sm:text-2xl font-bold text-blue-600">{stats.totalMatches}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Матчів</div>
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-green-600">{stats.wins}</div>
-              <div className="text-sm text-gray-600">Перемог</div>
+            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+              <div className="text-xl sm:text-2xl font-bold text-green-600">{stats.wins}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Перемог</div>
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-red-600">{stats.losses}</div>
-              <div className="text-sm text-gray-600">Поразок</div>
+            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+              <div className="text-xl sm:text-2xl font-bold text-red-600">{stats.losses}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Поразок</div>
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">{stats.winRate}%</div>
-              <div className="text-sm text-gray-600">% Перемог</div>
+            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+              <div className="text-xl sm:text-2xl font-bold text-purple-600">{stats.winRate}%</div>
+              <div className="text-xs sm:text-sm text-gray-600">% Перемог</div>
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className={`text-2xl font-bold ${highestRatingBand.textColor}`}>
+            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+              <div className={`text-xl sm:text-2xl font-bold ${highestRatingBand.textColor}`}>
                 {stats.highestRating}
               </div>
-              <div className="text-sm text-gray-600">Макс рейтинг</div>
+              <div className="text-xs sm:text-sm text-gray-600">Макс рейтинг</div>
               <div className={`text-xs font-medium mt-1 ${highestRatingBand.textColor}`}>
                 {highestRatingBand.name}
               </div>
@@ -360,17 +360,17 @@ export default function PlayerProfile() {
                 </div>
               )}
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className={`text-2xl font-bold ${stats.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg col-span-2 sm:col-span-1">
+              <div className={`text-xl sm:text-2xl font-bold ${stats.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {stats.ratingChange >= 0 ? '+' : ''}{stats.ratingChange}
               </div>
-              <div className="text-sm text-gray-600">Зміна рейтингу</div>
+              <div className="text-xs sm:text-sm text-gray-600">Зміна рейтингу</div>
             </div>
           </div>
         </div>
 
         {/* Rating Chart */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <RatingChart 
             player={virtualPlayer}
             matches={state.matches}
@@ -379,12 +379,12 @@ export default function PlayerProfile() {
         </div>
 
         {/* Match History */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           {/* Tabs */}
-          <div className="flex space-x-4 mb-6 border-b border-gray-200">
+          <div className="flex flex-wrap gap-2 sm:space-x-4 sm:gap-0 mb-4 sm:mb-6 border-b border-gray-200 -mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto">
             <button
               onClick={() => setActiveTab('history')}
-              className={`px-4 py-2 font-semibold transition-colors border-b-2 ${
+              className={`px-3 sm:px-4 py-2 font-semibold transition-colors border-b-2 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'history'
                   ? 'text-blue-600 border-blue-600'
                   : 'text-gray-500 border-transparent hover:text-gray-700'
@@ -394,7 +394,7 @@ export default function PlayerProfile() {
             </button>
             <button
               onClick={() => setActiveTab('best')}
-              className={`px-4 py-2 font-semibold transition-colors border-b-2 ${
+              className={`px-3 sm:px-4 py-2 font-semibold transition-colors border-b-2 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'best'
                   ? 'text-blue-600 border-blue-600'
                   : 'text-gray-500 border-transparent hover:text-gray-700'
@@ -404,7 +404,7 @@ export default function PlayerProfile() {
             </button>
             <button
               onClick={() => setActiveTab('awards')}
-              className={`px-4 py-2 font-semibold transition-colors border-b-2 ${
+              className={`px-3 sm:px-4 py-2 font-semibold transition-colors border-b-2 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'awards'
                   ? 'text-blue-600 border-blue-600'
                   : 'text-gray-500 border-transparent hover:text-gray-700'
@@ -416,7 +416,7 @@ export default function PlayerProfile() {
           
           {activeTab === 'awards' ? (
             awards.length > 0 ? (
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {awards.map((award, index) => {
                   // Визначаємо колір та іконку медалі
                   const getMedalColor = (place: number) => {
@@ -436,22 +436,22 @@ export default function PlayerProfile() {
                   return (
                     <div 
                       key={index}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                      className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
                     >
-                      <div className="flex items-center space-x-4">
-                        <div className={`flex items-center justify-center w-12 h-12 rounded-full ${getMedalColor(award.place)}`}>
-                          <span className="text-2xl">{getMedalIcon(award.place)}</span>
+                      <div className="flex items-center space-x-3 sm:space-x-4">
+                        <div className={`flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full ${getMedalColor(award.place)}`}>
+                          <span className="text-xl sm:text-2xl">{getMedalIcon(award.place)}</span>
                         </div>
                         <div>
-                          <div className="font-semibold text-gray-900">
+                          <div className="font-semibold text-gray-900 text-sm sm:text-base">
                             {award.tournament}
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-xs sm:text-sm text-gray-600">
                             {award.placeText}
                           </div>
                         </div>
                       </div>
-                      <div className="text-right text-sm text-gray-500">
+                      <div className="text-right text-xs sm:text-sm text-gray-500">
                         {new Date(award.date).toLocaleDateString('uk-UA', {
                           year: 'numeric',
                           month: 'long',
@@ -463,16 +463,16 @@ export default function PlayerProfile() {
                 })}
               </div>
             ) : (
-              <div className="text-center py-12">
+              <div className="text-center py-8 sm:py-12">
                 <div className="text-gray-400 mb-4">
-                  <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="mx-auto h-10 w-10 sm:h-12 sm:w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                   </svg>
                 </div>
-                <p className="text-gray-500 text-lg">
+                <p className="text-gray-500 text-base sm:text-lg">
                   Нагород поки немає
                 </p>
-                <p className="text-gray-400 text-sm mt-2">
+                <p className="text-gray-400 text-xs sm:text-sm mt-2">
                   Беріть участь у турнірах, щоб отримати нагороди
                 </p>
               </div>
@@ -484,14 +484,14 @@ export default function PlayerProfile() {
               playerId={virtualPlayer.id}
             />
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-8 sm:py-12">
               <div className="text-gray-400 mb-4">
-                <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="mx-auto h-10 w-10 sm:h-12 sm:w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Матчів поки немає</h3>
-              <p className="text-gray-600">Цей гравець ще не грав жодного матчу</p>
+              <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">Матчів поки немає</h3>
+              <p className="text-sm sm:text-base text-gray-600">Цей гравець ще не грав жодного матчу</p>
             </div>
           )}
         </div>
