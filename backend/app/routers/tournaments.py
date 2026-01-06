@@ -83,10 +83,10 @@ def create_tournament(
         city=tournament_data.city,
         country=tournament_data.country,
         club=tournament_data.club,
-        discipline=tournament_data.discipline,
+        discipline=tournament_data.discipline.value,  # Use .value for enum
         is_rated=1 if tournament_data.is_rated else 0,
         created_by_admin_id=current_user.id,
-        status=TournamentStatus.REGISTRATION
+        status=TournamentStatus.REGISTRATION.value  # Use .value for enum
     )
     
     db.add(tournament)

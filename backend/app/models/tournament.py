@@ -13,6 +13,10 @@ class TournamentStatus(str, enum.Enum):
     REGISTRATION = "registration"  # Реєстрація на турнір
     IN_PROGRESS = "in_progress"    # Турнір триває
     FINISHED = "finished"          # Турнір закінчився
+    
+    def _generate_next_value_(name, start, count, last_values):
+        """Override to use lowercase values"""
+        return name.lower()
 
 
 class TournamentDiscipline(str, enum.Enum):
