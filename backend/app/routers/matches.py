@@ -24,8 +24,10 @@ async def get_matches(
     
     if player_id:
         # For player profile: sort by date ASC for correct rating graph
+        # Показуємо лише регулярні матчі (без турнірних)
         query = query.filter(
-            (Match.player1_id == player_id) | (Match.player2_id == player_id)
+            (Match.player1_id == player_id) | (Match.player2_id == player_id),
+            Match.tournament_id == None
         ).order_by(Match.date.asc(), Match.created_at.asc())
     else:
         # For general list: sort by date DESC to show recent matches first
@@ -46,15 +48,15 @@ async def get_matches(
             "player1_score": match.player1_score,
             "player2_score": match.player2_score,
             "max_score": match.max_score,
-            "player1_rating_before": float(match.player1_rating_before),
-            "player2_rating_before": float(match.player2_rating_before),
-            "player1_rating_after": float(match.player1_rating_after),
-            "player2_rating_after": float(match.player2_rating_after),
-            "player1_rating_change": float(match.player1_rating_change),
-            "player2_rating_change": float(match.player2_rating_change),
+            "player1_rating_before": float(match.player1_rating_before) if match.player1_rating_before is not None else None,
+            "player2_rating_before": float(match.player2_rating_before) if match.player2_rating_before is not None else None,
+            "player1_rating_after": float(match.player1_rating_after) if match.player1_rating_after is not None else None,
+            "player2_rating_after": float(match.player2_rating_after) if match.player2_rating_after is not None else None,
+            "player1_rating_change": float(match.player1_rating_change) if match.player1_rating_change is not None else None,
+            "player2_rating_change": float(match.player2_rating_change) if match.player2_rating_change is not None else None,
             "date": match.date.isoformat(),
             "created_at": match.created_at.isoformat(),
-            "tournament": match.tournament,
+            "tournament": match.tournament.name if match.tournament else match.tournament_name,
             "stage": match.stage
         })
     

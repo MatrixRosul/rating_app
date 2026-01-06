@@ -69,19 +69,23 @@ export interface PlayerStats {
 }
 
 // Tournament types
-export type TournamentStatus = 'pending' | 'ongoing' | 'completed';
+export type TournamentStatus = 'registration' | 'in_progress' | 'finished';
+export type ParticipantStatus = 'pending' | 'confirmed' | 'rejected' | 'active' | 'eliminated';
 
 export type TournamentDiscipline = 
   | 'FREE_PYRAMID'
   | 'FREE_PYRAMID_EXTENDED'
   | 'COMBINED_PYRAMID'
   | 'DYNAMIC_PYRAMID'
-  | 'COMBINED_PYRAMID_CHANGES';export interface TournamentRegisteredPlayer {
-  playerId: string;
+  | 'COMBINED_PYRAMID_CHANGES';export interface TournamentParticipant {
+  id: number;
+  playerId: number;
   playerName: string;
   rating: number;
-  username?: string;
+  status: ParticipantStatus;
+  seed?: number;
   registeredAt: string;
+  confirmedAt?: string;
   registeredByAdmin: boolean;
 }
 
@@ -90,17 +94,22 @@ export interface Tournament {
   name: string;
   description?: string;
   status: TournamentStatus;
+  registrationStart?: string;
+  registrationEnd: string;
   startDate?: string;
   endDate?: string;
+  startedAt?: string;
+  finishedAt?: string;
   city: string;
   country: string;
   club: string;
   discipline: TournamentDiscipline;
+  isRated: boolean;
   createdByAdminId: number;
   createdAt: string;
   registeredCount: number;
   isRegistered?: boolean;
-  registeredPlayers?: TournamentRegisteredPlayer[];
+  registeredPlayers?: TournamentParticipant[];
 }
 
 export interface AvailablePlayer {

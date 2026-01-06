@@ -1,53 +1,112 @@
 'use client';
 
-import { useApp } from '@/context/AppContext';
-import { getRatingBand, calculatePlayerStats } from '@/utils/rating';
+import { getRatingBand } from '@/utils/rating';
 import MatchHistory from '@/components/MatchHistory';
 import RatingChart from '@/components/RatingChart';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { fetchMatches } from '@/lib/api';
-import type { Match } from '@/types';
+import type { Match, Player } from '@/types';
+
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 export default function PlayerProfile() {
-  const { state } = useApp();
   const params = useParams();
-  // Декодуємо URL-encoded параметр (кирилиця)
-  const playerIdentifier = decodeURIComponent(params.id as string);
+  const playerId = parseInt(params.id as string, 10);
   
-  // Знаходимо гравця за іменем або ID (для зворотної сумісності з UUID)
-  const player = state.players.find(p => p.name === playerIdentifier || p.id === playerIdentifier);
-  const [mounted, setMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<'history' | 'best' | 'awards'>('history');
+  const [player, setPlayer] = useState<Player | null>(null);
   const [playerMatches, setPlayerMatches] = useState<Match[]>([]);
-  const [matchesLoading, setMatchesLoading] = useState(true);
+  const [allPlayers, setAllPlayers] = useState<Player[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState<'history' | 'best' | 'awards'>('history');
 
-  // Завантажуємо матчі гравця з API
   useEffect(() => {
-    const loadPlayerMatches = async () => {
-      if (player) {
-        setMatchesLoading(true);
-        try {
-          const matches = await fetchMatches(player.id);
-          // Реверсуємо щоб показувати найновіші зверху
-          setPlayerMatches(matches.reverse());
-        } catch (error) {
-          console.error('Error loading player matches:', error);
-        } finally {
-          setMatchesLoading(false);
-        }
+    if (!isNaN(playerId)) {
+      loadPlayerData();
+    }
+  }, [playerId]);
+
+  const loadPlayerData = async () => {
+    try {
+      setLoading(true);
+      setError('');
+
+      // Завантажуємо дані гравця
+      const playerResponse = await fetch(`${API_URL}/api/players/${playerId}`);
+      if (!playerResponse.ok) {
+        throw new Error('Гравця не знайдено');
       }
-    };
-    loadPlayerMatches();
-  }, [player?.id]);
+      const playerData = await playerResponse.json();
 
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+      // Конвертуємо дані
+      const p = {
+        id: playerData.id,
+        name: playerData.name,
+        firstName: playerData.first_name,
+        lastName: playerData.last_name,
+        city: playerData.city,
+        yearOfBirth: playerData.year_of_birth,
+        rating: playerData.rating,
+        initialRating: playerData.initial_rating,
+        peakRating: playerData.peak_rating,
+        isCMS: playerData.is_cms,
+        matches: [],
+        createdAt: new Date(playerData.created_at),
+        updatedAt: new Date(playerData.updated_at || playerData.created_at),
+        matchesCount: playerData.matches_played || 0
+      };
+      setPlayer(p);
 
-  if (!mounted || state.loading) {
+      // Завантажуємо всіх гравців для графіка
+      const playersResponse = await fetch(`${API_URL}/api/players/`);
+      if (playersResponse.ok) {
+        const playersData = await playersResponse.json();
+        const players = playersData.map((pl: any) => ({
+          id: pl.id,
+          name: pl.name,
+          rating: pl.rating,
+          matchesCount: pl.matches_played || 0
+        }));
+        setAllPlayers(players);
+      }
+
+      // Завантажуємо матчі гравця
+      const matchesResponse = await fetch(`${API_URL}/api/matches/?player_id=${playerId}`);
+      if (matchesResponse.ok) {
+        const matchesData = await matchesResponse.json();
+        const matches = matchesData.map((m: any) => ({
+          id: m.id,
+          player1Id: m.player1_id,
+          player2Id: m.player2_id,
+          player1Name: m.player1_name,
+          player2Name: m.player2_name,
+          winnerId: m.winner_id,
+          player1Score: m.player1_score,
+          player2Score: m.player2_score,
+          maxScore: m.max_score,
+          player1RatingBefore: m.player1_rating_before,
+          player2RatingBefore: m.player2_rating_before,
+          player1RatingAfter: m.player1_rating_after,
+          player2RatingAfter: m.player2_rating_after,
+          player1RatingChange: m.player1_rating_change,
+          player2RatingChange: m.player2_rating_change,
+          date: new Date(m.date),
+          createdAt: new Date(m.created_at),
+          tournament: m.tournament,
+          stage: m.stage
+        }));
+        setPlayerMatches(matches); // Без reverse - в хронологічному порядку для графіка
+      }
+    } catch (err: any) {
+      console.error('Error loading player:', err);
+      setError(err.message || 'Помилка завантаження даних');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-100">
         <header className="bg-white shadow-md">
@@ -55,7 +114,7 @@ export default function PlayerProfile() {
             <div className="flex items-center justify-between py-6">
               <div className="flex items-center space-x-4">
                 <Link 
-                  href="/"
+                  href="/rating"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -79,40 +138,7 @@ export default function PlayerProfile() {
     );
   }
 
-  
-  // Якщо гравця немає в списку, але є в матчах — створюємо віртуального гравця
-  let virtualPlayer = player;
-  if (!player) {
-    // Шукаємо гравця в матчах за іменем або ID
-    const playerMatches = state.matches.filter(match => 
-      match.player1Id === playerIdentifier || match.player2Id === playerIdentifier ||
-      match.player1Name === playerIdentifier || match.player2Name === playerIdentifier
-    );
-    
-    if (playerMatches.length > 0) {
-      // Знаходимо останній матч для отримання актуального рейтингу
-      const lastMatch = playerMatches[playerMatches.length - 1];
-      const isPlayer1 = lastMatch.player1Id === playerIdentifier || lastMatch.player1Name === playerIdentifier;
-      const currentRating = isPlayer1 ? lastMatch.player1RatingAfter : lastMatch.player2RatingAfter;
-      const actualId = isPlayer1 ? lastMatch.player1Id : lastMatch.player2Id;
-      
-      // Отримуємо ім'я з матчу
-      const playerName = isPlayer1 
-        ? (lastMatch.player1Name || `Гравець ${playerIdentifier}`)
-        : (lastMatch.player2Name || `Гравець ${playerIdentifier}`);
-      
-      virtualPlayer = {
-        id: actualId,
-        name: playerName,
-        rating: currentRating,
-        matches: playerMatches.map(m => m.id),
-        createdAt: new Date(playerMatches[0].date),
-        updatedAt: new Date(lastMatch.date)
-      };
-    }
-  }
-
-  if (!virtualPlayer) {
+  if (error || !player) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="bg-white rounded-lg shadow-lg p-8 text-center">
@@ -122,9 +148,9 @@ export default function PlayerProfile() {
             </svg>
           </div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">Гравця не знайдено</h2>
-          <p className="text-gray-600 mb-4">Гравець з таким ID не існує</p>
+          <p className="text-gray-600 mb-4">{error || 'Гравець з таким ID не існує'}</p>
           <Link 
-            href="/"
+            href="/rating"
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block"
           >
             Повернутися до рейтингу
@@ -134,16 +160,79 @@ export default function PlayerProfile() {
     );
   }
 
-  const ratingBand = getRatingBand(virtualPlayer.rating);
-  const stats = calculatePlayerStats(virtualPlayer, playerMatches);
+  const ratingBand = getRatingBand(player.rating);
+
+  // Обчислюємо статистику гравця
+  const calculateStats = () => {
+    if (playerMatches.length === 0) {
+      return {
+        totalMatches: 0,
+        wins: 0,
+        losses: 0,
+        winRate: 0,
+        currentStreak: 0,
+        bestStreak: 0,
+        worstStreak: 0,
+        averageRatingChange: 0,
+        highestRating: player.rating,
+        lowestRating: player.rating,
+        ratingProgress: player.rating - player.initialRating
+      };
+    }
+
+    let wins = 0;
+    let losses = 0;
+    let currentStreak = 0;
+    let bestStreak = 0;
+    let worstStreak = 0;
+    let totalRatingChange = 0;
+    let highestRating = player.rating;
+    let lowestRating = player.rating;
+
+    playerMatches.forEach((match, index) => {
+      const isPlayer1 = Number(match.player1Id) === Number(player.id);
+      const won = Number(match.winnerId) === Number(player.id);
+      const ratingAfter = isPlayer1 ? match.player1RatingAfter : match.player2RatingAfter;
+      const ratingChange = isPlayer1 ? match.player1RatingChange : match.player2RatingChange;
+
+      if (won) {
+        wins++;
+        currentStreak = currentStreak >= 0 ? currentStreak + 1 : 1;
+      } else {
+        losses++;
+        currentStreak = currentStreak <= 0 ? currentStreak - 1 : -1;
+      }
+
+      bestStreak = Math.max(bestStreak, currentStreak);
+      worstStreak = Math.min(worstStreak, currentStreak);
+      totalRatingChange += ratingChange;
+      highestRating = Math.max(highestRating, ratingAfter);
+      lowestRating = Math.min(lowestRating, ratingAfter);
+    });
+
+    return {
+      totalMatches: playerMatches.length,
+      wins,
+      losses,
+      winRate: wins / playerMatches.length,
+      currentStreak,
+      bestStreak,
+      worstStreak,
+      averageRatingChange: totalRatingChange / playerMatches.length,
+      highestRating,
+      lowestRating,
+      ratingProgress: player.rating - player.initialRating
+    };
+  };
+
+  const stats = calculateStats();
 
   // Сортуємо матчі за зміною рейтингу для вкладки "Найкращі матчі"
-  // Використовуємо реальну зміну (не абсолютну), щоб найбільший приріст був зверху
   const bestMatches = [...playerMatches].sort((a, b) => {
-    const aChange = a.player1Id === virtualPlayer.id
+    const aChange = Number(a.player1Id) === Number(player.id)
       ? a.player1RatingChange
       : a.player2RatingChange;
-    const bChange = b.player1Id === virtualPlayer.id
+    const bChange = Number(b.player1Id) === Number(player.id)
       ? b.player1RatingChange
       : b.player2RatingChange;
     return bChange - aChange;
@@ -165,10 +254,10 @@ export default function PlayerProfile() {
     playerMatches.forEach(match => {
       if (!match.tournament || !match.stage) return;
       
-      const isPlayer = match.player1Id === virtualPlayer.id || match.player2Id === virtualPlayer.id;
+      const isPlayer = Number(match.player1Id) === Number(player.id) || Number(match.player2Id) === Number(player.id);
       if (!isPlayer) return;
       
-      const isWinner = match.winnerId === virtualPlayer.id;
+      const isWinner = Number(match.winnerId) === Number(player.id);
       const stage = match.stage.toLowerCase();
       
       // Визначаємо вагу стадії (більше = краще)
@@ -240,10 +329,6 @@ export default function PlayerProfile() {
 
   const awards = calculateAwards();
 
-  // Find player's rank
-  const sortedPlayers = [...state.players].sort((a, b) => b.rating - a.rating);
-  const playerRank = sortedPlayers.findIndex(p => p.id === virtualPlayer.id) + 1;
-
   // Отримуємо звання для максимального рейтингу
   const highestRatingBand = getRatingBand(stats.highestRating);
   
@@ -258,7 +343,7 @@ export default function PlayerProfile() {
           <div className="flex items-center justify-between py-4 sm:py-6">
             <div className="flex items-center space-x-2 sm:space-x-4">
               <Link 
-                href="/"
+                href="/rating"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -271,7 +356,7 @@ export default function PlayerProfile() {
             </div>
             
             <Link 
-              href="/"
+              href="/rating"
               className="bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm sm:text-base"
             >
               До рейтингу
@@ -286,13 +371,10 @@ export default function PlayerProfile() {
         <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-4">
             <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto">
-              <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full text-base sm:text-xl font-bold text-gray-600">
-                #{playerRank}
-              </div>
               <div className="flex-1 sm:flex-initial">
                 <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                  <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold ${ratingBand.textColor}`}>{virtualPlayer.name}</h2>
-                  {virtualPlayer.isCMS && (
+                  <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold ${ratingBand.textColor}`}>{player.name}</h2>
+                  {player.isCMS && (
                     <span 
                       className="text-amber-600 text-xs sm:text-sm font-extrabold italic tracking-wide px-1.5 sm:px-2 py-0.5 sm:py-1 bg-amber-50 rounded border border-amber-300" 
                       title="Кандидат у Майстри Спорту України"
@@ -304,9 +386,9 @@ export default function PlayerProfile() {
                 </div>
                 <div className="text-base sm:text-lg text-gray-600 space-y-1 mt-1">
                   <p className="text-sm sm:text-base">{ratingBand.name}</p>
-                  {(virtualPlayer.city || virtualPlayer.yearOfBirth) && (
+                  {(player.city || player.yearOfBirth) && (
                     <p className="text-xs sm:text-sm">
-                      {[virtualPlayer.city, virtualPlayer.yearOfBirth && `${virtualPlayer.yearOfBirth} р.н.`].filter(Boolean).join(' • ')}
+                      {[player.city, player.yearOfBirth && `${player.yearOfBirth} р.н.`].filter(Boolean).join(' • ')}
                     </p>
                   )}
                 </div>
@@ -315,7 +397,7 @@ export default function PlayerProfile() {
             
             <div className="text-right sm:text-right w-full sm:w-auto">
               <div className={`text-3xl sm:text-4xl font-bold ${ratingBand.textColor}`}>
-                {virtualPlayer.rating}
+                {player.rating}
               </div>
               <div className="flex items-center justify-end space-x-2 mt-2">
                 <div 
@@ -343,7 +425,7 @@ export default function PlayerProfile() {
               <div className="text-xs sm:text-sm text-gray-600">Поразок</div>
             </div>
             <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
-              <div className="text-xl sm:text-2xl font-bold text-purple-600">{stats.winRate}%</div>
+              <div className="text-xl sm:text-2xl font-bold text-purple-600">{(stats.winRate * 100).toFixed(0)}%</div>
               <div className="text-xs sm:text-sm text-gray-600">% Перемог</div>
             </div>
             <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
@@ -372,9 +454,9 @@ export default function PlayerProfile() {
         {/* Rating Chart */}
         <div className="mb-6 sm:mb-8">
           <RatingChart 
-            player={virtualPlayer}
-            matches={state.matches}
-            players={state.players}
+            player={player}
+            matches={playerMatches}
+            players={allPlayers}
           />
         </div>
 
@@ -479,9 +561,8 @@ export default function PlayerProfile() {
             )
           ) : playerMatches.length > 0 ? (
             <MatchHistory 
-              matches={activeTab === 'history' ? playerMatches : bestMatches}
-              players={state.players}
-              playerId={virtualPlayer.id}
+              matches={activeTab === 'history' ? [...playerMatches].reverse() : bestMatches}
+              playerId={String(player.id)}
             />
           ) : (
             <div className="text-center py-8 sm:py-12">

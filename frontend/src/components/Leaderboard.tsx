@@ -1,54 +1,45 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Player, Match } from '@/types';
-import { sortPlayersByRating, getRatingBand, calculatePlayerStats } from '@/utils/rating';
+import { Player } from '@/types';
+import { sortPlayersByRating, getRatingBand } from '@/utils/rating';
 import PlayerCard from './PlayerCard';
 
 interface LeaderboardProps {
   players: Player[];
-  matches: Match[];
 }
 
-export default function Leaderboard({ players, matches }: LeaderboardProps) {
+export default function Leaderboard({ players }: LeaderboardProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRating, setSelectedRating] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<'current' | 'peak' | 'cms'>('current');
+  const [showCMSOnly, setShowCMSOnly] = useState(false);
+  const [showPeakRating, setShowPeakRating] = useState(false);
   const [sortDescending, setSortDescending] = useState(true);
   
-  // Calculate peak ratings for all players
+  // Use peakRating from backend, no need to calculate
   const playersWithPeakRating = useMemo(() => {
-    return players.map(player => {
-      // Only calculate stats if player has matches
-      if (player.matches && player.matches.length > 0) {
-        const stats = calculatePlayerStats(player, matches);
-        return {
-          ...player,
-          peakRating: stats.highestRating
-        };
-      }
-      // For players without matches, use their existing peakRating or current rating
-      return {
-        ...player,
-        peakRating: player.peakRating || player.rating
-      };
-    });
-  }, [players, matches]);
+    return players.map(player => ({
+      ...player,
+      peakRating: player.peakRating || player.rating
+    }));
+  }, [players]);
   
-  // Sort players by selected criteria
+  // Sort players by current or peak rating
   const sortedPlayers = useMemo(() => {
     let filtered = playersWithPeakRating;
     
-    if (sortBy === 'cms') {
+    // Фільтр по КМС
+    if (showCMSOnly) {
       filtered = filtered.filter(p => p.isCMS);
     }
     
-    if (sortBy === 'peak') {
+    // Сортування за піковим або поточним рейтингом
+    if (showPeakRating) {
       return [...filtered].sort((a, b) => b.peakRating - a.peakRating);
     } else {
       return sortPlayersByRating(filtered);
     }
-  }, [playersWithPeakRating, sortBy]);
+  }, [playersWithPeakRating, showCMSOnly, showPeakRating]);
   
   // Apply sort order based on toggle
   const orderedPlayers = sortDescending ? sortedPlayers : [...sortedPlayers].reverse();
@@ -100,40 +91,31 @@ export default function Leaderboard({ players, matches }: LeaderboardProps) {
             />
           </div>
 
-          {/* Sort by (current/peak/cms) */}
+          {/* Filters (peak/cms) */}
           <div className="md:w-64">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Сортувати за
+              Фільтри
             </label>
-            <div className="flex gap-1 h-10">
+            <div className="flex gap-2 h-10">
               <button
-                onClick={() => setSortBy('current')}
+                onClick={() => setShowPeakRating(!showPeakRating)}
                 className={`flex-1 px-2 py-2 text-xs sm:text-sm rounded-md border transition-colors ${
-                  sortBy === 'current'
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                Поточний
-              </button>
-              <button
-                onClick={() => setSortBy('peak')}
-                className={`flex-1 px-2 py-2 text-xs sm:text-sm rounded-md border transition-colors ${
-                  sortBy === 'peak'
+                  showPeakRating
                     ? 'bg-purple-600 text-white border-purple-600'
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                 }`}
+                title="Показати піковий рейтинг"
               >
                 Пік
               </button>
               <button
-                onClick={() => setSortBy('cms')}
+                onClick={() => setShowCMSOnly(!showCMSOnly)}
                 className={`flex-1 px-2 py-2 text-xs sm:text-sm rounded-md border transition-colors ${
-                  sortBy === 'cms'
+                  showCMSOnly
                     ? 'bg-amber-600 text-white border-amber-600'
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                 }`}
-                title="Кандидати у Майстри Спорту"
+                title="Показати тільки КМС"
               >
                 КМС
               </button>
@@ -141,31 +123,17 @@ export default function Leaderboard({ players, matches }: LeaderboardProps) {
           </div>
 
           {/* Sort toggle */}
-          <div className="md:w-16">
+          <div className="md:w-32">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Сортування
+              Порядок
             </label>
             <button
               onClick={() => setSortDescending(!sortDescending)}
-              className={`w-full h-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 flex items-center justify-center ${
-                sortDescending 
-                  ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' 
-                  : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800'
-              }`}
-              title={sortDescending ? 'Сортування: від високого до низького' : 'Сортування: від низького до високого'}
+              className="w-full h-10 px-3 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
             >
-              <svg 
-                className="w-5 h-5" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                {sortDescending ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                )}
-              </svg>
+              <span className="text-sm font-medium">
+                {sortDescending ? '↓ Спадання' : '↑ Зростання'}
+              </span>
             </button>
           </div>
 
@@ -204,7 +172,7 @@ export default function Leaderboard({ players, matches }: LeaderboardProps) {
               player={player}
               rank={sortedPlayers.findIndex(p => p.id === player.id) + 1}
               showRank={true}
-              showPeakRating={sortBy === 'peak'}
+              showPeakRating={showPeakRating}
             />
           ))
         ) : (

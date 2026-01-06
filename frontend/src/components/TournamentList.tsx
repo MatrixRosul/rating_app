@@ -15,7 +15,7 @@ interface TournamentListProps {
 export default function TournamentList({ onCreateClick }: TournamentListProps) {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<TournamentStatus>('pending');
+  const [filter, setFilter] = useState<TournamentStatus>('registration');
   const { user } = useAuth();
   const router = useRouter();
 
@@ -43,12 +43,17 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
         name: t.name,
         description: t.description,
         status: t.status,
+        registrationStart: t.registration_start,
+        registrationEnd: t.registration_end,
         startDate: t.start_date,
         endDate: t.end_date,
+        startedAt: t.started_at,
+        finishedAt: t.finished_at,
         createdByAdminId: t.created_by_admin_id,
         createdAt: t.created_at,
         registeredCount: t.registered_count,
         isRegistered: t.is_registered,
+        isRated: t.is_rated,
         city: t.city,
         country: t.country,
         club: t.club,
@@ -68,15 +73,15 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
 
   const getStatusBadge = (status: TournamentStatus) => {
     const badges = {
-      pending: 'bg-yellow-500 text-white',
-      ongoing: 'bg-green-500 text-white',
-      completed: 'bg-black text-white',
+      registration: 'bg-yellow-500 text-white',
+      in_progress: 'bg-green-500 text-white',
+      finished: 'bg-black text-white',
     };
 
     const labels = {
-      pending: 'Реєстрація',
-      ongoing: 'Триває',
-      completed: 'Закінчився',
+      registration: 'Реєстрація',
+      in_progress: 'Триває',
+      finished: 'Закінчився',
     };
 
     return (
@@ -107,7 +112,7 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
 
       {/* Filters */}
       <div className="flex gap-2">
-        {(['pending', 'ongoing', 'completed'] as const).map((status) => (
+        {(['registration', 'in_progress', 'finished'] as const).map((status) => (
           <button
             key={status}
             onClick={() => setFilter(status)}
@@ -117,7 +122,7 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
                 : 'bg-white border hover:bg-blue-50'
             }`}
           >
-            {status === 'pending' ? 'Реєстрація' : status === 'ongoing' ? 'Триває' : 'Минулі'}
+            {status === 'registration' ? 'Реєстрація' : status === 'in_progress' ? 'Триває' : 'Минулі'}
           </button>
         ))}
       </div>
@@ -133,54 +138,61 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
             <div
               key={tournament.id}
               onClick={() => router.push(`/tournaments/${tournament.id}`)}
-              className="border rounded-lg p-6 hover:shadow-lg transition cursor-pointer"
+              className="bg-white border border-gray-200 rounded-lg p-6 hover:border-gray-300 hover:shadow-md transition cursor-pointer"
             >
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-xl font-bold">{tournament.name}</h3>
-                {getStatusBadge(tournament.status)}
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">{tournament.name}</h3>
+                <span className={`px-2.5 py-1 rounded text-xs font-medium ${
+                  tournament.status === 'registration' 
+                    ? 'bg-gray-100 text-gray-700' 
+                    : tournament.status === 'in_progress'
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-gray-200 text-gray-600'
+                }`}>
+                  {tournament.status === 'registration' ? 'Реєстрація' : tournament.status === 'in_progress' ? 'Триває' : 'Завершено'}
+                </span>
               </div>
 
               {tournament.description && (
-                <p className="mb-4 line-clamp-2">{tournament.description}</p>
+                <p className="text-sm text-gray-600 mb-4 line-clamp-2">{tournament.description}</p>
               )}
 
               {/* Location and Discipline */}
-              <div className="mb-3 flex flex-wrap gap-2">
+              <div className="mb-4 flex flex-wrap gap-2 text-xs">
                 {tournament.city && (
-                  <div className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                    📍 {tournament.city}
-                  </div>
+                  <span className="text-gray-600">📍 {tournament.city}</span>
                 )}
                 {tournament.club && (
-                  <div className="px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
-                    🏢 {tournament.club}
-                  </div>
+                  <span className="text-gray-600">• {tournament.club}</span>
                 )}
                 {tournament.discipline && (
-                  <div className="px-2 py-0.5 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-                    {getDisciplineLabel(tournament.discipline)}
-                  </div>
+                  <span className="text-gray-600">• {getDisciplineLabel(tournament.discipline)}</span>
+                )}
+                {tournament.isRated && (
+                  <span className="text-gray-600">• Рейтинговий</span>
                 )}
               </div>
 
-              <div className="space-y-2 text-sm">
-                {tournament.startDate && (
+              <div className="space-y-1.5 text-sm text-gray-600">
+                {tournament.registrationEnd && tournament.status === 'registration' && (
                   <div>
-                    <span className="font-medium">Початок:</span>{' '}
-                    {new Date(tournament.startDate).toLocaleDateString('uk-UA')}
+                    Реєстрація до: <span className="font-medium text-gray-900">
+                      {new Date(tournament.registrationEnd).toLocaleDateString('uk-UA')}
+                    </span>
                   </div>
                 )}
-                {tournament.endDate && (
+                {tournament.startDate && (
                   <div>
-                    <span className="font-medium">Кінець:</span>{' '}
-                    {new Date(tournament.endDate).toLocaleDateString('uk-UA')}
+                    Старт: <span className="font-medium text-gray-900">
+                      {new Date(tournament.startDate).toLocaleDateString('uk-UA')}
+                    </span>
                   </div>
                 )}
                 <div>
-                  <span className="font-medium">Учасників:</span> {tournament.registeredCount}
+                  Учасників: <span className="font-medium text-gray-900">{tournament.registeredCount}</span>
                 </div>
                 {tournament.isRegistered && (
-                  <div className="text-green-600 font-medium">✓ Ви зареєстровані</div>
+                  <div className="text-blue-600 font-medium text-xs mt-2">✓ Ви зареєстровані</div>
                 )}
               </div>
             </div>

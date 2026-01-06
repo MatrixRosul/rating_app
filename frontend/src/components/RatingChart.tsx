@@ -15,7 +15,7 @@ interface RatingPoint {
 interface RatingChartProps {
   player: Player;
   matches: Match[];
-  players?: Player[]; // потрібні для виводу імен суперників у тултипі
+  players: Player[];
   className?: string;
 }
 
@@ -30,7 +30,7 @@ const RATING_BANDS = [
   { min: 2500, max: 9999, color: '#FF0000', name: 'Гросмейстер' },
 ];
 
-export default function RatingChart({ player, matches, players = [], className = '' }: RatingChartProps) {
+export default function RatingChart({ player, matches, players, className = '' }: RatingChartProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   // Створюємо історію рейтингу

@@ -21,7 +21,7 @@ class User(Base):
     role = Column(Enum(UserRole), nullable=False, default=UserRole.USER)
     
     # Optional: link user to player (for players who are also users)
-    player_id = Column(String, ForeignKey("players.id"), nullable=True)
+    player_id = Column(Integer, ForeignKey("players.id"), nullable=True)
     player = relationship("Player", back_populates="user")
     
     def __repr__(self):

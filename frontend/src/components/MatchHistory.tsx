@@ -7,13 +7,13 @@ import { getRatingBand } from '@/utils/rating';
 
 interface MatchHistoryProps {
   matches: Match[];
-  players: Player[];
+  players?: Player[]; // Optional - якщо не передано, використовуємо імена з match
   playerId?: string; // If provided, highlights matches for specific player
   limit?: number;
   disableSorting?: boolean; // If true, doesn't sort matches (uses provided order)
 }
 
-export default function MatchHistory({ matches, players, playerId, limit, disableSorting = false }: MatchHistoryProps) {
+export default function MatchHistory({ matches, players = [], playerId, limit, disableSorting = false }: MatchHistoryProps) {
   const getPlayerById = (id: string) => players.find(p => p.id === id);
   
   // Використовуємо порядок як приходить з бекенду (вже відсортовано)
@@ -34,16 +34,23 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
   return (
     <div className="space-y-3 sm:space-y-4">
       {displayedMatches.map((match) => {
-        const player1 = getPlayerById(match.player1Id);
-        const player2 = getPlayerById(match.player2Id);
+        // Використовуємо дані з матчу, якщо немає масиву гравців
+        const player1 = getPlayerById(match.player1Id) || {
+          id: match.player1Id,
+          name: match.player1Name,
+          rating: match.player1RatingBefore
+        };
+        const player2 = getPlayerById(match.player2Id) || {
+          id: match.player2Id,
+          name: match.player2Name,
+          rating: match.player2RatingBefore
+        };
         
-        if (!player1 || !player2) return null;
-
-        const winner = match.winnerId === player1.id ? player1 : player2;
-        const loser = match.winnerId === player1.id ? player2 : player1;
+        const winner = String(match.winnerId) === String(player1.id) ? player1 : player2;
+        const loser = String(match.winnerId) === String(player1.id) ? player2 : player1;
         
-        const player1IsTarget = playerId === player1.id;
-        const player2IsTarget = playerId === player2.id;
+        const player1IsTarget = playerId && String(playerId) === String(player1.id);
+        const player2IsTarget = playerId && String(playerId) === String(player2.id);
         const isTargetPlayerMatch = player1IsTarget || player2IsTarget;
 
         return (
@@ -51,7 +58,7 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
             key={match.id}
             className={`bg-white rounded-lg shadow-md p-3 sm:p-4 border-l-4 ${
               isTargetPlayerMatch 
-                ? match.winnerId === playerId 
+                ? String(match.winnerId) === String(playerId)
                   ? 'border-green-500 bg-green-50' 
                   : 'border-red-500 bg-red-50'
                 : 'border-gray-300'
@@ -72,11 +79,11 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
               {/* Player 1 */}
               <div className={`${player1IsTarget ? 'font-semibold' : ''}`}>
                 <Link 
-                  href={`/player/${encodeURIComponent(player1.name)}`}
+                  href={`/player/${player1.id}`}
                   className={`text-base ${getRatingBand(match.player1RatingBefore).textColor} hover:opacity-80 transition-colors`}
                 >
                   {player1.name}
-                  {match.winnerId === player1.id && <span className="ml-2 text-green-600">🏆</span>}
+                  {String(match.winnerId) === String(player1.id) && <span className="ml-2 text-green-600">🏆</span>}
                 </Link>
                 <div className="flex items-center gap-2 mt-1 text-sm">
                   <span className={getRatingBand(match.player1RatingBefore).textColor}>
@@ -109,11 +116,11 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
               {/* Player 2 */}
               <div className={`${player2IsTarget ? 'font-semibold' : ''}`}>
                 <Link 
-                  href={`/player/${encodeURIComponent(player2.name)}`}
+                  href={`/player/${player2.id}`}
                   className={`text-base ${getRatingBand(match.player2RatingBefore).textColor} hover:opacity-80 transition-colors`}
                 >
                   {player2.name}
-                  {match.winnerId === player2.id && <span className="ml-2 text-green-600">🏆</span>}
+                  {String(match.winnerId) === String(player2.id) && <span className="ml-2 text-green-600">🏆</span>}
                 </Link>
                 <div className="flex items-center gap-2 mt-1 text-sm">
                   <span className={getRatingBand(match.player2RatingBefore).textColor}>
@@ -181,7 +188,7 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
                     {/* Player 1 */}
                     <div className={`flex-1 ${player1IsTarget ? 'font-semibold' : ''}`}>
                       <Link 
-                        href={`/player/${encodeURIComponent(player1.name)}`}
+                        href={`/player/${player1.id}`}
                         className={`${getRatingBand(match.player1RatingBefore).textColor} hover:opacity-80 transition-colors`}
                       >
                         {player1.name}
@@ -224,7 +231,7 @@ export default function MatchHistory({ matches, players, playerId, limit, disabl
                     {/* Player 2 */}
                     <div className={`flex-1 text-right ${player2IsTarget ? 'font-semibold' : ''}`}>
                       <Link 
-                        href={`/player/${encodeURIComponent(player2.name)}`}
+                        href={`/player/${player2.id}`}
                         className={`${getRatingBand(match.player2RatingBefore).textColor} hover:opacity-80 transition-colors`}
                       >
                         {player2.name}

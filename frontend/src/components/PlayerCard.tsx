@@ -35,7 +35,7 @@ export default function PlayerCard({ player, rank, showRank = false, showPeakRat
 
   return (
     <Link 
-      href={`/player/${encodeURIComponent(player.name)}`}
+      href={`/player/${player.id}`}
       className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-3 border-l-4"
       style={{ borderLeftColor: getBorderColor(ratingBand.color) }}
     >
@@ -64,7 +64,6 @@ export default function PlayerCard({ player, rank, showRank = false, showPeakRat
             </div>
             <p className="text-xs text-gray-500">
               {[
-                ratingBand.name,
                 player.city,
                 player.yearOfBirth && `${player.yearOfBirth} р.н.`
               ].filter(Boolean).join(' • ')}
@@ -93,7 +92,7 @@ export default function PlayerCard({ player, rank, showRank = false, showPeakRat
                 {player.rating}
               </div>
               <div className="text-xs text-gray-500">
-                {player.matches.length} матчів
+                {player.matchesCount || 0} матчів
               </div>
             </>
           )}

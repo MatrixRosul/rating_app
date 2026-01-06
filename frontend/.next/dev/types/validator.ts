@@ -74,10 +74,37 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../src/app/tournaments/[id]/bracket/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/tournaments/[id]/bracket">> = Specific
+  const handler = {} as typeof import("../../../src/app/tournaments/[id]/bracket/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../src/app/tournaments/[id]/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/tournaments/[id]">> = Specific
   const handler = {} as typeof import("../../../src/app/tournaments/[id]/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/tournaments/[id]/participants/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/tournaments/[id]/participants">> = Specific
+  const handler = {} as typeof import("../../../src/app/tournaments/[id]/participants/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/tournaments/[id]/regulations/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/tournaments/[id]/regulations">> = Specific
+  const handler = {} as typeof import("../../../src/app/tournaments/[id]/regulations/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
@@ -109,6 +136,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends LayoutConfig<"/">> = Specific
   const handler = {} as typeof import("../../../src/app/layout.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/tournaments/[id]/layout.tsx
+{
+  type __IsExpected<Specific extends LayoutConfig<"/tournaments/[id]">> = Specific
+  const handler = {} as typeof import("../../../src/app/tournaments/[id]/layout.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

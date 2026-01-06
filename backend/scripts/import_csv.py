@@ -223,6 +223,7 @@ def import_csv_data():
             matches_count[player2_name] += 1
             
             # Create match record (БЕЗ ID - auto-increment)
+            # tournament_id залишаємо NULL - це звичайні матчі, не турнірні
             match = Match(
                 player1_id=player1.id,
                 player2_id=player2.id,
@@ -240,7 +241,7 @@ def import_csv_data():
                 player2_rating_change=float(change2),
                 date=match_date,  # 🔥 РЕАЛЬНА ДАТА З CSV
                 stage=stage,  # 🔥 СТАДІЯ ТУРНІРУ
-                tournament=tournament  # 🔥 НАЗВА ТУРНІРУ
+                tournament_name=tournament  # 🔥 НАЗВА ТУРНІРУ (текст, не зв'язок)
             )
             db.add(match)
             

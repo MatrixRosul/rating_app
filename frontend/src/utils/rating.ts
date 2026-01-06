@@ -296,6 +296,12 @@ export function getRatingBand(rating: number): RatingBand {
   return RATING_BANDS.find(band => rating >= band.minRating && rating <= band.maxRating) || RATING_BANDS[0];
 }
 
+// Get rating color class for displaying player rating
+export function getRatingColor(rating: number): string {
+  const band = getRatingBand(rating);
+  return band.textColor;
+}
+
 // Generate a random player name for simulation
 export function generateRandomPlayerName(): string {
   const firstNames = [

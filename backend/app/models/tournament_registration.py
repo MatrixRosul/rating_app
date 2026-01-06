@@ -1,10 +1,20 @@
 """
 Tournament registration model - many-to-many relationship between players and tournaments
 """
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Enum
 from sqlalchemy.orm import relationship
 from datetime import datetime
+import enum
 from app.database import Base
+
+
+class ParticipantStatus(str, enum.Enum):
+    """Participant status in tournament"""
+    PENDING = "pending"          # Очікує підтвердження
+    CONFIRMED = "confirmed"      # Підтверджений
+    REJECTED = "rejected"        # Відхилений
+    ACTIVE = "active"            # Активний (турнір почався)
+    ELIMINATED = "eliminated"    # Вибув з турніру
 
 
 class TournamentRegistration(Base):
@@ -15,13 +25,20 @@ class TournamentRegistration(Base):
     
     # Foreign keys
     tournament_id = Column(Integer, ForeignKey("tournaments.id"), nullable=False)
-    player_id = Column(String, ForeignKey("players.id"), nullable=False)  # Real player from DB
+    player_id = Column(Integer, ForeignKey("players.id"), nullable=False)  # Real player from DB
+    
+    # Status
+    status = Column(Enum(ParticipantStatus), nullable=False, default=ParticipantStatus.PENDING)
+    
+    # Seeding
+    seed = Column(Integer, nullable=True)  # Сіяний номер (визначається після підтвердження)
     
     # If admin registered the player manually (nullable - means self-registered by user)
     registered_by_user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     
-    # Timestamp
+    # Timestamps
     registered_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    confirmed_at = Column(DateTime, nullable=True)  # Час підтвердження адміном
     
     # Relationships
     tournament = relationship("Tournament", back_populates="registrations")

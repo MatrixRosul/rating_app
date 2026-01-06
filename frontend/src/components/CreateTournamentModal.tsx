@@ -23,13 +23,15 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    status: 'pending' as TournamentStatus,
+    registrationEnd: '',
+    registrationStart: '',
     startDate: '',
     endDate: '',
     city: '',
     country: 'Україна',
     club: '',
     discipline: 'FREE_PYRAMID' as TournamentDiscipline,
+    isRated: true,
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -48,14 +50,16 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
 
       const payload: any = {
         name: formData.name,
-        status: formData.status,
+        registration_end: formData.registrationEnd,
         city: formData.city,
         country: formData.country,
         club: formData.club,
         discipline: formData.discipline,
+        is_rated: formData.isRated,
       };
 
       if (formData.description) payload.description = formData.description;
+      if (formData.registrationStart) payload.registration_start = formData.registrationStart;
       if (formData.startDate) payload.start_date = formData.startDate;
       if (formData.endDate) payload.end_date = formData.endDate;
 
@@ -80,13 +84,15 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
       setFormData({
         name: '',
         description: '',
-        status: 'pending',
+        registrationEnd: '',
+        registrationStart: '',
         startDate: '',
         endDate: '',
         city: '',
         country: 'Україна',
         club: '',
         discipline: 'FREE_PYRAMID',
+        isRated: true,
       });
 
       onSuccess();
@@ -203,43 +209,73 @@ export default function CreateTournamentModal({ isOpen, onClose, onSuccess }: Cr
             />
           </div>
 
-          {/* Status */}
+          {/* Is Rated */}
           <div>
-            <label className="block text-sm font-medium text-black mb-1">Статус</label>
-            <select
-              value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value as TournamentStatus })}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled={loading}
-            >
-              <option value="pending">Реєстрація</option>
-              <option value="ongoing">Триває</option>
-              <option value="completed">Закінчився</option>
-            </select>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.isRated}
+                onChange={(e) => setFormData({ ...formData, isRated: e.target.checked })}
+                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                disabled={loading}
+              />
+              <span className="text-sm font-medium text-black">
+                Рейтинговий турнір {formData.isRated && <span className="text-orange-500">(рахується до рейтингу)</span>}
+              </span>
+            </label>
           </div>
 
-          {/* Start Date */}
-          <div>
-            <label className="block text-sm font-medium text-black mb-1">Дата початку</label>
-            <input
-              type="date"
-              value={formData.startDate}
-              onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled={loading}
-            />
+          {/* Registration Dates */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">Початок реєстрації</label>
+              <input
+                type="datetime-local"
+                value={formData.registrationStart}
+                onChange={(e) => setFormData({ ...formData, registrationStart: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={loading}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">
+                Кінець реєстрації <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="datetime-local"
+                value={formData.registrationEnd}
+                onChange={(e) => setFormData({ ...formData, registrationEnd: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+                disabled={loading}
+              />
+            </div>
           </div>
 
-          {/* End Date */}
-          <div>
-            <label className="block text-sm font-medium text-black mb-1">Дата закінчення</label>
-            <input
-              type="date"
-              value={formData.endDate}
-              onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled={loading}
-            />
+          {/* Tournament Dates */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">Дата початку турніру</label>
+              <input
+                type="date"
+                value={formData.startDate}
+                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={loading}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">Дата закінчення турніру</label>
+              <input
+                type="date"
+                value={formData.endDate}
+                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={loading}
+              />
+            </div>
           </div>
 
           {error && (

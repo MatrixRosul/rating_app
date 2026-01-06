@@ -47,7 +47,7 @@ export default function Home() {
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h3 className="text-lg sm:text-xl font-bold mb-3 text-blue-600">Рейтингова Система</h3>
             <p className="text-sm sm:text-base text-gray-600">
-              Система базується на алгоритмі ELO з кольоровою схемою як у Codeforces. 
+              Система базується на алгоритмі ELO. 
               Від Newbie до Grandmaster - кожен рівень має свій колір та престиж.
             </p>
           </div>

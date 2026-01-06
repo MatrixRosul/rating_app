@@ -23,13 +23,13 @@ class LoginResponse(BaseModel):
     token_type: str
     username: str
     role: str
-    player_id: Optional[str] = None
+    player_id: Optional[int] = None
 
 
 class CurrentUserResponse(BaseModel):
     username: str
     role: str
-    player_id: Optional[str] = None
+    player_id: Optional[int] = None
 
 
 @router.post("/login/", response_model=LoginResponse)

@@ -6,13 +6,21 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime, date
+import logging
 from app.database import get_db
 from app.models.tournament import Tournament, TournamentStatus, TournamentDiscipline
-from app.models.tournament_registration import TournamentRegistration
+from app.models.tournament_registration import TournamentRegistration, ParticipantStatus
+from app.models.tournament_rule import TournamentRule, BracketType
 from app.models.user import User, UserRole
 from app.models.player import Player
 from app.dependencies import require_admin, require_user, get_current_user_optional
 from pydantic import BaseModel
+from app.services.seeding_service import assign_seeds_by_rating, update_seeds_manually
+from app.services.bracket_generator import generate_single_elimination_bracket, generate_bracket_preview
+from app.services.tournament_start_service import validate_tournament_start
+
+# Logger для audit логування
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/tournaments", tags=["tournaments"])
 
@@ -21,28 +29,39 @@ router = APIRouter(prefix="/api/tournaments", tags=["tournaments"])
 class TournamentCreate(BaseModel):
     name: str
     description: Optional[str] = None
+    registration_end: datetime  # Обов'язкова дата закінчення реєстрації
+    registration_start: Optional[datetime] = None
     start_date: Optional[date] = None
     end_date: Optional[date] = None
     city: str
     country: str = "Україна"
     club: str
     discipline: TournamentDiscipline
+    is_rated: bool = True  # За замовчуванням рейтинговий
 
 
 class TournamentUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     status: Optional[TournamentStatus] = None
+    registration_start: Optional[datetime] = None
+    registration_end: Optional[datetime] = None
     start_date: Optional[date] = None
     end_date: Optional[date] = None
     city: Optional[str] = None
     country: Optional[str] = None
     club: Optional[str] = None
     discipline: Optional[TournamentDiscipline] = None
+    is_rated: Optional[bool] = None
 
 
 class RegisterPlayer(BaseModel):
     player_id: int  # ID гравця з таблиці players
+
+
+class UpdateSeeds(BaseModel):
+    """Request body для оновлення сіяних номерів"""
+    seeds: dict[int, int]  # {player_id: seed_number}
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
@@ -57,14 +76,17 @@ def create_tournament(
     tournament = Tournament(
         name=tournament_data.name,
         description=tournament_data.description,
+        registration_start=tournament_data.registration_start,
+        registration_end=tournament_data.registration_end,
         start_date=tournament_data.start_date,
         end_date=tournament_data.end_date,
         city=tournament_data.city,
         country=tournament_data.country,
         club=tournament_data.club,
         discipline=tournament_data.discipline,
+        is_rated=1 if tournament_data.is_rated else 0,
         created_by_admin_id=current_user.id,
-        status=TournamentStatus.PENDING
+        status=TournamentStatus.REGISTRATION
     )
     
     db.add(tournament)
@@ -76,14 +98,19 @@ def create_tournament(
         "name": tournament.name,
         "description": tournament.description,
         "status": tournament.status.value,
+        "registration_start": tournament.registration_start.isoformat() if tournament.registration_start else None,
+        "registration_end": tournament.registration_end.isoformat() if tournament.registration_end else None,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
         "end_date": tournament.end_date.isoformat() if tournament.end_date else None,
         "city": tournament.city,
         "country": tournament.country,
         "club": tournament.club,
         "discipline": tournament.discipline.value,
+        "is_rated": bool(tournament.is_rated),
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
+        "started_at": tournament.started_at.isoformat() if tournament.started_at else None,
+        "finished_at": tournament.finished_at.isoformat() if tournament.finished_at else None,
         "registered_count": 0
     }
 
@@ -123,14 +150,19 @@ def get_tournaments(
             "name": tournament.name,
             "description": tournament.description,
             "status": tournament.status.value,
+            "registration_start": tournament.registration_start.isoformat() if tournament.registration_start else None,
+            "registration_end": tournament.registration_end.isoformat() if tournament.registration_end else None,
             "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
             "end_date": tournament.end_date.isoformat() if tournament.end_date else None,
             "city": tournament.city,
             "country": tournament.country,
             "club": tournament.club,
             "discipline": tournament.discipline.value if tournament.discipline else None,
+            "is_rated": bool(tournament.is_rated),
             "created_by_admin_id": tournament.created_by_admin_id,
             "created_at": tournament.created_at.isoformat(),
+            "started_at": tournament.started_at.isoformat() if tournament.started_at else None,
+            "finished_at": tournament.finished_at.isoformat() if tournament.finished_at else None,
             "registered_count": registered_count,
             "is_registered": is_registered
         })
@@ -188,14 +220,19 @@ def get_tournament(
         "name": tournament.name,
         "description": tournament.description,
         "status": tournament.status.value,
+        "registration_start": tournament.registration_start.isoformat() if tournament.registration_start else None,
+        "registration_end": tournament.registration_end.isoformat() if tournament.registration_end else None,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
         "end_date": tournament.end_date.isoformat() if tournament.end_date else None,
         "city": tournament.city,
         "country": tournament.country,
         "club": tournament.club,
         "discipline": tournament.discipline.value if tournament.discipline else None,
+        "is_rated": bool(tournament.is_rated),
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
+        "started_at": tournament.started_at.isoformat() if tournament.started_at else None,
+        "finished_at": tournament.finished_at.isoformat() if tournament.finished_at else None,
         "registered_count": len(registered_players),
         "is_registered": is_registered,
         "registered_players": registered_players
@@ -226,6 +263,10 @@ def update_tournament(
         tournament.description = tournament_data.description
     if tournament_data.status is not None:
         tournament.status = tournament_data.status
+    if tournament_data.registration_start is not None:
+        tournament.registration_start = tournament_data.registration_start
+    if tournament_data.registration_end is not None:
+        tournament.registration_end = tournament_data.registration_end
     if tournament_data.start_date is not None:
         tournament.start_date = tournament_data.start_date
     if tournament_data.end_date is not None:
@@ -238,6 +279,8 @@ def update_tournament(
         tournament.club = tournament_data.club
     if tournament_data.discipline is not None:
         tournament.discipline = tournament_data.discipline
+    if tournament_data.is_rated is not None:
+        tournament.is_rated = 1 if tournament_data.is_rated else 0
     
     db.commit()
     db.refresh(tournament)
@@ -251,14 +294,19 @@ def update_tournament(
         "name": tournament.name,
         "description": tournament.description,
         "status": tournament.status.value,
+        "registration_start": tournament.registration_start.isoformat() if tournament.registration_start else None,
+        "registration_end": tournament.registration_end.isoformat() if tournament.registration_end else None,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
         "end_date": tournament.end_date.isoformat() if tournament.end_date else None,
         "city": tournament.city,
         "country": tournament.country,
         "club": tournament.club,
         "discipline": tournament.discipline.value if tournament.discipline else None,
+        "is_rated": bool(tournament.is_rated),
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
+        "started_at": tournament.started_at.isoformat() if tournament.started_at else None,
+        "finished_at": tournament.finished_at.isoformat() if tournament.finished_at else None,
         "registered_count": registered_count
     }
 
@@ -505,3 +553,294 @@ def get_available_players(
     
     print(f"✅ Returning {len(result)} available players")
     return result
+
+
+# Tournament Start Schemas
+class TournamentStartRequest(BaseModel):
+    bracket_type: BracketType = BracketType.SINGLE_ELIMINATION
+    race_to_r64: Optional[int] = None
+    race_to_r32: Optional[int] = None
+    race_to_r16: Optional[int] = None
+    race_to_qf: Optional[int] = None
+    race_to_sf: Optional[int] = None
+    race_to_f: int  # Обов'язково
+
+
+@router.post("/{tournament_id}/start", status_code=status.HTTP_200_OK)
+def start_tournament(
+    tournament_id: int,
+    start_data: TournamentStartRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin)
+):
+    """
+    Запустити турнір - створює регламент, присвоює сіяні, генерує сітку
+    
+    Кроки:
+    1. Валідація (статус, учасники, і т.д.)
+    2. Створення/оновлення TournamentRule
+    3. Присвоєння сіяних номерів (якщо ще не присвоєні)
+    4. Генерація сітки
+    5. Перехід CONFIRMED → ACTIVE
+    6. Блокування регламенту
+    7. Оновлення статусу турніру на IN_PROGRESS
+    """
+    
+    # 1. Валідація
+    validation = validate_tournament_start(db, tournament_id)
+    
+    if not validation['is_valid']:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                'message': 'Tournament cannot be started',
+                'errors': validation['errors'],
+                'warnings': validation['warnings']
+            }
+        )
+    
+    tournament = db.query(Tournament).filter(Tournament.id == tournament_id).first()
+    
+    # 2. Створення/оновлення регламенту
+    rules = db.query(TournamentRule).filter(
+        TournamentRule.tournament_id == tournament_id
+    ).first()
+    
+    if not rules:
+        rules = TournamentRule(
+            tournament_id=tournament_id,
+            bracket_type=start_data.bracket_type,
+            race_to_r64=start_data.race_to_r64,
+            race_to_r32=start_data.race_to_r32,
+            race_to_r16=start_data.race_to_r16,
+            race_to_qf=start_data.race_to_qf,
+            race_to_sf=start_data.race_to_sf,
+            race_to_f=start_data.race_to_f,
+            is_locked=False
+        )
+        db.add(rules)
+    else:
+        # Оновити race_to якщо регламент ще не заблокований
+        if rules.is_locked:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Tournament rules are locked and cannot be modified"
+            )
+        rules.bracket_type = start_data.bracket_type
+        rules.race_to_r64 = start_data.race_to_r64
+        rules.race_to_r32 = start_data.race_to_r32
+        rules.race_to_r16 = start_data.race_to_r16
+        rules.race_to_qf = start_data.race_to_qf
+        rules.race_to_sf = start_data.race_to_sf
+        rules.race_to_f = start_data.race_to_f
+    
+    db.commit()
+    
+    # 3. Присвоєння сіяних (якщо ще не присвоєні)
+    seeded_participants = assign_seeds_by_rating(db, tournament_id, confirmed_only=True)
+    
+    # 4. Генерація сітки (матчі створюються але НЕ впливають на рейтинг до завершення турніру)
+    try:
+        matches = generate_single_elimination_bracket(db, tournament_id)
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error generating bracket for tournament {tournament_id}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error generating bracket: {str(e)}"
+        )
+    
+    # 5. Перехід CONFIRMED → ACTIVE
+    confirmed_registrations = db.query(TournamentRegistration).filter(
+        TournamentRegistration.tournament_id == tournament_id,
+        TournamentRegistration.status == ParticipantStatus.CONFIRMED
+    ).all()
+    
+    for reg in confirmed_registrations:
+        reg.status = ParticipantStatus.ACTIVE
+    
+    # 6. Блокування регламенту
+    rules.is_locked = True
+    
+    # 7. Оновлення статусу турніру
+    tournament.status = TournamentStatus.IN_PROGRESS
+    tournament.started_at = datetime.utcnow()
+    
+    try:
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error committing tournament start for tournament {tournament_id}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error saving tournament state: {str(e)}"
+        )
+    
+    # 8. Audit логування
+    try:
+        bracket_type_value = rules.bracket_type.value if hasattr(rules.bracket_type, 'value') else str(rules.bracket_type)
+        logger.info(
+            f"TOURNAMENT_STARTED: Tournament '{tournament.name}' (ID: {tournament_id}) started by admin {current_user.username} (ID: {current_user.id}). "
+            f"Participants: {len(seeded_participants)}, Bracket: {validation['data']['bracket_size']}, "
+            f"Matches created: {len(matches)}, Bracket type: {bracket_type_value}, "
+            f"Race to F/SF/QF: {rules.race_to_f}/{rules.race_to_sf}/{rules.race_to_qf}"
+        )
+    except Exception as log_error:
+        # Не блокувати старт турніру через помилку логування
+        logger.error(f"Error logging tournament start: {log_error}")
+    
+    return {
+        'message': 'Tournament started successfully',
+        'tournament_id': tournament_id,
+        'bracket_size': validation['data']['bracket_size'],
+        'confirmed_participants': len(seeded_participants),
+        'matches_created': len(matches),
+        'started_at': tournament.started_at.isoformat(),
+        'warnings': validation['warnings']
+    }
+
+
+@router.post("/{tournament_id}/seeds", status_code=status.HTTP_200_OK)
+def update_tournament_seeds(
+    tournament_id: int,
+    seeds_data: UpdateSeeds,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin)
+):
+    """
+    Ручне оновлення сіяних номерів учасників турніру
+    
+    Args:
+        tournament_id: ID турніру
+        seeds_data: Словник {player_id: seed_number}
+        
+    Returns:
+        Updated list of participants with new seeds
+    """
+    tournament = db.query(Tournament).filter(Tournament.id == tournament_id).first()
+    if not tournament:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Tournament not found"
+        )
+    
+    # Перевірка що турнір ще не стартував
+    if tournament.status != TournamentStatus.REGISTRATION:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot update seeds after tournament has started"
+        )
+    
+    try:
+        updated_registrations = update_seeds_manually(
+            db, 
+            tournament_id, 
+            seeds_data.seeds
+        )
+        
+        logger.info(
+            f"SEEDS_UPDATED: Tournament '{tournament.name}' (ID: {tournament_id}) seeds updated by admin {current_user.username}. "
+            f"Updated {len(seeds_data.seeds)} participants."
+        )
+        
+        # Повернути оновлений список учасників
+        result = []
+        for reg in updated_registrations:
+            player = db.query(Player).filter(Player.id == reg.player_id).first()
+            result.append({
+                'player_id': reg.player_id,
+                'player_name': player.name if player else None,
+                'seed': reg.seed,
+                'status': reg.status.value
+            })
+        
+        return {
+            'message': 'Seeds updated successfully',
+            'participants': result
+        }
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+
+@router.get("/{tournament_id}/bracket/preview")
+def get_tournament_bracket_preview(
+    tournament_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin)
+):
+    """
+    Отримати попередній перегляд сітки БЕЗ збереження в БД
+    Доступно тільки адмінам перед стартом турніру
+    
+    Returns:
+        Preview bracket structure
+    """
+    tournament = db.query(Tournament).filter(Tournament.id == tournament_id).first()
+    if not tournament:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Tournament not found"
+        )
+    
+    # Генерувати preview можна тільки для турнірів в статусі REGISTRATION
+    if tournament.status != TournamentStatus.REGISTRATION:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Preview is only available before tournament start"
+        )
+    
+    preview = generate_bracket_preview(db, tournament_id)
+    
+    return {
+        'tournament_id': tournament_id,
+        'tournament_name': tournament.name,
+        'status': tournament.status.value,
+        'bracket': preview,
+        'is_preview': True
+    }
+
+
+@router.get("/{tournament_id}/bracket")
+def get_tournament_bracket(
+    tournament_id: int,
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user_optional)
+):
+    """
+    Отримати сітку турніру
+    
+    Returns:
+        Bracket visualization with rounds and matches
+    """
+    tournament = db.query(Tournament).filter(Tournament.id == tournament_id).first()
+    if not tournament:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Tournament not found"
+        )
+    
+    # Перевірка чи турнір стартував
+    if tournament.status == TournamentStatus.REGISTRATION:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Tournament has not started yet, bracket not generated"
+        )
+    
+    from app.services.bracket_generator import get_bracket_visualization
+    bracket = get_bracket_visualization(db, tournament_id)
+    
+    return {
+        'tournament_id': tournament_id,
+        'tournament_name': tournament.name,
+        'status': tournament.status.value,
+        'bracket': bracket
+    }
