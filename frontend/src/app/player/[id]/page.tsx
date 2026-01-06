@@ -176,7 +176,7 @@ export default function PlayerProfile() {
         averageRatingChange: 0,
         highestRating: player.rating,
         lowestRating: player.rating,
-        ratingProgress: player.rating - player.initialRating
+        ratingProgress: player.rating - (player.initialRating || player.rating)
       };
     }
 
