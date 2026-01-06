@@ -268,10 +268,10 @@ export default function MatchHistory({ matches, players = [], playerId, limit, d
                       <div className="flex items-center space-x-2">
                         <span className="text-sm text-gray-500">Переможець:</span>
                         <Link 
-                          href={`/player/${encodeURIComponent(winner.name)}`}
+                          href={`/player/${encodeURIComponent(winner.name || 'unknown')}`}
                           className={`${getRatingBand(match.winnerId === player1.id ? match.player1RatingAfter : match.player2RatingAfter).textColor} font-semibold hover:opacity-80 transition-colors`}
                         >
-                          {winner.name}
+                          {winner.name || 'Невідомий гравець'}
                         </Link>
                       </div>
                       <div className="flex items-center space-x-2">

@@ -8,7 +8,7 @@ const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').rep
 interface Participant {
   playerId: number;
   playerName: string;
-  seed: number | null;
+  seed?: number;
   rating: number;
   status: string;
 }

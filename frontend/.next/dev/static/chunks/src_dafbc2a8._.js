@@ -3394,7 +3394,7 @@ function PlayerProfile() {
                 averageRatingChange: 0,
                 highestRating: player.rating,
                 lowestRating: player.rating,
-                ratingProgress: player.rating - player.initialRating
+                ratingProgress: player.rating - (player.initialRating || player.rating)
             };
         }
         let wins = 0;
@@ -3434,7 +3434,7 @@ function PlayerProfile() {
             averageRatingChange: totalRatingChange / playerMatches.length,
             highestRating,
             lowestRating,
-            ratingProgress: player.rating - player.initialRating
+            ratingProgress: player.rating - (player.initialRating || player.rating)
         };
     };
     const stats = calculateStats();

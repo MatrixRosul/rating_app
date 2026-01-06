@@ -221,7 +221,7 @@ export default function PlayerProfile() {
       averageRatingChange: totalRatingChange / playerMatches.length,
       highestRating,
       lowestRating,
-      ratingProgress: player.rating - player.initialRating
+      ratingProgress: player.rating - (player.initialRating || player.rating)
     };
   };
 
@@ -443,8 +443,8 @@ export default function PlayerProfile() {
               )}
             </div>
             <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg col-span-2 sm:col-span-1">
-              <div className={`text-xl sm:text-2xl font-bold ${stats.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {stats.ratingChange >= 0 ? '+' : ''}{stats.ratingChange}
+              <div className={`text-xl sm:text-2xl font-bold ${stats.ratingProgress >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {stats.ratingProgress >= 0 ? '+' : ''}{stats.ratingProgress}
               </div>
               <div className="text-xs sm:text-sm text-gray-600">Зміна рейтингу</div>
             </div>
