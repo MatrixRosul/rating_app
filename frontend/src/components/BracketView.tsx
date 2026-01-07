@@ -134,11 +134,12 @@ export default function BracketView({ bracket }: BracketViewProps) {
                 <div className="space-y-2">
                   {/* Player 1 */}
                   <div
+                    onClick={() => match.player1.id && (window.location.href = `/player/${match.player1.id}`)}
                     className={`p-2 rounded ${
                       match.winner?.id === match.player1.id
                         ? 'bg-green-200 font-bold'
                         : 'bg-gray-100'
-                    }`}
+                    } ${match.player1.id ? 'cursor-pointer hover:bg-gray-200 transition' : ''}`}
                   >
                     {match.player1.id ? (
                       <div className="flex justify-between items-center">
@@ -161,11 +162,12 @@ export default function BracketView({ bracket }: BracketViewProps) {
 
                   {/* Player 2 */}
                   <div
+                    onClick={() => match.player2.id && (window.location.href = `/player/${match.player2.id}`)}
                     className={`p-2 rounded ${
                       match.winner?.id === match.player2.id
                         ? 'bg-green-200 font-bold'
                         : 'bg-gray-100'
-                    }`}
+                    } ${match.player2.id ? 'cursor-pointer hover:bg-gray-200 transition' : ''}`}
                   >
                     {match.player2.id ? (
                       <div className="flex justify-between items-center">

@@ -86,11 +86,11 @@ export default function RatingChart({ player, matches, players, className = '' }
   
   if (ratingHistory.length < 2) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Графік рейтингу</h3>
-        <div className="text-center py-8 text-gray-500">
-          <p>Недостатньо даних для побудови графіка</p>
-          <p className="text-sm mt-1">Зіграйте кілька матчів, щоб побачити графік</p>
+      <div className="bg-white rounded-lg shadow-md p-3 sm:p-4 md:p-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Графік рейтингу</h3>
+        <div className="text-center py-6 sm:py-8 text-gray-500">
+          <p className="text-sm sm:text-base">Недостатньо даних для побудови графіка</p>
+          <p className="text-xs sm:text-sm mt-1">Зіграйте кілька матчів, щоб побачити графік</p>
         </div>
       </div>
     );
@@ -146,16 +146,17 @@ export default function RatingChart({ player, matches, players, className = '' }
   );
 
   return (
-    <div className={`bg-white rounded-lg shadow-md p-6 ${className}`}>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Графік рейтингу</h3>
+    <div className={`bg-white rounded-lg shadow-md p-3 sm:p-4 md:p-6 ${className}`}>
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Графік рейтингу</h3>
       
-      <div className="relative overflow-x-auto">
+      <div className="relative overflow-x-auto -mx-3 sm:-mx-4 md:mx-0">
         <svg 
-          width={svgWidth} 
-          height={svgHeight} 
-          className="border border-gray-200 rounded min-w-full md:min-w-0"
+          width="100%" 
+          height="100%" 
+          className="border border-gray-200 rounded"
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           preserveAspectRatio="xMidYMid meet"
+          style={{ minHeight: '250px', maxHeight: '400px' }}
         >
           {/* Фонові зони рейтингу */}
           {ratingLevels.map((band, index) => {

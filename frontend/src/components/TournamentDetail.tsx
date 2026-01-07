@@ -432,7 +432,8 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
                       return (
                         <div
                           key={player.playerId}
-                          className="flex justify-between items-center p-3 bg-white border rounded-lg"
+                          onClick={() => window.location.href = `/player/${player.playerId}`}
+                          className="flex justify-between items-center p-3 bg-white border rounded-lg hover:bg-gray-50 cursor-pointer transition"
                         >
                           <div className="flex-1">
                             <div className="font-medium">{player.playerName}</div>
@@ -448,7 +449,10 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
 
                           {user?.role === 'admin' && tournament.status === 'registration' && (
                             <button
-                              onClick={() => handleRemovePlayer(player.playerId)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemovePlayer(player.playerId);
+                              }}
                               className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition ml-3"
                               disabled={actionLoading}
                             >
@@ -529,7 +533,8 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
                             return (
                               <div
                                 key={player.id}
-                                className="flex justify-between items-center p-3 bg-white border rounded-lg hover:border-blue-500 transition"
+                                onClick={() => window.location.href = `/player/${player.id}`}
+                                className="flex justify-between items-center p-3 bg-white border rounded-lg hover:border-blue-500 hover:bg-gray-50 transition cursor-pointer"
                               >
                                 <div className="flex-1">
                                   <div className="font-medium">{player.name}</div>
@@ -546,7 +551,10 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
                                   </div>
                                 </div>
                                 <button
-                                  onClick={() => handleAddPlayer(player.id)}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAddPlayer(player.id);
+                                  }}
                                   className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
                                   disabled={actionLoading}
                                 >
