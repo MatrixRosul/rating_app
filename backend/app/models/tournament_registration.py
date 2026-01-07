@@ -28,7 +28,7 @@ class TournamentRegistration(Base):
     player_id = Column(Integer, ForeignKey("players.id"), nullable=False)  # Real player from DB
     
     # Status
-    status = Column(Enum(ParticipantStatus), nullable=False, default=ParticipantStatus.PENDING)
+    status = Column(String, nullable=False, default="pending")  # Changed from Enum to String
     
     # Seeding
     seed = Column(Integer, nullable=True)  # Сіяний номер (визначається після підтвердження)

@@ -35,13 +35,13 @@ class Tournament(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
-    status = Column(Enum(TournamentStatus), nullable=False)  # No default - always set explicitly in router
+    status = Column(String, nullable=False)  # Changed from Enum to String to avoid uppercase conversion
     
     # Location and details
     city = Column(String, nullable=False)
     country = Column(String, nullable=False, default="Україна")
     club = Column(String, nullable=False)
-    discipline = Column(Enum(TournamentDiscipline), nullable=False)
+    discipline = Column(String, nullable=False)  # Changed from Enum to String
     
     # Rating configuration
     is_rated = Column(Integer, nullable=False, default=1)  # 1 = rated, 0 = not rated (using Integer for SQLite compatibility)

@@ -123,7 +123,7 @@ def create_tournament(
         "id": tournament.id,
         "name": tournament.name,
         "description": tournament.description,
-        "status": tournament.status.value,
+        "status": tournament.status,
         "registration_start": tournament.registration_start.isoformat() if tournament.registration_start else None,
         "registration_end": tournament.registration_end.isoformat() if tournament.registration_end else None,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
@@ -131,7 +131,7 @@ def create_tournament(
         "city": tournament.city,
         "country": tournament.country,
         "club": tournament.club,
-        "discipline": tournament.discipline.value,
+        "discipline": tournament.discipline,
         "is_rated": bool(tournament.is_rated),
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
@@ -175,7 +175,7 @@ def get_tournaments(
             "id": tournament.id,
             "name": tournament.name,
             "description": tournament.description,
-            "status": tournament.status.value,
+            "status": tournament.status,
             "registration_start": tournament.registration_start.isoformat() if tournament.registration_start else None,
             "registration_end": tournament.registration_end.isoformat() if tournament.registration_end else None,
             "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
@@ -183,7 +183,7 @@ def get_tournaments(
             "city": tournament.city,
             "country": tournament.country,
             "club": tournament.club,
-            "discipline": tournament.discipline.value if tournament.discipline else None,
+            "discipline": tournament.discipline if tournament.discipline else None,
             "is_rated": bool(tournament.is_rated),
             "created_by_admin_id": tournament.created_by_admin_id,
             "created_at": tournament.created_at.isoformat(),
@@ -245,7 +245,7 @@ def get_tournament(
         "id": tournament.id,
         "name": tournament.name,
         "description": tournament.description,
-        "status": tournament.status.value,
+        "status": tournament.status,
         "registration_start": tournament.registration_start.isoformat() if tournament.registration_start else None,
         "registration_end": tournament.registration_end.isoformat() if tournament.registration_end else None,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
@@ -253,7 +253,7 @@ def get_tournament(
         "city": tournament.city,
         "country": tournament.country,
         "club": tournament.club,
-        "discipline": tournament.discipline.value if tournament.discipline else None,
+        "discipline": tournament.discipline if tournament.discipline else None,
         "is_rated": bool(tournament.is_rated),
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
@@ -319,7 +319,7 @@ def update_tournament(
         "id": tournament.id,
         "name": tournament.name,
         "description": tournament.description,
-        "status": tournament.status.value,
+        "status": tournament.status,
         "registration_start": tournament.registration_start.isoformat() if tournament.registration_start else None,
         "registration_end": tournament.registration_end.isoformat() if tournament.registration_end else None,
         "start_date": tournament.start_date.isoformat() if tournament.start_date else None,
@@ -327,7 +327,7 @@ def update_tournament(
         "city": tournament.city,
         "country": tournament.country,
         "club": tournament.club,
-        "discipline": tournament.discipline.value if tournament.discipline else None,
+        "discipline": tournament.discipline if tournament.discipline else None,
         "is_rated": bool(tournament.is_rated),
         "created_by_admin_id": tournament.created_by_admin_id,
         "created_at": tournament.created_at.isoformat(),
@@ -783,7 +783,7 @@ def update_tournament_seeds(
                 'player_id': reg.player_id,
                 'player_name': player.name if player else None,
                 'seed': reg.seed,
-                'status': reg.status.value
+                'status': reg.status
             })
         
         return {
@@ -829,7 +829,7 @@ def get_tournament_bracket_preview(
     return {
         'tournament_id': tournament_id,
         'tournament_name': tournament.name,
-        'status': tournament.status.value,
+        'status': tournament.status,
         'bracket': preview,
         'is_preview': True
     }
@@ -867,6 +867,6 @@ def get_tournament_bracket(
     return {
         'tournament_id': tournament_id,
         'tournament_name': tournament.name,
-        'status': tournament.status.value,
+        'status': tournament.status,
         'bracket': bracket
     }
