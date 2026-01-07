@@ -35,7 +35,7 @@ class Tournament(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
-    status = Column(Enum(TournamentStatus), nullable=False, default=TournamentStatus.REGISTRATION.value)
+    status = Column(Enum(TournamentStatus), nullable=False)  # No default - always set explicitly in router
     
     # Location and details
     city = Column(String, nullable=False)
