@@ -17,37 +17,67 @@
 ```
 backend/
 ├── app/
-│   ├── main.py                 # FastAPI app initialization
-│   ├── database.py             # SQLAlchemy engine, session
+│   ├── main.py                 # FastAPI app initialization, CORS config
+│   ├── database.py             # SQLAlchemy engine, session, Base
 │   ├── auth.py                 # JWT and password helpers
-│   ├── dependencies.py         # Reusable dependencies
+│   ├── dependencies.py         # Reusable dependencies (get_current_user, etc.)
 │   │
-│   ├── models/                 # SQLAlchemy models
+│   ├── models/                 # SQLAlchemy ORM models
 │   │   ├── __init__.py
-│   │   ├── player.py
-│   │   ├── match.py
-│   │   ├── user.py
-│   │   ├── tournament.py
-│   │   └── tournament_registration.py
+│   │   ├── player.py           # Player model
+│   │   ├── match.py            # Match model
+│   │   ├── user.py             # User, UserRole enum
+│   │   ├── tournament.py       # Tournament, TournamentStatus, TournamentDiscipline enums
+│   │   ├── tournament_registration.py  # TournamentRegistration, ParticipantStatus
+│   │   └── tournament_rule.py  # TournamentRule (bracket config)
 │   │
 │   ├── routers/                # API endpoints
 │   │   ├── __init__.py
-│   │   ├── auth.py             # /api/auth/*
-│   │   ├── players.py          # /api/players/*
-│   │   ├── matches.py          # /api/matches/*
-│   │   ├── tournaments.py      # /api/tournaments/*
+│   │   ├── auth.py             # POST /api/auth/login, /me
+│   │   ├── players.py          # CRUD /api/players/*
+│   │   ├── matches.py          # CRUD /api/matches/*
+│   │   ├── tournaments.py      # CRUD /api/tournaments/*
 │   │   └── participants.py     # /api/tournaments/{id}/participants/*
 │   │
 │   ├── services/               # Business logic
 │   │   ├── __init__.py
-│   │   └── rating.py           # Rating calculation engine
+│   │   ├── rating.py           # Rating calculation engine (v3.1.1)
+│   │   ├── seeding_service.py  # Generate bracket seeds by rating
+│   │   ├── bracket_generator.py # Generate tournament brackets
+│   │   └── tournament_start_service.py  # Start tournament logic
 │   │
-│   ├── schemas/                # Pydantic schemas (future)
-│   │   └── __init__.py
+│   ├── schemas/                # Pydantic schemas for validation
+│   │   ├── __init__.py
+│   │   ├── player.py           # Player schemas
+│   │   └── match.py            # Match schemas
 │   │
 │   └── utils/
-│       └── discipline_names.py # Display names for disciplines
+│       └── discipline_names.py # Display names for disciplines (Ukrainian)
 │
+├── scripts/                    # Utility scripts
+│   ├── create_admin.py         # Create admin user
+│   ├── create_test_user.py     # Create test player user
+│   ├── create_users_for_players.py  # Generate 151 user accounts
+│   └── import_csv.py           # Import players/matches from CSV
+│
+├── alembic/                    # Database migrations
+│   ├── env.py                  # Alembic configuration
+│   ├── versions/               # Migration files
+│   │   ├── 06756e52db35_add_missing_columns_to_heroku.py
+│   │   ├── 6d3c2bd01fda_sync_schema_with_models.py
+│   │   └── 20260107094620_fix_enum_values.py  # CRITICAL: Lowercase enum fix
+│   └── script.py.mako
+│
+├── tests/                      # Pytest tests
+│   ├── conftest.py
+│   ├── test_tournaments.py
+│   └── test_participants.py
+│
+├── requirements.txt            # Python dependencies
+├── alembic.ini                 # Alembic config
+├── pytest.ini                  # Pytest config
+└── start_backend.sh            # Local startup script
+```
 ├── scripts/                    # Utility scripts
 │   ├── create_admin.py
 │   ├── create_test_player_user.py
@@ -500,9 +530,40 @@ pip install -r requirements.txt
 export DATABASE_URL=postgresql://maxrosul:password@localhost:5432/billiard_rating
 export SECRET_KEY=dev-secret-key
 
+# Run migrations
+alembic upgrade head
+
 # Run server
 uvicorn app.main:app --reload --port 8000
+
+# Or use script
+./start_backend.sh
 ```
+
+---
+
+## Database Migrations (Alembic)
+
+```bash
+# Create new migration
+alembic revision --autogenerate -m "description"
+
+# Apply migrations
+alembic upgrade head
+
+# Rollback one migration
+alembic downgrade -1
+
+# Check current version
+alembic current
+
+# View migration history
+alembic history
+```
+
+**Critical migration**: `20260107094620_fix_enum_values.py`
+- Converts TournamentStatus and TournamentDiscipline from uppercase to lowercase
+- Required for PostgreSQL enum type compatibility
 
 ---
 
@@ -512,8 +573,11 @@ uvicorn app.main:app --reload --port 8000
 # Create admin user
 python scripts/create_admin.py
 
-# Create test player user
-python scripts/create_test_player_user.py
+# Create 151 user accounts for all players
+python scripts/create_users_for_players.py
+
+# Import CSV data
+python scripts/import_csv.py
 
 # Run tests
 pytest -v
@@ -521,6 +585,64 @@ pytest -v
 # Check test coverage
 pytest --cov=app tests/
 ```
+
+---
+
+## Critical Lessons Learned
+
+### 1. PostgreSQL Enum Types Are Case-Sensitive
+**Problem**: Enum values like "REGISTRATION" failed with "invalid input value for enum"
+
+**Root Cause**: PostgreSQL enum types must match EXACTLY - "REGISTRATION" ≠ "registration"
+
+**Solution**:
+- Define all enum values as lowercase in Python models
+- Use Alembic migration to convert existing database enums
+- Add field_validator in routers to convert frontend uppercase to lowercase
+- NEVER use enum object as Column default - use string instead
+
+**Code Example**:
+```python
+# ❌ WRONG - SQLAlchemy uses .name ("REGISTRATION")
+status = Column(Enum(TournamentStatus), default=TournamentStatus.REGISTRATION)
+
+# ✅ CORRECT - Direct string value
+status = Column(Enum(TournamentStatus), default="registration")
+
+# ✅ Field validator in router
+@field_validator('discipline', mode='before')
+@classmethod
+def validate_discipline(cls, v):
+    if isinstance(v, str):
+        return v.lower()
+    return v
+```
+
+### 2. Heroku Python Module Caching
+**Problem**: Code changes deployed but not reflected in runtime
+
+**Root Cause**: Python caches imported modules, persists across deployments
+
+**Solution**:
+- After deployment, run: `heroku restart --app rating-app`
+- Wait 10-15 seconds for dyno to fully restart
+- Verify code with: `heroku run "cat path/to/file.py | grep pattern"`
+
+### 3. Ukrainian→Latin Transliteration
+**Problem**: Generate usernames from Ukrainian names (Микола → mykola)
+
+**Solution**: Created TRANSLIT_MAP dictionary in `create_users_for_players.py`
+- Maps Ukrainian letters to Latin equivalents
+- Handles special cases (і→i, ї→yi, є→ye, etc.)
+- Generates lowercase usernames with underscores
+
+### 4. Heroku Ephemeral Filesystem
+**Problem**: Credentials saved to file not persistent
+
+**Solution**: 
+- Accept that Heroku filesystem is ephemeral
+- Critical data must be captured from terminal output
+- Local credentials stored in `users_credentials.txt`
 
 ---
 

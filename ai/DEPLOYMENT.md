@@ -3,8 +3,10 @@
 ## Overview
 
 - **Frontend**: Vercel (auto-deploy from GitHub)
-- **Backend**: Heroku or similar (manual deploy)
-- **Database**: PostgreSQL (Heroku add-on or separate)
+  - Live URL: https://rating-app-mu-murex.vercel.app
+- **Backend**: Heroku
+  - Live URL: https://rating-app-000c25dfc4f1.herokuapp.com
+- **Database**: Heroku PostgreSQL 17.6 (postgresql-cylindrical-32177)
 
 ---
 
@@ -123,12 +125,15 @@ vercel --prod
    Make sure `backend/requirements.txt` includes:
    ```
    fastapi
-   uvicorn
+   uvicorn[standard]
    sqlalchemy
    psycopg2-binary
-   python-jose
-   passlib
+   alembic==1.13.1
+   python-jose[cryptography]
+   passlib[bcrypt]
+   python-multipart
    pydantic
+   pydantic-settings
    ```
 
 ### Deploy Backend
@@ -164,6 +169,19 @@ git push heroku dev:main
    cd backend
    python scripts/create_admin.py
    ```
+
+4. **Run Database Migrations**
+   ```bash
+   heroku run "cd backend && alembic upgrade head"
+   ```
+
+5. **Create User Accounts for Players**
+   ```bash
+   heroku run "cd backend && python scripts/create_users_for_players.py"
+   ```
+   - Generates 151 user accounts with Ukrainian→Latin transliteration
+   - Random 8-character passwords
+   - Credentials output to terminal only (ephemeral filesystem)
 
 ### Scaling
 
@@ -637,7 +655,25 @@ heroku dyno:type hobby           # Change dyno type
    - Verify FRONTEND_URL env var
 
 5. **Frontend Can't Reach Backend**
-   - Check NEXT_PUBLIC_API_URL
+   - Check NEXT_PUBLIC_API_URL in Vercel env vars
+   - Must be set to: https://rating-app-000c25dfc4f1.herokuapp.com
+
+6. **PostgreSQL Enum Type Mismatches**
+   - Enum values must match database EXACTLY (case-sensitive)
+   - Always use lowercase enum values in database
+   - Use Alembic migrations when changing enum types
+   - SQLAlchemy Enum defaults use `.name` not `.value` - use string defaults instead
+
+7. **Python Module Caching on Heroku**
+   - Code changes may not reflect immediately
+   - Solution: `heroku restart --app rating-app` to clear cache
+   - Wait 10-15 seconds after restart before testing
+
+8. **Alembic Migration Issues**
+   - Always check current head: `alembic current`
+   - Verify revision chain before creating new migrations
+   - Test migrations locally before running on Heroku
+   - Use `heroku run "cd backend && alembic upgrade head"` for production
    - Must include https://
 
 ---

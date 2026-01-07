@@ -223,15 +223,34 @@ players (1) ────── (many) tournament_registrations
 tournaments (1) ── (many) tournament_registrations
   │
   └─> created_by_admin (1) user
+
+tournament_registrations
+  ├─> tournament (1)
+  ├─> player (1)
+  └─> registered_by_user (0..1)
 ```
 
 ### Constraints
 
 - User can have 0 or 1 player profile
 - Player can be in many tournaments
-- Tournament has many participants
+- Tournament has many participants via registrations
 - Match belongs to 0 or 1 tournament
 - All ratings stored as FLOAT (never NULL)
+- Enum values stored as lowercase in PostgreSQL
+
+### Critical Database Notes
+
+**PostgreSQL Enums**:
+- All enum types use **lowercase values**
+- TournamentStatus: 'registration', 'in_progress', 'finished'
+- TournamentDiscipline: 'free_pyramid', 'dynamic_pyramid', etc.
+- Never use uppercase values - causes `invalid input value` errors
+
+**Alembic Migrations**:
+- Located in `backend/alembic/versions/`
+- Run with: `alembic upgrade head`
+- Critical migration: `20260107094620_fix_enum_values.py` (lowercase conversion)
 
 ## Authentication Flow
 
@@ -334,18 +353,31 @@ app/
 │   ├── player.py           # Player table
 │   ├── match.py            # Match table
 │   ├── user.py             # User, UserRole enum
-│   ├── tournament.py       # Tournament, TournamentStatus
-│   └── tournament_registration.py  # Many-to-many
+│   ├── tournament.py       # Tournament, TournamentStatus, TournamentDiscipline
+│   ├── tournament_registration.py  # Many-to-many with ParticipantStatus
+│   └── tournament_rule.py  # Bracket configuration
 │
 ├── routers/
-│   ├── auth.py             # /api/auth/*
+│   ├── auth.py             # /api/auth/login, /me
 │   ├── players.py          # /api/players/*
 │   ├── matches.py          # /api/matches/*
 │   ├── tournaments.py      # /api/tournaments/*
 │   └── participants.py     # /api/tournaments/{id}/participants/*
 │
 ├── services/
-│   └── rating.py           # calculate_rating_change()
+│   ├── rating.py           # Rating calculation engine (v3.1.1)
+│   ├── seeding_service.py  # Generate bracket seeds
+│   ├── bracket_generator.py # Generate tournament brackets
+│   └── tournament_start_service.py  # Start tournament logic
+│
+├── scripts/
+│   ├── create_admin.py     # Create admin user
+│   ├── create_users_for_players.py  # Generate 151 user accounts
+│   └── import_csv.py       # Import players/matches from CSV
+│
+├── alembic/                # Database migrations
+│   └── versions/
+│       └── 20260107094620_fix_enum_values.py  # Critical enum fix
 │
 └── tests/
     ├── conftest.py         # Pytest fixtures

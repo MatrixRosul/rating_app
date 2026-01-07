@@ -25,3 +25,9 @@
 [00:44:45.485] Server  LOG     ✓ Compiled in 4.7s
 [01:00:27.534] Server  LOG     ✓ Compiled in 942ms
 [01:02:24.847] Server  LOG     ✓ Compiled in 661ms
+[16:55:08.998] Browser ERROR   Error fetching players: {}
+[16:55:08.998] Browser ERROR   Error loading data from API: {}
+[16:55:08.998] Browser ERROR   Token verification failed: {}
+[16:56:34.858] Browser ERROR   Login error: {}
+[17:13:01.160] Browser ERROR   Error fetching players: {}
+[17:13:01.160] Browser ERROR   Error fetching players: {}

@@ -41,11 +41,11 @@ def validate_tournament_start(
         }
     
     data['tournament_name'] = tournament.name
-    data['tournament_status'] = tournament.status.value
+    data['tournament_status'] = tournament.status
     
     # 2. Перевірка статусу
-    if tournament.status != TournamentStatus.REGISTRATION:
-        errors.append(f"Tournament status must be REGISTRATION, current: {tournament.status.value}")
+    if tournament.status != "registration":
+        errors.append(f"Tournament status must be REGISTRATION, current: {tournament.status}")
     
     # 3. Перевірка чи турнір вже стартував
     if tournament.started_at is not None:
@@ -54,7 +54,7 @@ def validate_tournament_start(
     # 4. Перевірка учасників
     confirmed_participants = db.query(TournamentRegistration).filter(
         TournamentRegistration.tournament_id == tournament_id,
-        TournamentRegistration.status == ParticipantStatus.CONFIRMED
+        TournamentRegistration.status == "confirmed"
     ).all()
     
     data['confirmed_count'] = len(confirmed_participants)
@@ -118,7 +118,7 @@ def validate_tournament_start(
     # 7. Перевірка pending учасників
     pending_count = db.query(TournamentRegistration).filter(
         TournamentRegistration.tournament_id == tournament_id,
-        TournamentRegistration.status == ParticipantStatus.PENDING
+        TournamentRegistration.status == "pending"
     ).count()
     
     if pending_count > 0:

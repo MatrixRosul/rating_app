@@ -362,7 +362,7 @@ def register_for_tournament(
             detail="Tournament not found"
         )
     
-    if tournament.status != TournamentStatus.PENDING:
+    if tournament.status != "pending":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Tournament is not accepting registrations"
@@ -411,7 +411,7 @@ def admin_register_player(
             detail="Tournament not found"
         )
     
-    if tournament.status != TournamentStatus.PENDING:
+    if tournament.status != "pending":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Tournament is not accepting registrations"
@@ -473,7 +473,7 @@ def unregister_from_tournament(
             detail="Tournament not found"
         )
     
-    if tournament.status != TournamentStatus.PENDING:
+    if tournament.status != "pending":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot unregister from this tournament"
@@ -514,7 +514,7 @@ def admin_unregister_player(
             detail="Tournament not found"
         )
     
-    if tournament.status != TournamentStatus.PENDING:
+    if tournament.status != "pending":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot unregister from this tournament"
@@ -685,17 +685,17 @@ def start_tournament(
     # 5. Перехід CONFIRMED → ACTIVE
     confirmed_registrations = db.query(TournamentRegistration).filter(
         TournamentRegistration.tournament_id == tournament_id,
-        TournamentRegistration.status == ParticipantStatus.CONFIRMED
+        TournamentRegistration.status == "confirmed"
     ).all()
     
     for reg in confirmed_registrations:
-        reg.status = ParticipantStatus.ACTIVE
+        reg.status = "active"
     
     # 6. Блокування регламенту
     rules.is_locked = True
     
     # 7. Оновлення статусу турніру
-    tournament.status = TournamentStatus.IN_PROGRESS
+    tournament.status = "in_progress"
     tournament.started_at = datetime.utcnow()
     
     try:
@@ -757,7 +757,7 @@ def update_tournament_seeds(
         )
     
     # Перевірка що турнір ще не стартував
-    if tournament.status != TournamentStatus.REGISTRATION:
+    if tournament.status != "registration":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot update seeds after tournament has started"
@@ -818,7 +818,7 @@ def get_tournament_bracket_preview(
         )
     
     # Генерувати preview можна тільки для турнірів в статусі REGISTRATION
-    if tournament.status != TournamentStatus.REGISTRATION:
+    if tournament.status != "registration":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Preview is only available before tournament start"
@@ -855,7 +855,7 @@ def get_tournament_bracket(
         )
     
     # Перевірка чи турнір стартував
-    if tournament.status == TournamentStatus.REGISTRATION:
+    if tournament.status == "registration":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Tournament has not started yet, bracket not generated"

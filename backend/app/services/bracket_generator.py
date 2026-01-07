@@ -76,7 +76,7 @@ def generate_single_elimination_bracket(
     # 1. Отримати підтверджених учасників з сіяними номерами
     participants = db.query(TournamentRegistration).filter(
         TournamentRegistration.tournament_id == tournament_id,
-        TournamentRegistration.status == ParticipantStatus.CONFIRMED
+        TournamentRegistration.status == "confirmed"
     ).order_by(TournamentRegistration.seed).all()
     
     if len(participants) < 2:
@@ -304,7 +304,7 @@ def generate_bracket_preview(
     # Отримати підтверджених учасників
     participants = db.query(TournamentRegistration).filter(
         TournamentRegistration.tournament_id == tournament_id,
-        TournamentRegistration.status == ParticipantStatus.CONFIRMED
+        TournamentRegistration.status == "confirmed"
     ).order_by(TournamentRegistration.seed).all()
     
     if len(participants) < 2:

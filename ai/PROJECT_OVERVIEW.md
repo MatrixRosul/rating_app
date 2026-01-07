@@ -38,13 +38,14 @@
 - Опційно прив'язані до Player (якщо гравець хоче сам реєструватись)
 
 ### 5. Ratings (Рейтинги)
-- Новачок: 0-1199 (сірий)
-- Учень: 1200-1399 (зелений)
-- Спеціаліст: 1400-1599 (блакитний)
-- Експерт: 1600-1799 (синій)
-- Кандидат у Майстри: 1800-2299 (фіолетовий)
-- Майстер: 2300-2499 (помаранчевий)
-- Гросмейстер: 2500+ (червоний)
+- Новачок (Newbie): 0-1199 (сірий)
+- Учень (Pupil): 1200-1399 (зелений)
+- Спеціаліст (Specialist): 1400-1599 (блакитний)
+- Експерт (Expert): 1600-1899 (синій)
+- Кандидат у Майстри (Candidate Master): 1900-2099 (фіолетовий)
+- Майстер (Master): 2100-2299 (помаранчевий)
+- Міжнародний Майстер (International Master): 2300-2399 (помаранчевий)
+- Гросмейстер (Grandmaster): 2400+ (червоний)
 
 ## Tech Stack
 
@@ -58,18 +59,22 @@
 
 ### Backend
 - **Framework**: FastAPI (Python 3.12)
-- **ORM**: SQLAlchemy
-- **Database**: PostgreSQL
+- **ORM**: SQLAlchemy 2.0
+- **Database**: PostgreSQL 17.6
 - **Auth**: JWT tokens (python-jose), bcrypt
 - **Validation**: Pydantic v2
+- **Migrations**: Alembic 1.13.1
 
 ### Database
-- **PostgreSQL** (local + production)
-- Migrations: manual scripts (SQLAlchemy auto-creates tables)
+- **PostgreSQL** (local + Heroku production)
+- Migrations: Alembic (managed via alembic/)
+- 151 players imported from CSV
+- 151 user accounts created with transliterated usernames
 
 ### Deployment
-- **Frontend**: Vercel (auto-deploy from GitHub)
-- **Backend**: Heroku or similar (manual deploy)
+- **Frontend**: Vercel (auto-deploy from GitHub) - https://rating-app-mu-murex.vercel.app
+- **Backend**: Heroku - https://rating-app-000c25dfc4f1.herokuapp.com
+- **Database**: Heroku PostgreSQL 17.6 (postgresql-cylindrical-32177)
 
 ## Key Features
 
@@ -159,12 +164,15 @@
 │       └── utils/     # Rating helpers
 │
 ├── backend/           # FastAPI app
-│   └── app/
-│       ├── models/    # SQLAlchemy models
-│       ├── routers/   # API endpoints
-│       ├── services/  # Business logic
-│       ├── schemas/   # Pydantic schemas
-│       └── tests/     # Pytest tests
+│   ├── app/
+│   │   ├── models/    # SQLAlchemy models
+│   │   ├── routers/   # API endpoints
+│   │   ├── services/  # Business logic
+│   │   ├── schemas/   # Pydantic schemas
+│   │   ├── utils/     # Helpers
+│   │   └── tests/     # Pytest tests
+│   ├── scripts/       # Utility scripts (user creation, CSV import)
+│   └── alembic/       # Database migrations
 │
 ├── ai/                # AI documentation (this folder)
 └── data/              # CSV imports, backups
@@ -173,23 +181,28 @@
 ## Current State (January 2026)
 
 ✅ **Completed**:
-- Player management (CRUD)
-- Match history
-- Rating calculations v3.1.1
-- User authentication (JWT)
-- Tournament CRUD
-- Tournament registration system
+- Player management (CRUD) - 151 players imported
+- User accounts - 151 users created with Ukrainian→Latin transliteration
+- Match history tracking
+- Rating calculations v3.1.1 (Codeforces-style)
+- User authentication (JWT with bcrypt)
+- Tournament CRUD with enum-based disciplines
+- Tournament registration system with statuses
 - Participant management (6 endpoints)
-- Admin player creation
-- Countdown timers
-- Rating-based colors
+- Admin player creation on-the-fly
+- Countdown timers for registration
+- Rating-based colors (gray→red)
+- Database migrations with Alembic
+- Production deployment (Vercel + Heroku)
+- PostgreSQL enum types (lowercase values)
 
 🚧 **In Progress**:
-- Phase 2: Bracket generation
+- Phase 2: Bracket generation and seeding
+- Tournament start service
 
 📋 **Planned**:
-- Phase 3: Live tournaments
-- Phase 4: Statistics
+- Phase 3: Live tournaments with real-time updates
+- Phase 4: Advanced statistics and analytics
 
 ## Next Steps for AI
 

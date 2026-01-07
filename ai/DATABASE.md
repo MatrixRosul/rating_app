@@ -49,6 +49,24 @@ CREATE TABLE players (
 **Purpose**: Player profiles and ratings
 
 **Key Fields**:
+- `id`: Primary key
+- `name`: Full name (display)
+- `first_name`, `last_name`: Separated for better queries
+- `city`: Player's city
+- `year_of_birth`: Birth year
+- `rating`: Current rating (default 1200)
+- `initial_rating`: Starting rating (usually 1200)
+- `peak_rating`: Highest rating ever achieved
+- `is_cms`: Whether player is a Candidate Master of Sport
+- `created_at`, `updated_at`: Timestamps
+
+**Notes**:
+- 151 players imported from CSV data
+- Rating updates happen via Match results
+- Peak rating automatically tracked
+- All users created with transliterated Ukrainian names
+
+**Key Fields**:
 - `name`: Full name (unique in practice, not enforced)
 - `rating`: Current rating (changes with matches)
 - `initial_rating`: Rating after calibration (for chart baseline)
@@ -118,10 +136,11 @@ CREATE TABLE tournaments (
     started_at TIMESTAMP,
     finished_at TIMESTAMP,
     city VARCHAR NOT NULL,
-    country VARCHAR NOT NULL,
+    country VARCHAR NOT NULL DEFAULT 'Україна',
     club VARCHAR NOT NULL,
-    discipline VARCHAR NOT NULL,
-    is_rated INTEGER NOT NULL DEFAULT 1,  -- 0 or 1 (boolean)
+    discipline VARCHAR NOT NULL,  -- 'free_pyramid' | 'dynamic_pyramid' | etc.
+    max_participants INTEGER,
+    is_rated BOOLEAN NOT NULL DEFAULT TRUE,
     created_by_admin_id INTEGER REFERENCES users(id),
     created_at TIMESTAMP NOT NULL
 );
@@ -130,24 +149,19 @@ CREATE TABLE tournaments (
 **Purpose**: Tournament metadata
 
 **Key Fields**:
-- `status`: TournamentStatus enum
-  - `registration`: accepting players
-  - `in_progress`: playing matches
-  - `finished`: completed
-- `registration_start/end`: When users can register
-- `start_date/end_date`: Tournament dates
-- `started_at/finished_at`: Actual timestamps
-- `discipline`: TournamentDiscipline enum
-  - FREE_PYRAMID
-  - DYNAMIC_PYRAMID
-  - COMBINED_PYRAMID
-  - etc.
-- `is_rated`: 1 = affects rating, 0 = friendly
+- `status`: Enum - registration, in_progress, finished (LOWERCASE in DB)
+- `discipline`: Enum - free_pyramid, dynamic_pyramid, combined_pyramid, moscow_pyramid, nevsky_pyramid (LOWERCASE)
+- `registration_start/end`: Time window for signups
+- `start_date/end_date`: When tournament happens
+- `max_participants`: Optional participant limit
+- `is_rated`: Whether matches affect rating
+- `created_by_admin_id`: Admin who created tournament
 
-**Notes**:
-- Only admin can create tournaments
-- registration_end is required
-- is_rated stored as INTEGER (0/1) for compatibility
+**CRITICAL NOTES**:
+- **Enum values MUST be lowercase** in PostgreSQL
+- Default status uses string `"registration"` not enum object
+- Frontend sends uppercase ("FREE_PYRAMID") - backend validator converts to lowercase
+- Created with Alembic migration `20260107094620_fix_enum_values.py`
 
 ---
 
@@ -190,18 +204,21 @@ CREATE TABLE tournament_registrations (
 ### UserRole
 ```python
 class UserRole(str, enum.Enum):
-    GUEST = "guest"
     USER = "user"
     ADMIN = "admin"
 ```
 
+**Note**: GUEST role removed - authentication now required for most features.
+
 ### TournamentStatus
 ```python
 class TournamentStatus(str, enum.Enum):
-    REGISTRATION = "registration"
-    IN_PROGRESS = "in_progress"
-    FINISHED = "finished"
+    REGISTRATION = "registration"      # Lowercase in DB
+    IN_PROGRESS = "in_progress"        # Lowercase in DB
+    FINISHED = "finished"              # Lowercase in DB
 ```
+
+**CRITICAL**: PostgreSQL enum type stores lowercase values. Frontend sends uppercase ("REGISTRATION"), backend converts via field_validator. Model default must use string `"registration"` not enum object.
 
 ### ParticipantStatus
 ```python
@@ -216,12 +233,16 @@ class ParticipantStatus(str, enum.Enum):
 ### TournamentDiscipline
 ```python
 class TournamentDiscipline(str, enum.Enum):
-    FREE_PYRAMID = "FREE_PYRAMID"
-    FREE_PYRAMID_EXTENDED = "FREE_PYRAMID_EXTENDED"
-    COMBINED_PYRAMID = "COMBINED_PYRAMID"
-    DYNAMIC_PYRAMID = "DYNAMIC_PYRAMID"
-    COMBINED_PYRAMID_CHANGES = "COMBINED_PYRAMID_CHANGES"
+    FREE_PYRAMID = "free_pyramid"                      # Lowercase in DB
+    FREE_PYRAMID_EXTENDED = "free_pyramid_extended"    # Lowercase in DB
+    COMBINED_PYRAMID = "combined_pyramid"              # Lowercase in DB
+    DYNAMIC_PYRAMID = "dynamic_pyramid"                # Lowercase in DB
+    COMBINED_PYRAMID_CHANGES = "combined_pyramid_changes"  # Lowercase in DB
+    MOSCOW_PYRAMID = "moscow_pyramid"                  # Lowercase in DB
+    NEVSKY_PYRAMID = "nevsky_pyramid"                  # Lowercase in DB
 ```
+
+**CRITICAL**: All values stored as lowercase in PostgreSQL. Frontend displays Ukrainian names ("Вільна піраміда"), sends uppercase enum names ("FREE_PYRAMID"), backend field_validator converts to lowercase ("free_pyramid"). Created with Alembic migration `20260107094620_fix_enum_values.py`.
 
 ---
 

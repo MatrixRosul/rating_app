@@ -8,24 +8,16 @@ The system uses **JWT (JSON Web Tokens)** for authentication and **role-based ac
 
 ## User Roles
 
-### 1. GUEST
-- **Access**: Read-only, public data
-- **No login required**
-- Can view:
-  - Public leaderboard
-  - Tournament list (public info)
-  - Player profiles (basic stats)
-
-### 2. USER
+### 1. USER
 - **Access**: Basic authenticated user
 - **Requires**: Login + player profile
 - Can do:
-  - Everything GUEST can do
+  - View leaderboard and tournament list
   - Self-register for tournaments
   - View own match history
-  - Edit own profile (future)
+  - View player profiles
 
-### 3. ADMIN
+### 2. ADMIN
 - **Access**: Full system control
 - **Requires**: Login with admin role
 - Can do:
@@ -37,28 +29,39 @@ The system uses **JWT (JSON Web Tokens)** for authentication and **role-based ac
   - Recalculate ratings
   - Access admin panel
 
+**Note**: GUEST role removed - most features now require authentication.
+
 ---
 
 ## Authentication Flow
 
-### 1. User Registration (Manual)
+### 1. User Registration (Automated)
 
-Currently, users are created manually by admin:
+Users are created via script for all existing players:
 
 ```bash
 # Backend script
-python backend/scripts/create_test_player_user.py
+python backend/scripts/create_users_for_players.py
 ```
 
-Creates:
-```python
-User(
-    username="maksim",
-    password_hash=bcrypt_hash("maksim123"),
-    role=UserRole.USER,
-    player_id=782  # Link to existing player
-)
+Creates 151 users with:
+- **Username**: Ukrainian→Latin transliteration (Микола Шикітка → mykola_shykitka)
+- **Password**: Random 8-character alphanumeric (e.g., whPP3qf0)
+- **Role**: UserRole.USER
+- **player_id**: Linked to existing player
+
+Output saved to `users_credentials.txt` (local only):
 ```
+Микола Шикітка (2134) / mykola_shykitka / whPP3qf0
+Максим Росул (2120) / maksym_rosul / 1icBq8El
+...
+```
+
+**Production (Heroku)**:
+- Same script run via `heroku run`
+- Different random passwords generated
+- Credentials only visible in terminal output (ephemeral filesystem)
+- Admins must save credentials immediately
 
 **Future**: Self-registration with email verification
 

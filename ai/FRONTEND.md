@@ -512,8 +512,16 @@ type TournamentDiscipline =
   | 'DYNAMIC_PYRAMID'
   | 'COMBINED_PYRAMID'
   | 'FREE_PYRAMID_EXTENDED'
-  | 'COMBINED_PYRAMID_CHANGES';
+  | 'COMBINED_PYRAMID_CHANGES'
+  | 'MOSCOW_PYRAMID'
+  | 'NEVSKY_PYRAMID';
 ```
+
+**CRITICAL NOTE**: 
+- Frontend sends uppercase discipline names (e.g., "FREE_PYRAMID")
+- Backend converts to lowercase (e.g., "free_pyramid") via field_validator
+- Database stores lowercase values only
+- Frontend displays Ukrainian names via `getDisciplineLabel()` utility
 
 ---
 
@@ -522,13 +530,13 @@ type TournamentDiscipline =
 ### Color Scheme
 
 **Rating Colors**:
-- Gray (0-1199): `text-gray-600`
-- Green (1200-1399): `text-green-600`
-- Cyan (1400-1599): `text-cyan-600`
-- Blue (1600-1799): `text-blue-600`
-- Purple (1800-2299): `text-purple-600`
-- Orange (2300-2499): `text-orange-600`
-- Red (2500+): `text-red-600`
+- Gray (0-1199): `text-gray-600` - Новачок (Newbie)
+- Green (1200-1399): `text-green-600` - Учень (Pupil)
+- Cyan (1400-1599): `text-cyan-600` - Спеціаліст (Specialist)
+- Blue (1600-1899): `text-blue-600` - Експерт (Expert)
+- Purple (1900-2099): `text-purple-600` - Кандидат у Майстри (Candidate Master)
+- Orange (2100-2399): `text-orange-600` - Майстер/Міжнародний Майстер (Master/IM)
+- Red (2400+): `text-red-600` - Гросмейстер (Grandmaster)
 
 **Status Badges**:
 - Registration: `bg-blue-100 text-blue-800`
@@ -546,6 +554,11 @@ type TournamentDiscipline =
 ```typescript
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 ```
+
+**Production**:
+- Frontend: https://rating-app-mu-murex.vercel.app
+- Backend: https://rating-app-000c25dfc4f1.herokuapp.com
+- Set in Vercel environment variables: `NEXT_PUBLIC_API_URL`
 
 ### Standard Fetch Pattern
 ```typescript

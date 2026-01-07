@@ -29,7 +29,7 @@ def assign_seeds_by_rating(
     )
     
     if confirmed_only:
-        query = query.filter(TournamentRegistration.status == ParticipantStatus.CONFIRMED)
+        query = query.filter(TournamentRegistration.status == "confirmed")
     
     registrations = query.all()
     
@@ -121,7 +121,7 @@ def get_seeded_participants(
     )
     
     if confirmed_only:
-        query = query.filter(TournamentRegistration.status == ParticipantStatus.CONFIRMED)
+        query = query.filter(TournamentRegistration.status == "confirmed")
     
     registrations = query.order_by(TournamentRegistration.seed).all()
     
@@ -152,7 +152,7 @@ def validate_seeding(
     """
     registrations = db.query(TournamentRegistration).filter(
         TournamentRegistration.tournament_id == tournament_id,
-        TournamentRegistration.status == ParticipantStatus.CONFIRMED
+        TournamentRegistration.status == "confirmed"
     ).all()
     
     errors = []
