@@ -89,6 +89,9 @@ def create_tournament(
     """
     Create a new tournament (admin only)
     """
+    # Явно конвертуємо discipline до lowercase для PostgreSQL
+    discipline_value = tournament_data.discipline.value if hasattr(tournament_data.discipline, 'value') else str(tournament_data.discipline).lower()
+    
     tournament = Tournament(
         name=tournament_data.name,
         description=tournament_data.description,
@@ -99,10 +102,10 @@ def create_tournament(
         city=tournament_data.city,
         country=tournament_data.country,
         club=tournament_data.club,
-        discipline=tournament_data.discipline.value,  # Use .value for enum
+        discipline=discipline_value,  # Lowercase string
         is_rated=1 if tournament_data.is_rated else 0,
         created_by_admin_id=current_user.id,
-        status="registration"  # Use string directly for PostgreSQL enum
+        status=TournamentStatus.REGISTRATION.value  # Явно беремо .value для lowercase
     )
     
     db.add(tournament)
