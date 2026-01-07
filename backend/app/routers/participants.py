@@ -62,9 +62,9 @@ def get_participants(
     
     # Apply status filter
     if status_filter == "confirmed":
-        query = query.filter(TournamentRegistration.status == ParticipantStatus.CONFIRMED)
+        query = query.filter(TournamentRegistration.status == "confirmed")
     elif status_filter == "pending":
-        query = query.filter(TournamentRegistration.status == ParticipantStatus.PENDING)
+        query = query.filter(TournamentRegistration.status == "pending")
     # "all" or None - no filter
     
     registrations = query.all()
@@ -78,7 +78,7 @@ def get_participants(
                 player_id=player.id,
                 player_name=player.name,
                 rating=player.rating,
-                status=reg.status.value,
+                status=reg.status,
                 seed=reg.seed,
                 registered_at=reg.registered_at.isoformat(),
                 confirmed_at=reg.confirmed_at.isoformat() if reg.confirmed_at else None,
@@ -87,7 +87,7 @@ def get_participants(
     
     # Sort: confirmed participants by rating (descending), pending at the end
     result.sort(key=lambda x: (
-        0 if x.status == ParticipantStatus.CONFIRMED.value else 1,
+        0 if x.status == "confirmed" else 1,
         -x.rating
     ))
     
@@ -141,14 +141,14 @@ def register_for_tournament(
     if existing:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Player already registered with status: {existing.status.value}"
+            detail=f"Player already registered with status: {existing.status}"
         )
     
     # Create registration
     registration = TournamentRegistration(
         tournament_id=tournament_id,
         player_id=current_user.player_id,
-        status=ParticipantStatus.PENDING,
+        status="pending",
         registered_by_user_id=None  # Self-registration
     )
     
@@ -162,7 +162,7 @@ def register_for_tournament(
         "message": "Registration submitted. Waiting for admin confirmation.",
         "registration_id": registration.id,
         "player_name": player.name if player else None,
-        "status": registration.status.value
+        "status": registration.status
     }
 
 
@@ -254,14 +254,14 @@ def add_participant(
     if existing:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Player already registered with status: {existing.status.value}"
+            detail=f"Player already registered with status: {existing.status}"
         )
     
     # Create registration (auto-confirmed by admin)
     registration = TournamentRegistration(
         tournament_id=tournament_id,
         player_id=data.player_id,
-        status=ParticipantStatus.CONFIRMED,
+        status="confirmed",
         registered_by_user_id=current_user.id,  # Admin added
         confirmed_at=datetime.utcnow()
     )
@@ -275,7 +275,7 @@ def add_participant(
         "registration_id": registration.id,
         "player_id": player.id,
         "player_name": player.name,
-        "status": registration.status.value
+        "status": registration.status
     }
 
 
@@ -301,13 +301,13 @@ def confirm_participant(
             detail="Registration not found"
         )
     
-    if registration.status not in [ParticipantStatus.PENDING, ParticipantStatus.REJECTED]:
+    if registration.status not in ["pending", "rejected"]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Can only confirm PENDING or REJECTED registrations. Current status: {registration.status.value}"
+            detail=f"Can only confirm PENDING or REJECTED registrations. Current status: {registration.status}"
         )
     
-    registration.status = ParticipantStatus.CONFIRMED
+    registration.status = "confirmed"
     registration.confirmed_at = datetime.utcnow()
     
     db.commit()
@@ -318,7 +318,7 @@ def confirm_participant(
     return {
         "message": f"Participant confirmed",
         "player_name": player.name if player else None,
-        "status": registration.status.value,
+        "status": registration.status,
         "confirmed_at": registration.confirmed_at.isoformat()
     }
 
@@ -344,13 +344,13 @@ def reject_participant(
             detail="Registration not found"
         )
     
-    if registration.status != ParticipantStatus.PENDING:
+    if registration.status != "pending":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Can only reject PENDING registrations. Current status: {registration.status.value}"
+            detail=f"Can only reject PENDING registrations. Current status: {registration.status}"
         )
     
-    registration.status = ParticipantStatus.REJECTED
+    registration.status = "rejected"
     
     db.commit()
     db.refresh(registration)
@@ -360,7 +360,7 @@ def reject_participant(
     return {
         "message": f"Participant rejected",
         "player_name": player.name if player else None,
-        "status": registration.status.value
+        "status": registration.status
     }
 
 
