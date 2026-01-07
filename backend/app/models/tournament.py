@@ -35,7 +35,7 @@ class Tournament(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
-    status = Column(Enum(TournamentStatus), nullable=False, default=TournamentStatus.REGISTRATION)
+    status = Column(Enum(TournamentStatus), nullable=False, default="registration")
     
     # Location and details
     city = Column(String, nullable=False)
