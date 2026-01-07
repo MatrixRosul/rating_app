@@ -2,7 +2,6 @@
   "/page": "app/page.js",
   "/player/[id]/page": "app/player/[id]/page.js",
   "/rating/page": "app/rating/page.js",
-  "/tournaments/[id]/bracket/page": "app/tournaments/[id]/bracket/page.js",
   "/tournaments/[id]/page": "app/tournaments/[id]/page.js",
   "/tournaments/[id]/participants/page": "app/tournaments/[id]/participants/page.js",
   "/tournaments/[id]/regulations/page": "app/tournaments/[id]/regulations/page.js",

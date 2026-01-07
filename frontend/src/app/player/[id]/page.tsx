@@ -366,17 +366,33 @@ export default function PlayerProfile() {
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Player Info */}
-        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-4">
-            <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto">
-              <div className="flex-1 sm:flex-initial">
-                <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                  <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold ${ratingBand.textColor}`}>{player.name}</h2>
+        <div className="bg-white rounded-lg shadow-md p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-4 sm:mb-6">
+            {/* Player Photo */}
+            <div className="flex justify-center sm:justify-start">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                <svg 
+                  className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-gray-400" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* Player Info and Rating */}
+            <div className="flex-1 flex flex-col sm:flex-row justify-between gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold ${ratingBand.textColor}`}>
+                    {player.name}
+                  </h2>
                   {player.isCMS && (
                     <span 
-                      className="text-amber-600 text-xs sm:text-sm font-extrabold italic tracking-wide px-1.5 sm:px-2 py-0.5 sm:py-1 bg-amber-50 rounded border border-amber-300" 
+                      className="text-amber-600 text-xs font-extrabold italic tracking-wide px-1.5 py-0.5 bg-amber-50 rounded border border-amber-300" 
                       title="Кандидат у Майстри Спорту України"
                       style={{ transform: 'skewX(-3deg)' }}
                     >
@@ -384,75 +400,75 @@ export default function PlayerProfile() {
                     </span>
                   )}
                 </div>
-                <div className="text-base sm:text-lg text-gray-600 space-y-1 mt-1">
-                  <p className="text-sm sm:text-base">{ratingBand.name}</p>
+                <div className="mt-1 sm:mt-2 space-y-0.5">
+                  <p className={`text-sm sm:text-base ${ratingBand.textColor} font-medium`}>
+                    {ratingBand.name}
+                  </p>
                   {(player.city || player.yearOfBirth) && (
-                    <p className="text-xs sm:text-sm">
+                    <p className="text-xs sm:text-sm text-gray-600">
                       {[player.city, player.yearOfBirth && `${player.yearOfBirth} р.н.`].filter(Boolean).join(' • ')}
                     </p>
                   )}
                 </div>
               </div>
-            </div>
-            
-            <div className="text-right sm:text-right w-full sm:w-auto">
-              <div className={`text-3xl sm:text-4xl font-bold ${ratingBand.textColor}`}>
-                {player.rating}
-              </div>
-              <div className="flex items-center justify-end space-x-2 mt-2">
-                <div 
-                  className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full ${ratingBand.color}`}
-                ></div>
-                <span className={`text-xs sm:text-sm font-medium ${ratingBand.textColor}`}>
-                  {ratingBand.name}
-                </span>
+              
+              <div className="text-center sm:text-right">
+                <div className={`text-4xl sm:text-5xl font-bold ${ratingBand.textColor}`}>
+                  {player.rating}
+                </div>
+                <div className="flex items-center justify-center sm:justify-end gap-2 mt-2">
+                  <div className={`w-3 h-3 rounded-full ${ratingBand.color}`}></div>
+                  <span className={`text-xs font-medium ${ratingBand.textColor}`}>
+                    {ratingBand.name}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
-              <div className="text-xl sm:text-2xl font-bold text-blue-600">{stats.totalMatches}</div>
-              <div className="text-xs sm:text-sm text-gray-600">Матчів</div>
+          {/* Stats Grid - More compact */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
+              <div className="text-lg sm:text-xl font-bold text-blue-600">{stats.totalMatches}</div>
+              <div className="text-[10px] sm:text-xs text-gray-600">Матчів</div>
             </div>
-            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
-              <div className="text-xl sm:text-2xl font-bold text-green-600">{stats.wins}</div>
-              <div className="text-xs sm:text-sm text-gray-600">Перемог</div>
+            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
+              <div className="text-lg sm:text-xl font-bold text-green-600">{stats.wins}</div>
+              <div className="text-[10px] sm:text-xs text-gray-600">Перемог</div>
             </div>
-            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
-              <div className="text-xl sm:text-2xl font-bold text-red-600">{stats.losses}</div>
-              <div className="text-xs sm:text-sm text-gray-600">Поразок</div>
+            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
+              <div className="text-lg sm:text-xl font-bold text-red-600">{stats.losses}</div>
+              <div className="text-[10px] sm:text-xs text-gray-600">Поразок</div>
             </div>
-            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
-              <div className="text-xl sm:text-2xl font-bold text-purple-600">{(stats.winRate * 100).toFixed(0)}%</div>
-              <div className="text-xs sm:text-sm text-gray-600">% Перемог</div>
+            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
+              <div className="text-lg sm:text-xl font-bold text-purple-600">{(stats.winRate * 100).toFixed(0)}%</div>
+              <div className="text-[10px] sm:text-xs text-gray-600">% Перемог</div>
             </div>
-            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
-              <div className={`text-xl sm:text-2xl font-bold ${highestRatingBand.textColor}`}>
+            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
+              <div className={`text-lg sm:text-xl font-bold ${highestRatingBand.textColor}`}>
                 {stats.highestRating}
               </div>
-              <div className="text-xs sm:text-sm text-gray-600">Макс рейтинг</div>
-              <div className={`text-xs font-medium mt-1 ${highestRatingBand.textColor}`}>
+              <div className="text-[10px] sm:text-xs text-gray-600">Макс рейтинг</div>
+              <div className={`text-[9px] sm:text-xs font-medium mt-0.5 ${highestRatingBand.textColor}`}>
                 {highestRatingBand.name}
               </div>
               {player && hasRankChanged && stats.highestRating > player.rating && (
-                <div className="text-xs text-amber-600 font-semibold mt-1">
+                <div className="text-[9px] sm:text-xs text-amber-600 font-semibold mt-0.5">
                   Найкраще звання
                 </div>
               )}
             </div>
-            <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg col-span-2 sm:col-span-1">
-              <div className={`text-xl sm:text-2xl font-bold ${stats.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {stats.ratingChange >= 0 ? '+' : ''}{stats.ratingChange}
+            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg col-span-2 sm:col-span-1">
+              <div className={`text-lg sm:text-xl font-bold ${stats.ratingProgress >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {stats.ratingProgress >= 0 ? '+' : ''}{stats.ratingProgress}
               </div>
-              <div className="text-xs sm:text-sm text-gray-600">Зміна рейтингу</div>
+              <div className="text-[10px] sm:text-xs text-gray-600">Зміна рейтингу</div>
             </div>
           </div>
         </div>
 
-        {/* Rating Chart */}
-        <div className="mb-6 sm:mb-8">
+        {/* Rating Chart - Full width with padding */}
+        <div className="mb-4 sm:mb-6 md:mb-8">
           <RatingChart 
             player={player}
             matches={playerMatches}
