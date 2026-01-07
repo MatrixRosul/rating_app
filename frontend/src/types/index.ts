@@ -14,7 +14,6 @@ export interface Player {
   matchesCount?: number; // Кількість зіграних матчів
   isCMS?: boolean; // Кандидат у майстри спорту (реальне звання)
   matches: string[]; // Match IDs
-  matchesCount?: number; // Кількість зіграних матчів (для таблиць)
   createdAt: Date;
   updatedAt: Date;
 }

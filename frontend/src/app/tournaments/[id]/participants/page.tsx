@@ -569,7 +569,7 @@ export default function ParticipantsPage() {
         onClose={() => setShowSeedingEditor(false)}
         participants={participants.map(p => ({
           ...p,
-          seed: p.seed ?? null
+          seed: p.seed ?? undefined
         }))}
         onSuccess={() => {
           setSuccess('Сіяні номери оновлено!');
