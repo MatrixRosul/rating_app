@@ -96,27 +96,27 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold">Турніри</h2>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <h2 className="text-2xl sm:text-3xl font-bold">Турніри</h2>
         {user?.role === 'admin' && (
           <button
             onClick={onCreateClick}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm sm:text-base"
           >
-            Створити турнір
+            + Створити турнір
           </button>
         )}
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
         {(['registration', 'in_progress', 'finished'] as const).map((status) => (
           <button
             key={status}
             onClick={() => setFilter(status)}
-            className={`px-4 py-2 rounded-lg transition ${
+            className={`px-3 sm:px-4 py-2 rounded-lg transition whitespace-nowrap text-sm sm:text-base ${
               filter === status
                 ? 'bg-blue-600 text-white'
                 : 'bg-white border hover:bg-blue-50'
@@ -128,9 +128,9 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
       </div>
 
       {/* Tournament List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {tournaments.length === 0 ? (
-          <div className="col-span-full text-center py-8">
+          <div className="col-span-full text-center py-8 text-gray-500">
             Турнірів не знайдено
           </div>
         ) : (
@@ -138,11 +138,13 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
             <div
               key={tournament.id}
               onClick={() => router.push(`/tournaments/${tournament.id}`)}
-              className="bg-white border border-gray-200 rounded-lg p-6 hover:border-gray-300 hover:shadow-md transition cursor-pointer"
+              className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 hover:border-gray-300 hover:shadow-md transition cursor-pointer active:scale-[0.98]"
             >
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">{tournament.name}</h3>
-                <span className={`px-2.5 py-1 rounded text-xs font-medium ${
+              <div className="flex justify-between items-start mb-3 sm:mb-4 gap-2">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex-1 leading-tight">
+                  {tournament.name}
+                </h3>
+                <span className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-medium shrink-0 ${
                   tournament.status === 'registration' 
                     ? 'bg-gray-100 text-gray-700' 
                     : tournament.status === 'in_progress'
@@ -154,11 +156,13 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
               </div>
 
               {tournament.description && (
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">{tournament.description}</p>
+                <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-2">
+                  {tournament.description}
+                </p>
               )}
 
               {/* Location and Discipline */}
-              <div className="mb-4 flex flex-wrap gap-2 text-xs">
+              <div className="mb-3 sm:mb-4 flex flex-wrap gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
                 {tournament.city && (
                   <span className="text-gray-600">📍 {tournament.city}</span>
                 )}
@@ -166,33 +170,51 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
                   <span className="text-gray-600">• {tournament.club}</span>
                 )}
                 {tournament.discipline && (
-                  <span className="text-gray-600">• {getDisciplineLabel(tournament.discipline)}</span>
+                  <span className="text-gray-600 hidden sm:inline">• {getDisciplineLabel(tournament.discipline)}</span>
                 )}
                 {tournament.isRated && (
                   <span className="text-gray-600">• Рейтинговий</span>
                 )}
               </div>
 
-              <div className="space-y-1.5 text-sm text-gray-600">
+              {/* Discipline on mobile - separate line */}
+              {tournament.discipline && (
+                <div className="mb-3 text-[11px] text-gray-600 sm:hidden">
+                  {getDisciplineLabel(tournament.discipline)}
+                </div>
+              )}
+
+              <div className="space-y-1 sm:space-y-1.5 text-xs sm:text-sm text-gray-600">
                 {tournament.registrationEnd && tournament.status === 'registration' && (
-                  <div>
-                    Реєстрація до: <span className="font-medium text-gray-900">
-                      {new Date(tournament.registrationEnd).toLocaleDateString('uk-UA')}
+                  <div className="flex flex-wrap items-baseline gap-1">
+                    <span className="text-gray-500">Реєстрація до:</span>
+                    <span className="font-medium text-gray-900">
+                      {new Date(tournament.registrationEnd).toLocaleDateString('uk-UA', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}
                     </span>
                   </div>
                 )}
                 {tournament.startDate && (
-                  <div>
-                    Старт: <span className="font-medium text-gray-900">
-                      {new Date(tournament.startDate).toLocaleDateString('uk-UA')}
+                  <div className="flex flex-wrap items-baseline gap-1">
+                    <span className="text-gray-500">Старт:</span>
+                    <span className="font-medium text-gray-900">
+                      {new Date(tournament.startDate).toLocaleDateString('uk-UA', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}
                     </span>
                   </div>
                 )}
-                <div>
-                  Учасників: <span className="font-medium text-gray-900">{tournament.registeredCount}</span>
+                <div className="flex flex-wrap items-baseline gap-1">
+                  <span className="text-gray-500">Учасників:</span>
+                  <span className="font-medium text-gray-900">{tournament.registeredCount}</span>
                 </div>
                 {tournament.isRegistered && (
-                  <div className="text-blue-600 font-medium text-xs mt-2">✓ Ви зареєстровані</div>
+                  <div className="text-blue-600 font-medium text-[11px] sm:text-xs mt-1.5 sm:mt-2">
+                    ✓ Ви зареєстровані
+                  </div>
                 )}
               </div>
             </div>
