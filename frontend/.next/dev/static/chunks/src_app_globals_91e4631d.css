@@ -2451,6 +2451,18 @@
   }
 
   @media (min-width: 48rem) {
+    .md\:gap-6 {
+      gap: calc(var(--spacing) * 6);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .md\:p-8 {
+      padding: calc(var(--spacing) * 8);
+    }
+  }
+
+  @media (min-width: 48rem) {
     .md\:px-6 {
       padding-inline: calc(var(--spacing) * 6);
     }
@@ -2473,6 +2485,27 @@
     .md\:text-5xl {
       font-size: var(--text-5xl);
       line-height: var(--tw-leading, var(--text-5xl--line-height));
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .md\:text-6xl {
+      font-size: var(--text-6xl);
+      line-height: var(--tw-leading, var(--text-6xl--line-height));
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .md\:text-lg {
+      font-size: var(--text-lg);
+      line-height: var(--tw-leading, var(--text-lg--line-height));
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .md\:text-sm {
+      font-size: var(--text-sm);
+      line-height: var(--tw-leading, var(--text-sm--line-height));
     }
   }
 

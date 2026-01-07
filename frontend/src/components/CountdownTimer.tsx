@@ -64,41 +64,41 @@ export default function CountdownTimer({ targetDate }: CountdownTimerProps) {
   }
 
   return (
-    <div className="text-center p-8 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg">
-      <div className="text-lg font-medium text-gray-600 mb-4">
+    <div className="text-center p-4 sm:p-6 md:p-8 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg">
+      <div className="text-sm sm:text-base md:text-lg font-medium text-gray-600 mb-3 sm:mb-4">
         До завершення реєстрації залишилось
       </div>
-      <div className="flex justify-center gap-6">
+      <div className="flex justify-center gap-2 sm:gap-4 md:gap-6">
         <div className="flex flex-col items-center">
-          <div className="text-6xl font-bold text-blue-600">{timeLeft.days}</div>
-          <div className="text-sm text-gray-600 mt-2">днів</div>
+          <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-blue-600">{timeLeft.days}</div>
+          <div className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 sm:mt-2">днів</div>
         </div>
         <div className="flex flex-col justify-center">
-          <div className="text-5xl font-bold text-gray-400">:</div>
+          <div className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-400">:</div>
         </div>
         <div className="flex flex-col items-center">
-          <div className="text-6xl font-bold text-blue-600">
+          <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-blue-600">
             {String(timeLeft.hours).padStart(2, '0')}
           </div>
-          <div className="text-sm text-gray-600 mt-2">годин</div>
+          <div className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 sm:mt-2">годин</div>
         </div>
         <div className="flex flex-col justify-center">
-          <div className="text-5xl font-bold text-gray-400">:</div>
+          <div className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-400">:</div>
         </div>
         <div className="flex flex-col items-center">
-          <div className="text-6xl font-bold text-blue-600">
+          <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-blue-600">
             {String(timeLeft.minutes).padStart(2, '0')}
           </div>
-          <div className="text-sm text-gray-600 mt-2">хвилин</div>
+          <div className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 sm:mt-2">хвилин</div>
         </div>
         <div className="flex flex-col justify-center">
-          <div className="text-5xl font-bold text-gray-400">:</div>
+          <div className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-400">:</div>
         </div>
         <div className="flex flex-col items-center">
-          <div className="text-6xl font-bold text-blue-600">
+          <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-blue-600">
             {String(timeLeft.seconds).padStart(2, '0')}
           </div>
-          <div className="text-sm text-gray-600 mt-2">секунд</div>
+          <div className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 sm:mt-2">секунд</div>
         </div>
       </div>
     </div>

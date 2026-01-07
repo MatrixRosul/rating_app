@@ -424,7 +424,8 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
                       return (
                         <div
                           key={player.playerId}
-                          className="flex justify-between items-center p-3 bg-white border rounded-lg"
+                          onClick={() => window.location.href = `/player/${player.playerId}`}
+                          className="flex justify-between items-center p-3 bg-white border rounded-lg hover:bg-gray-50 cursor-pointer transition"
                         >
                           <div className="flex-1">
                             <div className="font-medium">{player.playerName}</div>
@@ -440,7 +441,10 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
 
                           {user?.role === 'admin' && tournament.status === 'pending' && (
                             <button
-                              onClick={() => handleRemovePlayer(player.playerId)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemovePlayer(player.playerId);
+                              }}
                               className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition ml-3"
                               disabled={actionLoading}
                             >
