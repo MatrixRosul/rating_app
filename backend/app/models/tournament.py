@@ -21,11 +21,11 @@ class TournamentStatus(str, enum.Enum):
 
 class TournamentDiscipline(str, enum.Enum):
     """Tournament discipline enum"""
-    FREE_PYRAMID = "FREE_PYRAMID"
-    FREE_PYRAMID_EXTENDED = "FREE_PYRAMID_EXTENDED"
-    COMBINED_PYRAMID = "COMBINED_PYRAMID"
-    DYNAMIC_PYRAMID = "DYNAMIC_PYRAMID"
-    COMBINED_PYRAMID_CHANGES = "COMBINED_PYRAMID_CHANGES"
+    FREE_PYRAMID = "free_pyramid"
+    FREE_PYRAMID_EXTENDED = "free_pyramid_extended"
+    COMBINED_PYRAMID = "combined_pyramid"
+    DYNAMIC_PYRAMID = "dynamic_pyramid"
+    COMBINED_PYRAMID_CHANGES = "combined_pyramid_changes"
 
 
 class Tournament(Base):

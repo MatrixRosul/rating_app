@@ -1490,11 +1490,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts
 ;
 function MatchHistory(t0) {
     const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(18);
-    if ($[0] !== "ce854f22e332caabe485b726fdf3e3b2c774a0a2c139b6f809bea4eb54378510") {
+    if ($[0] !== "f159f0e3879b33fb56f8333b30553c9955a21a6ce2c31415da5fef18f7949d60") {
         for(let $i = 0; $i < 18; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "ce854f22e332caabe485b726fdf3e3b2c774a0a2c139b6f809bea4eb54378510";
+        $[0] = "f159f0e3879b33fb56f8333b30553c9955a21a6ce2c31415da5fef18f7949d60";
     }
     const { matches, players: t1, playerId, limit, disableSorting: t2 } = t0;
     let t3;
@@ -2074,9 +2074,9 @@ function MatchHistory(t0) {
                                                                         columnNumber: 2653
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                                        href: `/player/${encodeURIComponent(winner.name)}`,
+                                                                        href: `/player/${encodeURIComponent(winner.name || "unknown")}`,
                                                                         className: `${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getRatingBand"])(match.winnerId === player1.id ? match.player1RatingAfter : match.player2RatingAfter).textColor} font-semibold hover:opacity-80 transition-colors`,
-                                                                        children: winner.name
+                                                                        children: winner.name || "\u041D\u0435\u0432\u0456\u0434\u043E\u043C\u0438\u0439 \u0433\u0440\u0430\u0432\u0435\u0446\u044C"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/MatchHistory.tsx",
                                                                         lineNumber: 99,
@@ -2097,7 +2097,7 @@ function MatchHistory(t0) {
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/MatchHistory.tsx",
                                                                         lineNumber: 99,
-                                                                        columnNumber: 3036
+                                                                        columnNumber: 3152
                                                                     }, this),
                                                                     match.stage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: `text-xs font-semibold px-2 py-0.5 rounded ${match.stage === "final" ? "bg-yellow-100 text-yellow-800" : match.stage === "semifinal" ? "bg-orange-100 text-orange-800" : match.stage === "quarterfinal" ? "bg-purple-100 text-purple-800" : match.stage === "round16" ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"}`,
@@ -2108,13 +2108,13 @@ function MatchHistory(t0) {
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/MatchHistory.tsx",
                                                                         lineNumber: 99,
-                                                                        columnNumber: 3116
+                                                                        columnNumber: 3232
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
                                                                 lineNumber: 99,
-                                                                columnNumber: 2970
+                                                                columnNumber: 3086
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
@@ -2134,7 +2134,7 @@ function MatchHistory(t0) {
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
                                                         lineNumber: 99,
-                                                        columnNumber: 3856
+                                                        columnNumber: 3972
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
@@ -3879,10 +3879,10 @@ function PlayerProfile() {
                                         className: "text-center p-3 sm:p-4 bg-gray-50 rounded-lg col-span-2 sm:col-span-1",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: `text-xl sm:text-2xl font-bold ${stats.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`,
+                                                className: `text-xl sm:text-2xl font-bold ${stats.ratingProgress >= 0 ? 'text-green-600' : 'text-red-600'}`,
                                                 children: [
-                                                    stats.ratingChange >= 0 ? '+' : '',
-                                                    stats.ratingChange
+                                                    stats.ratingProgress >= 0 ? '+' : '',
+                                                    stats.ratingProgress
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
