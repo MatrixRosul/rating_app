@@ -14,7 +14,7 @@ from app.models.tournament_rule import TournamentRule, BracketType
 from app.models.user import User, UserRole
 from app.models.player import Player
 from app.dependencies import require_admin, require_user, get_current_user_optional
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from app.services.seeding_service import assign_seeds_by_rating, update_seeds_manually
 from app.services.bracket_generator import generate_single_elimination_bracket, generate_bracket_preview
 from app.services.tournament_start_service import validate_tournament_start
@@ -38,6 +38,22 @@ class TournamentCreate(BaseModel):
     club: str
     discipline: TournamentDiscipline
     is_rated: bool = True  # За замовчуванням рейтинговий
+    
+    @field_validator('discipline', mode='before')
+    @classmethod
+    def validate_discipline(cls, v):
+        """Convert uppercase discipline to lowercase for backward compatibility"""
+        if isinstance(v, str):
+            # Map uppercase to lowercase enum values
+            discipline_map = {
+                'FREE_PYRAMID': 'free_pyramid',
+                'FREE_PYRAMID_EXTENDED': 'free_pyramid_extended',
+                'COMBINED_PYRAMID': 'combined_pyramid',
+                'DYNAMIC_PYRAMID': 'dynamic_pyramid',
+                'COMBINED_PYRAMID_CHANGES': 'combined_pyramid_changes',
+            }
+            return discipline_map.get(v, v.lower())
+        return v
 
 
 class TournamentUpdate(BaseModel):
