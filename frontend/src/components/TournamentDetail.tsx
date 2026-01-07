@@ -51,30 +51,24 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
         name: data.name,
         description: data.description,
         status: data.status,
-        registrationStart: data.registration_start,
-        registrationEnd: data.registration_end,
+        registrationEnd: data.registration_end || data.start_date,
         startDate: data.start_date,
         endDate: data.end_date,
-        startedAt: data.started_at,
-        finishedAt: data.finished_at,
         city: data.city,
         country: data.country,
         club: data.club,
         discipline: data.discipline,
-        isRated: data.is_rated,
+        isRated: data.is_rated ?? true,
         createdByAdminId: data.created_by_admin_id,
         createdAt: data.created_at,
         registeredCount: data.registered_count,
         isRegistered: data.is_registered,
         registeredPlayers: data.registered_players?.map((p: any) => ({
-          id: p.id,
           playerId: p.player_id,
           playerName: p.player_name,
           rating: p.rating,
-          status: p.status,
-          seed: p.seed,
+          username: p.username,
           registeredAt: p.registered_at,
-          confirmedAt: p.confirmed_at,
           registeredByAdmin: p.registered_by_admin,
         })),
       };
@@ -284,13 +278,13 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
   };
 
   const getStatusBadge = (status: TournamentStatus) => {
-    const badges: Record<TournamentStatus, string> = {
+    const badges = {
       registration: 'bg-yellow-500 text-white',
       in_progress: 'bg-green-500 text-white',
       finished: 'bg-black text-white',
     };
 
-    const labels: Record<TournamentStatus, string> = {
+    const labels = {
       registration: 'Реєстрація',
       in_progress: 'Триває',
       finished: 'Закінчився',
