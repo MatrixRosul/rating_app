@@ -1,60 +1,6 @@
-[00:00:11.548] Server  LOG     ✓ Ready in 7s
-[00:00:14.567] Server  LOG     ○ Compiling /rating ...
-[00:00:23.256] Browser ERROR   Error fetching players: {}
-[00:00:23.256] Browser ERROR   Error loading data from API: {}
-[00:00:33.972] Browser ERROR   Error fetching tournaments: {}
-[00:00:33.972] Browser ERROR   Error fetching tournaments: {}
-[00:00:35.908] Browser ERROR   Error fetching tournaments: {}
-[00:00:36.768] Browser ERROR   Error fetching tournaments: {}
-[00:00:37.609] Browser ERROR   Error fetching players: {}
-[00:00:37.609] Browser ERROR   Error fetching players: {}
-[00:03:18.663] Browser ERROR   Error fetching players: {}
-[00:03:18.663] Browser ERROR   Error loading data from API: {}
-[00:20:53.401] Server  LOG     ✓ Compiled in 824ms
-[00:20:58.454] Server  LOG     ✓ Compiled in 603ms
-[00:21:09.208] Server  LOG     ✓ Compiled in 533ms
-[00:21:21.792] Browser ERROR   uncaughtError: TypeError: undefined is not an object (evaluating 'players.find')
-[00:21:49.227] Browser ERROR   uncaughtError: TypeError: undefined is not an object (evaluating 'players.find')
-[00:22:38.887] Browser ERROR   uncaughtError: TypeError: undefined is not an object (evaluating 'players.find')
-[00:24:05.547] Browser ERROR   uncaughtError: TypeError: undefined is not an object (evaluating 'players.find')
-[00:25:36.000] Server  LOG     ✓ Compiled in 254ms
-[00:35:48.544] Server  LOG     ✓ Compiled in 1364ms
-[00:36:09.245] Server  LOG     ✓ Compiled in 212ms
-[00:37:24.238] Server  LOG     ✓ Compiled in 373ms
-[00:38:51.927] Server  LOG     ✓ Compiled in 486ms
-[25:15:21.274] Server  LOG     ✓ Compiled in 978ms
-[25:15:32.397] Server  LOG     ✓ Compiled in 335ms
-[25:31:01.972] Server  LOG     ✓ Compiled in 968ms
-[25:32:49.098] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/tournaments/[id]/page/build-manifest.json'
-[25:32:49.205] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/tournaments/[id]/page/build-manifest.json'
-[25:32:50.929] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/tournaments/[id]/page/build-manifest.json'
-[25:32:51.576] Server  ERROR   ⨯ TurbopackInternalError: Failed to restore task data (corrupted database or bug): Meta for <DiskFileSystem as FileSystem>::read (TaskId 113736))
-
-Debug info:
-- Failed to restore task data (corrupted database or bug): Meta for <DiskFileSystem as FileSystem>::read (TaskId 113736))
-  
-  Caused by:
-      0: Looking up data for TaskId 113736 from database failed
-      1: Unable to open static sorted file referenced from 00003502.meta
-      2: Unable to open static sorted file 00003497.sst
-      3: No such file or directory (os error 2)
-[25:33:25.986] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/tournaments/[id]/page/build-manifest.json'
-[25:34:28.654] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/tournaments/[id]/page/build-manifest.json'
-[25:34:30.158] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/tournaments/[id]/page/build-manifest.json'
-[25:34:35.409] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/3. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/6. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/6. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/3. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/6. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/rating. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/5. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/6. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/6. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/5. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments/5. Falling back to browser navigation. {}
-[25:34:35.410] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/rating. Falling back to browser navigation. {}
-[25:34:35.583] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/rating/page/build-manifest.json'
-[25:34:48.209] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/tournaments. Falling back to browser navigation. {}
-[25:34:48.298] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/tournaments/page/build-manifest.json'
-[25:34:52.581] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/tournaments/page/build-manifest.json'
-[25:34:55.440] Browser ERROR   uncaughtError: ChunkLoadError: Failed to load chunk /_next/static/chunks/_0db3e3d0._.js from module [project]/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js [app-client] (ecmascript)
+[00:00:03.375] Server  WARN    ⚠ Turbopack's filesystem cache has been deleted because we previously detected an internal error in Turbopack. Builds or page loads may be slower as a result.
+[00:00:04.111] Server  LOG     ✓ Ready in 3.4s
+[25:40:34.859] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/_not-found/page/build-manifest.json'
+[00:00:53.518] Server  LOG     ○ Compiling / ...
+[25:40:43.766] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/Users/maxrosul/ratingAPP/frontend/.next/dev/server/app/_not-found/page/build-manifest.json'
+[00:01:16.706] Server  LOG     ○ Compiling /rating ...
