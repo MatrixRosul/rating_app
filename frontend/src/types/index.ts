@@ -11,6 +11,7 @@ export interface Player {
   rating: number;
   initialRating?: number; // Початковий рейтинг після калібрування (для графіка)
   peakRating?: number; // Найвищий рейтинг гравця
+  matchesCount?: number; // Кількість зіграних матчів
   isCMS?: boolean; // Кандидат у майстри спорту (реальне звання)
   matches: string[]; // Match IDs
   createdAt: Date;

@@ -176,7 +176,7 @@ export default function PlayerProfile() {
         averageRatingChange: 0,
         highestRating: player.rating,
         lowestRating: player.rating,
-        ratingProgress: player.rating - player.initialRating
+        ratingProgress: player.rating - (player.initialRating ?? 1200)
       };
     }
 
@@ -221,7 +221,7 @@ export default function PlayerProfile() {
       averageRatingChange: totalRatingChange / playerMatches.length,
       highestRating,
       lowestRating,
-      ratingProgress: player.rating - player.initialRating
+      ratingProgress: player.rating - (player.initialRating ?? 1200)
     };
   };
 

@@ -567,7 +567,10 @@ export default function ParticipantsPage() {
         tournamentId={tournamentId}
         isOpen={showSeedingEditor}
         onClose={() => setShowSeedingEditor(false)}
-        participants={participants}
+        participants={participants.map(p => ({
+          ...p,
+          seed: p.seed ?? null
+        }))}
         onSuccess={() => {
           setSuccess('Сіяні номери оновлено!');
           fetchData();

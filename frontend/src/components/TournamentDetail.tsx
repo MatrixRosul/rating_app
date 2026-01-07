@@ -51,12 +51,14 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
         name: data.name,
         description: data.description,
         status: data.status,
+        registrationEnd: data.registration_end || data.start_date,
         startDate: data.start_date,
         endDate: data.end_date,
         city: data.city,
         country: data.country,
         club: data.club,
         discipline: data.discipline,
+        isRated: data.is_rated ?? true,
         createdByAdminId: data.created_by_admin_id,
         createdAt: data.created_at,
         registeredCount: data.registered_count,
@@ -128,7 +130,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
   }, [activeTab, user]);
 
   const handleRegister = async () => {
-    if (!tournament || tournament.status !== 'pending') return;
+    if (!tournament || tournament.status !== 'registration') return;
 
     try {
       setActionLoading(true);
@@ -165,7 +167,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
   };
 
   const handleUnregister = async () => {
-    if (!tournament || tournament.status !== 'pending') return;
+    if (!tournament || tournament.status !== 'registration') return;
 
     try {
       setActionLoading(true);
@@ -238,8 +240,8 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
     }
   };
 
-  const handleRemovePlayer = async (playerId: string) => {
-    if (!tournament || tournament.status !== 'pending') return;
+  const handleRemovePlayer = async (playerId: number) => {
+    if (!tournament || tournament.status !== 'registration') return;
 
     try {
       setActionLoading(true);
@@ -277,15 +279,15 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
 
   const getStatusBadge = (status: TournamentStatus) => {
     const badges = {
-      pending: 'bg-yellow-500 text-white',
-      ongoing: 'bg-green-500 text-white',
-      completed: 'bg-black text-white',
+      registration: 'bg-yellow-500 text-white',
+      in_progress: 'bg-green-500 text-white',
+      finished: 'bg-black text-white',
     };
 
     const labels = {
-      pending: 'Реєстрація',
-      ongoing: 'Триває',
-      completed: 'Закінчився',
+      registration: 'Реєстрація',
+      in_progress: 'Триває',
+      finished: 'Закінчився',
     };
 
     return (
@@ -439,7 +441,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
                             </div>
                           </div>
 
-                          {user?.role === 'admin' && tournament.status === 'pending' && (
+                          {user?.role === 'admin' && tournament.status === 'registration' && (
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -459,7 +461,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
             </div>
 
             {/* User Actions */}
-            {tournament.status === 'pending' && user && user.role !== 'guest' && (
+            {tournament.status === 'registration' && user && user.role !== 'guest' && (
               <div className="mb-6 flex gap-3">
                 {!tournament.isRegistered ? (
                   <button
@@ -482,7 +484,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
             )}
 
             {/* Admin: Add Players */}
-            {user?.role === 'admin' && tournament.status === 'pending' && (
+            {user?.role === 'admin' && tournament.status === 'registration' && (
               <div className="mt-6">
                 <h4 className="text-lg font-bold mb-3">Додати гравців (Адмін)</h4>
                 
