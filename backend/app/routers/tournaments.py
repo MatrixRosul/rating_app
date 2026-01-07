@@ -89,8 +89,15 @@ def create_tournament(
     """
     Create a new tournament (admin only)
     """
-    # Явно конвертуємо discipline до lowercase для PostgreSQL
-    discipline_value = tournament_data.discipline.value if hasattr(tournament_data.discipline, 'value') else str(tournament_data.discipline).lower()
+    # Явно конвертуємо discipline до lowercase для PostgreSQL - HARDCODE
+    if isinstance(tournament_data.discipline, str):
+        discipline_value = tournament_data.discipline.lower()
+    else:
+        discipline_value = str(tournament_data.discipline.value).lower() if hasattr(tournament_data.discipline, 'value') else str(tournament_data.discipline).lower()
+    
+    # HARDCODE lowercase для debugging - CRITICAL FIX
+    status_value = "registration"  # Hardcoded lowercase string
+    logger.info(f"Creating tournament with status={status_value} (type: {type(status_value)}), discipline={discipline_value}")
     
     tournament = Tournament(
         name=tournament_data.name,
@@ -105,7 +112,7 @@ def create_tournament(
         discipline=discipline_value,  # Lowercase string
         is_rated=1 if tournament_data.is_rated else 0,
         created_by_admin_id=current_user.id,
-        status=TournamentStatus.REGISTRATION.value  # Явно беремо .value для lowercase
+        status=status_value  # HARDCODED lowercase string - не enum!
     )
     
     db.add(tournament)
