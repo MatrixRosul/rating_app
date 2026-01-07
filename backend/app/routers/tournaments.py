@@ -102,7 +102,7 @@ def create_tournament(
         discipline=tournament_data.discipline.value,  # Use .value for enum
         is_rated=1 if tournament_data.is_rated else 0,
         created_by_admin_id=current_user.id,
-        status=TournamentStatus.REGISTRATION.value  # Use .value for enum
+        status="registration"  # Use string directly for PostgreSQL enum
     )
     
     db.add(tournament)
