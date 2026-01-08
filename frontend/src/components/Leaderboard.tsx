@@ -15,6 +15,8 @@ export default function Leaderboard({ players }: LeaderboardProps) {
   const [showCMSOnly, setShowCMSOnly] = useState(false);
   const [showPeakRating, setShowPeakRating] = useState(false);
   const [sortDescending, setSortDescending] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const playersPerPage = 100;
   
   // Use peakRating from backend, no need to calculate
   const playersWithPeakRating = useMemo(() => {
@@ -55,6 +57,17 @@ export default function Leaderboard({ players }: LeaderboardProps) {
     const ratingBand = getRatingBand(player.rating);
     return matchesSearch && ratingBand.name === selectedRating;
   });
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredPlayers.length / playersPerPage);
+  const startIndex = (currentPage - 1) * playersPerPage;
+  const endIndex = startIndex + playersPerPage;
+  const paginatedPlayers = filteredPlayers.slice(startIndex, endIndex);
+
+  // Reset to page 1 when filters change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedRating, showCMSOnly, showPeakRating, sortDescending]);
 
   const ratingBands = [
     'all', 'Новачок', 'Учень', 'Спеціаліст', 'Експерт', 
@@ -170,6 +183,11 @@ export default function Leaderboard({ players }: LeaderboardProps) {
           <div className="flex items-center justify-between">
             <div className="text-sm font-medium text-gray-600">
               Знайдено: <span className="font-bold text-blue-600">{filteredPlayers.length}</span> з <span className="font-bold">{players.length}</span> гравців
+              {filteredPlayers.length > playersPerPage && (
+                <span className="ml-2 text-gray-500">
+                  (показано {startIndex + 1}–{Math.min(endIndex, filteredPlayers.length)})
+                </span>
+              )}
             </div>
             {filteredPlayers.length !== players.length && (
               <button
@@ -189,8 +207,8 @@ export default function Leaderboard({ players }: LeaderboardProps) {
 
       {/* Player list */}
       <div className="space-y-3">
-        {filteredPlayers.length > 0 ? (
-          filteredPlayers.map((player, index) => (
+        {paginatedPlayers.length > 0 ? (
+          paginatedPlayers.map((player, index) => (
             <PlayerCard
               key={player.id}
               player={player}
@@ -227,6 +245,89 @@ export default function Leaderboard({ players }: LeaderboardProps) {
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-blue-100/50 p-6 mt-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-sm font-medium text-gray-600">
+              Сторінка <span className="font-bold text-blue-600">{currentPage}</span> з <span className="font-bold">{totalPages}</span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              {/* First Page */}
+              <button
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+                className="px-3 py-2 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 font-medium"
+              >
+                ««
+              </button>
+              
+              {/* Previous Page */}
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 font-medium"
+              >
+                « Назад
+              </button>
+              
+              {/* Page Numbers */}
+              <div className="flex gap-1">
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
+                  
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-10 h-10 rounded-lg font-semibold transition-all duration-300 ${
+                        currentPage === pageNum
+                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/50 scale-110'
+                          : 'border-2 border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 hover:scale-105'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+              </div>
+              
+              {/* Next Page */}
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 font-medium"
+              >
+                Вперед »
+              </button>
+              
+              {/* Last Page */}
+              <button
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages}
+                className="px-3 py-2 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 font-medium"
+              >
+                »»
+              </button>
+            </div>
+            
+            <div className="text-sm text-gray-500">
+              {playersPerPage} гравців на сторінці
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -56,80 +56,120 @@ export default function RegulationsPage() {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Завантаження...</div>;
+    return (
+      <div className="relative bg-gradient-to-br from-white via-blue-50/20 to-purple-50/20 backdrop-blur-sm rounded-2xl shadow-xl border border-blue-100/50 p-8">
+        <div className="flex items-center justify-center gap-3">
+          <div className="w-8 h-8 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+          <span className="text-gray-600 font-medium">Завантаження...</span>
+        </div>
+      </div>
+    );
   }
 
   if (!tournament) {
-    return <div className="text-center py-8 text-red-600">Турнір не знайдено</div>;
+    return (
+      <div className="relative bg-gradient-to-br from-red-50 to-pink-50 backdrop-blur-sm rounded-2xl shadow-xl border border-red-200 p-8 text-center">
+        <div className="text-red-600 text-lg font-semibold">Турнір не знайдено</div>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-4">Регламент турніру</h2>
+      {/* Регламент Card */}
+      <div className="relative bg-gradient-to-br from-white via-blue-50/20 to-purple-50/20 backdrop-blur-sm rounded-2xl shadow-xl border border-blue-100/50 p-6 sm:p-8 overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-gradient-to-br from-indigo-400/10 to-pink-400/10 rounded-full blur-3xl"></div>
         
-        {tournament.description ? (
-          <div className="prose max-w-none">
-            <div className="whitespace-pre-wrap text-gray-700">
-              {tournament.description}
+        <div className="relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              Регламент турніру
+            </h2>
+          </div>
+          
+          {tournament.description ? (
+            <div className="prose max-w-none">
+              <div className="whitespace-pre-wrap text-gray-700 leading-relaxed bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+                {tournament.description}
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="text-gray-500 italic">
-            Регламент не вказано
-          </div>
-        )}
+          ) : (
+            <div className="text-gray-500 italic bg-gray-50/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 text-center">
+              Регламент не вказано
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="border-t pt-6">
-        <h3 className="text-xl font-semibold mb-4">Інформація про турнір</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {tournament.registrationStart && (
-            <div>
-              <div className="text-sm font-medium text-gray-600">Початок реєстрації</div>
-              <div className="text-gray-900">
-                {new Date(tournament.registrationStart).toLocaleString('uk-UA')}
-              </div>
-            </div>
-          )}
-          
-          {tournament.registrationEnd && (
-            <div>
-              <div className="text-sm font-medium text-gray-600">Кінець реєстрації</div>
-              <div className="text-gray-900">
-                {new Date(tournament.registrationEnd).toLocaleString('uk-UA')}
-              </div>
-            </div>
-          )}
-
-          {tournament.startDate && (
-            <div>
-              <div className="text-sm font-medium text-gray-600">Дата початку турніру</div>
-              <div className="text-gray-900">
-                {new Date(tournament.startDate).toLocaleDateString('uk-UA')}
-              </div>
-            </div>
-          )}
-
-          {tournament.endDate && (
-            <div>
-              <div className="text-sm font-medium text-gray-600">Дата закінчення турніру</div>
-              <div className="text-gray-900">
-                {new Date(tournament.endDate).toLocaleDateString('uk-UA')}
-              </div>
-            </div>
-          )}
-
-          <div>
-            <div className="text-sm font-medium text-gray-600">Тип турніру</div>
-            <div className="text-gray-900">
-              {tournament.isRated ? 'Рейтинговий' : 'Нерейтинговий'}
-            </div>
+      {/* Інформація Card */}
+      <div className="relative bg-gradient-to-br from-white via-indigo-50/20 to-purple-50/20 backdrop-blur-sm rounded-2xl shadow-xl border border-indigo-100/50 p-6 sm:p-8 overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
+        
+        <div className="relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1 h-8 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full"></div>
+            <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              Інформація про турнір
+            </h3>
           </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {tournament.registrationStart && (
+              <div className="group bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 hover:border-blue-300/50 hover:shadow-lg transition-all duration-300">
+                <div className="text-sm font-semibold text-gray-600 mb-1">Початок реєстрації</div>
+                <div className="text-gray-900 font-medium">
+                  {new Date(tournament.registrationStart).toLocaleString('uk-UA')}
+                </div>
+              </div>
+            )}
+            
+            {tournament.registrationEnd && (
+              <div className="group bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 hover:border-blue-300/50 hover:shadow-lg transition-all duration-300">
+                <div className="text-sm font-semibold text-gray-600 mb-1">Кінець реєстрації</div>
+                <div className="text-gray-900 font-medium">
+                  {new Date(tournament.registrationEnd).toLocaleString('uk-UA')}
+                </div>
+              </div>
+            )}
 
-          <div>
-            <div className="text-sm font-medium text-gray-600">Учасників зареєстровано</div>
-            <div className="text-gray-900">{tournament.registeredCount}</div>
+            {tournament.startDate && (
+              <div className="group bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 hover:border-blue-300/50 hover:shadow-lg transition-all duration-300">
+                <div className="text-sm font-semibold text-gray-600 mb-1">Дата початку турніру</div>
+                <div className="text-gray-900 font-medium">
+                  {new Date(tournament.startDate).toLocaleDateString('uk-UA')}
+                </div>
+              </div>
+            )}
+
+            {tournament.endDate && (
+              <div className="group bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 hover:border-blue-300/50 hover:shadow-lg transition-all duration-300">
+                <div className="text-sm font-semibold text-gray-600 mb-1">Дата закінчення турніру</div>
+                <div className="text-gray-900 font-medium">
+                  {new Date(tournament.endDate).toLocaleDateString('uk-UA')}
+                </div>
+              </div>
+            )}
+
+            <div className="group bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 hover:border-blue-300/50 hover:shadow-lg transition-all duration-300">
+              <div className="text-sm font-semibold text-gray-600 mb-1">Тип турніру</div>
+              <div className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-full ${tournament.isRated ? 'bg-gradient-to-r from-green-400 to-emerald-500' : 'bg-gradient-to-r from-gray-400 to-gray-500'}`}></div>
+                <span className="text-gray-900 font-medium">
+                  {tournament.isRated ? 'Рейтинговий' : 'Нерейтинговий'}
+                </span>
+              </div>
+            </div>
+
+            <div className="group bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 hover:border-blue-300/50 hover:shadow-lg transition-all duration-300">
+              <div className="text-sm font-semibold text-gray-600 mb-1">Учасників зареєстровано</div>
+              <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {tournament.registeredCount}
+              </div>
+            </div>
           </div>
         </div>
       </div>

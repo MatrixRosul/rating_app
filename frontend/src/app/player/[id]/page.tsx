@@ -109,30 +109,37 @@ export default function PlayerProfile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100">
-        <header className="bg-white shadow-md">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-blue-300/20 to-indigo-300/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-purple-300/20 to-pink-300/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        
+        <header className="relative bg-white/80 backdrop-blur-sm shadow-xl border-b border-gray-200/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between py-6">
               <div className="flex items-center space-x-4">
                 <Link 
                   href="/rating"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                  className="text-gray-600 hover:text-gray-900 transition-all hover:scale-110 duration-300"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
                   Профіль гравця
                 </h1>
               </div>
             </div>
           </div>
         </header>
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-4 justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <span className="text-lg">Завантаження...</span>
+        <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-blue-100/50 p-8 flex items-center space-x-4 justify-center">
+            <div className="relative">
+              <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-200 border-t-blue-600"></div>
+              <div className="absolute inset-0 rounded-full bg-blue-500/20 animate-ping"></div>
+            </div>
+            <span className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Завантаження...</span>
           </div>
         </main>
       </div>
@@ -141,20 +148,26 @@ export default function PlayerProfile() {
 
   if (error || !player) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-          <div className="text-gray-400 mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-red-300/10 to-orange-300/10 rounded-full blur-3xl"></div>
+        
+        <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-red-100/50 p-8 text-center max-w-md">
+          <div className="relative mb-4">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-20 h-20 bg-red-100 rounded-full animate-pulse"></div>
+            </div>
+            <svg className="relative mx-auto h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Гравця не знайдено</h2>
-          <p className="text-gray-600 mb-4">{error || 'Гравець з таким ID не існує'}</p>
+          <h2 className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent mb-2">Гравця не знайдено</h2>
+          <p className="text-gray-600 mb-6">{error || 'Гравець з таким ID не існує'}</p>
           <Link 
             href="/rating"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block"
+            className="group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 inline-block"
           >
-            Повернутися до рейтингу
+            <span className="relative z-10">Повернутися до рейтингу</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </Link>
         </div>
       </div>
@@ -337,28 +350,32 @@ export default function PlayerProfile() {
   const hasRankChanged = highestRatingBand.name !== ratingBand.name;
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      {/* Animated Background Blobs */}
+      <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-blue-300/20 to-indigo-300/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-purple-300/20 to-pink-300/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+      
       {/* Header */}
-      <header className="bg-white shadow-md">
+      <header className="relative bg-white/80 backdrop-blur-sm shadow-xl border-b border-gray-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4 sm:py-6">
             <div className="flex items-center space-x-2 sm:space-x-4">
               <Link 
                 href="/rating"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
+                className="text-gray-600 hover:text-gray-900 transition-all hover:scale-110 duration-300"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </Link>
-              <h1 className="text-lg sm:text-2xl font-bold text-gray-900">
+              <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
                 Профіль гравця
               </h1>
             </div>
             
             <Link 
               href="/rating"
-              className="bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm sm:text-base"
+              className="px-3 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 text-sm sm:text-base font-medium"
             >
               До рейтингу
             </Link>
@@ -367,9 +384,10 @@ export default function PlayerProfile() {
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
+      <main className="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Player Info */}
-        <div className="bg-white rounded-lg shadow-md p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8">
+        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/50 p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8 overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-indigo-100/30 rounded-full blur-2xl"></div>
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-4 sm:mb-6">
             {/* Player Photo */}
             <div className="flex justify-center sm:justify-start">
@@ -428,28 +446,28 @@ export default function PlayerProfile() {
           </div>
 
           {/* Stats Grid - More compact */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
-            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-              <div className="text-lg sm:text-xl font-bold text-blue-600">{stats.totalMatches}</div>
-              <div className="text-[10px] sm:text-xs text-gray-600">Матчів</div>
+          <div className="relative grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+            <div className="text-center p-2 sm:p-3 bg-gradient-to-br from-blue-50 to-indigo-50/50 rounded-xl border border-blue-100/50 hover:scale-105 transition-transform duration-300">
+              <div className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{stats.totalMatches}</div>
+              <div className="text-[10px] sm:text-xs text-gray-600 font-medium">Матчів</div>
             </div>
-            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-              <div className="text-lg sm:text-xl font-bold text-green-600">{stats.wins}</div>
-              <div className="text-[10px] sm:text-xs text-gray-600">Перемог</div>
+            <div className="text-center p-2 sm:p-3 bg-gradient-to-br from-green-50 to-emerald-50/50 rounded-xl border border-green-100/50 hover:scale-105 transition-transform duration-300">
+              <div className="text-lg sm:text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{stats.wins}</div>
+              <div className="text-[10px] sm:text-xs text-gray-600 font-medium">Перемог</div>
             </div>
-            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-              <div className="text-lg sm:text-xl font-bold text-red-600">{stats.losses}</div>
-              <div className="text-[10px] sm:text-xs text-gray-600">Поразок</div>
+            <div className="text-center p-2 sm:p-3 bg-gradient-to-br from-red-50 to-pink-50/50 rounded-xl border border-red-100/50 hover:scale-105 transition-transform duration-300">
+              <div className="text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">{stats.losses}</div>
+              <div className="text-[10px] sm:text-xs text-gray-600 font-medium">Поразок</div>
             </div>
-            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
-              <div className="text-lg sm:text-xl font-bold text-purple-600">{(stats.winRate * 100).toFixed(0)}%</div>
-              <div className="text-[10px] sm:text-xs text-gray-600">% Перемог</div>
+            <div className="text-center p-2 sm:p-3 bg-gradient-to-br from-purple-50 to-pink-50/50 rounded-xl border border-purple-100/50 hover:scale-105 transition-transform duration-300">
+              <div className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{(stats.winRate * 100).toFixed(0)}%</div>
+              <div className="text-[10px] sm:text-xs text-gray-600 font-medium">% Перемог</div>
             </div>
-            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg">
+            <div className="text-center p-2 sm:p-3 bg-gradient-to-br from-amber-50 to-orange-50/50 rounded-xl border border-amber-100/50 hover:scale-105 transition-transform duration-300">
               <div className={`text-lg sm:text-xl font-bold ${highestRatingBand.textColor}`}>
                 {stats.highestRating}
               </div>
-              <div className="text-[10px] sm:text-xs text-gray-600">Макс рейтинг</div>
+              <div className="text-[10px] sm:text-xs text-gray-600 font-medium">Макс рейтинг</div>
               <div className={`text-[9px] sm:text-xs font-medium mt-0.5 ${highestRatingBand.textColor}`}>
                 {highestRatingBand.name}
               </div>
@@ -459,11 +477,11 @@ export default function PlayerProfile() {
                 </div>
               )}
             </div>
-            <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-lg col-span-2 sm:col-span-1">
-              <div className={`text-lg sm:text-xl font-bold ${stats.ratingProgress >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <div className="text-center p-2 sm:p-3 bg-gradient-to-br from-teal-50 to-cyan-50/50 rounded-xl border border-teal-100/50 hover:scale-105 transition-transform duration-300 col-span-2 sm:col-span-1">
+              <div className={`text-lg sm:text-xl font-bold ${stats.ratingProgress >= 0 ? 'bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent' : 'bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent'}`}>
                 {stats.ratingProgress >= 0 ? '+' : ''}{stats.ratingProgress}
               </div>
-              <div className="text-[10px] sm:text-xs text-gray-600">Зміна рейтингу</div>
+              <div className="text-[10px] sm:text-xs text-gray-600 font-medium">Зміна рейтингу</div>
             </div>
           </div>
         </div>

@@ -83,9 +83,9 @@ export default function TournamentLayout({ children }: { children: ReactNode }) 
 
   const getStatusBadge = (status: string) => {
     const badges = {
-      registration: 'bg-yellow-500 text-white',
-      in_progress: 'bg-green-500 text-white',
-      finished: 'bg-black text-white',
+      registration: 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-md',
+      in_progress: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md',
+      finished: 'bg-gradient-to-r from-gray-800 to-black text-white shadow-md',
     };
 
     const labels = {
@@ -107,18 +107,32 @@ export default function TournamentLayout({ children }: { children: ReactNode }) 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="text-center">Завантаження...</div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center">
+        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl">
+          <div className="absolute top-0 right-0 w-20 h-20 bg-blue-400/20 rounded-full blur-2xl"></div>
+          <div className="relative flex items-center gap-3">
+            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-gray-700 font-medium">Завантаження...</span>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error || !tournament) {
     return (
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         <div className="max-w-4xl mx-auto py-8 px-4">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
-            {error || 'Турнір не знайдено'}
+          <div className="relative bg-gradient-to-r from-red-50 to-pink-50 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-red-300/50 p-6 overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-red-400/10 rounded-full blur-3xl"></div>
+            <div className="relative flex items-center gap-3">
+              <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              <span className="text-red-700 font-medium text-lg">{error || 'Турнір не знайдено'}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -153,18 +167,26 @@ export default function TournamentLayout({ children }: { children: ReactNode }) 
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      {/* Animated Background Blobs */}
+      <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-blue-300/20 to-indigo-300/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-purple-300/20 to-pink-300/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="bg-white rounded-lg p-6 mb-6 shadow">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-            <h1 className="text-3xl font-bold">{tournament.name}</h1>
+        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-xl border border-gray-200/50 overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-indigo-100/30 rounded-full blur-2xl"></div>
+          
+          <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
+              {tournament.name}
+            </h1>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
               {getStatusBadge(tournament.status)}
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+              <span className={`px-3 py-1 rounded-full text-sm font-medium shadow-md ${
                 tournament.isRated 
-                  ? 'bg-orange-500 text-white' 
-                  : 'bg-gray-400 text-white'
+                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white' 
+                  : 'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
               }`}>
                 {tournament.isRated ? 'Рейтинговий' : 'Нерейтинговий'}
               </span>
@@ -173,23 +195,24 @@ export default function TournamentLayout({ children }: { children: ReactNode }) 
 
           {/* Tournament Info */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div>
-              <span className="font-medium text-gray-600">Місце:</span>
-              <div>{tournament.club}, {tournament.city}, {tournament.country}</div>
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50/50 rounded-lg p-3">
+              <span className="font-semibold text-blue-900 block mb-1">Місце:</span>
+              <div className="text-gray-700">{tournament.club}, {tournament.city}, {tournament.country}</div>
             </div>
-            <div>
-              <span className="font-medium text-gray-600">Дисципліна:</span>
-              <div>{getDisciplineLabel(tournament.discipline)}</div>
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50/50 rounded-lg p-3">
+              <span className="font-semibold text-purple-900 block mb-1">Дисципліна:</span>
+              <div className="text-gray-700">{getDisciplineLabel(tournament.discipline)}</div>
             </div>
-            <div>
-              <span className="font-medium text-gray-600">Учасників:</span>
-              <div>{tournament.registeredCount}</div>
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50/50 rounded-lg p-3">
+              <span className="font-semibold text-teal-900 block mb-1">Учасників:</span>
+              <div className="text-gray-700">{tournament.registeredCount}</div>
             </div>
           </div>
 
           {tournament.registrationEnd && tournament.status === 'registration' && (
-            <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-              <div className="text-sm font-medium text-orange-800">
+            <div className="relative mt-4 p-4 bg-gradient-to-r from-orange-50 to-amber-50 border-2 border-orange-300/50 rounded-xl overflow-hidden shadow-md">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-orange-400/10 rounded-full blur-2xl"></div>
+              <div className="relative text-sm font-medium text-orange-900">
                 Реєстрація до: {new Date(tournament.registrationEnd).toLocaleString('uk-UA')}
               </div>
             </div>
@@ -197,21 +220,21 @@ export default function TournamentLayout({ children }: { children: ReactNode }) 
         </div>
 
         {/* Tabs Navigation */}
-        <div className="bg-white rounded-lg shadow mb-6">
-          <div className="border-b overflow-x-auto">
-            <nav className="flex space-x-8 px-6" aria-label="Tabs">
+        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl mb-6 border border-gray-200/50 overflow-hidden">
+          <div className="overflow-x-auto">
+            <nav className="flex space-x-2 px-6 py-4" aria-label="Tabs">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => tab.available && navigateToTab(tab.id)}
                   disabled={!tab.available}
                   className={`
-                    whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition
+                    relative whitespace-nowrap px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300
                     ${activeTab === tab.id
-                      ? 'border-blue-500 text-blue-600'
+                      ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg scale-105'
                       : tab.available
-                      ? 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                      : 'border-transparent text-gray-300 cursor-not-allowed'
+                      ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50 hover:scale-105'
+                      : 'text-gray-300 cursor-not-allowed opacity-50'
                     }
                   `}
                 >
@@ -224,7 +247,7 @@ export default function TournamentLayout({ children }: { children: ReactNode }) 
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-200/50">
           {children}
         </div>
       </div>
