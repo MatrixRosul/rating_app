@@ -16,26 +16,48 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      {/* Animated background blobs */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-indigo-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -bottom-40 right-1/4 w-72 h-72 bg-gradient-to-br from-cyan-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
+      </div>
+
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Hero Section */}
-        <div className="text-center mb-12 sm:mb-16">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Рейтингова Система Більярду
+        <div className="text-center mb-16 sm:mb-24">
+          <div className="inline-block mb-6 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 backdrop-blur-sm rounded-full border border-blue-200/50">
+            <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Професійна рейтингова платформа
+            </span>
+          </div>
+          
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+            <span className="bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
+              Рейтингова Система
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Більярду
+            </span>
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 px-2">
-            Професійна система відстеження рейтингу та статистики гравців у більярд
+          
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+            Відстежуйте рейтинг, змагайтеся у турнірах та досягайте нових висот у більярдному спорті
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4">
+          
+          <div className="flex flex-col sm:flex-row justify-center gap-4 px-4">
             <button
               onClick={() => router.push('/rating')}
-              className="px-6 sm:px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition shadow-lg"
+              className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
             >
-              Переглянути Рейтинг
+              <span className="relative z-10">Переглянути Рейтинг</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             <button
               onClick={() => router.push('/tournaments')}
-              className="px-6 sm:px-8 py-3 bg-white text-blue-600 font-medium rounded-lg hover:bg-gray-50 transition shadow-lg border-2 border-blue-600"
+              className="group px-8 py-4 bg-white/80 backdrop-blur-sm text-blue-600 font-semibold rounded-2xl hover:bg-white transition-all duration-300 border-2 border-blue-600/30 hover:border-blue-600 hover:shadow-xl hover:scale-105"
             >
               Турніри
             </button>

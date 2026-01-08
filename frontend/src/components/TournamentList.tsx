@@ -92,34 +92,56 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Завантаження...</div>;
+    return (
+      <div className="flex items-center justify-center py-16">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600"></div>
+            <div className="absolute inset-0 rounded-full bg-blue-500/20 animate-ping"></div>
+          </div>
+          <span className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Завантаження турнірів...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        <h2 className="text-2xl sm:text-3xl font-bold">Турніри</h2>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <div className="inline-block mb-3 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 backdrop-blur-sm rounded-full border border-blue-200/50">
+            <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Більярдні змагання
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
+            <span className="bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
+              Турніри
+            </span>
+          </h2>
+        </div>
         {user?.role === 'admin' && (
           <button
             onClick={onCreateClick}
-            className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm sm:text-base"
+            className="group relative w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
           >
-            + Створити турнір
+            <span className="relative z-10">+ Створити турнір</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
         )}
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+      <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
         {(['registration', 'in_progress', 'finished'] as const).map((status) => (
           <button
             key={status}
             onClick={() => setFilter(status)}
-            className={`px-3 sm:px-4 py-2 rounded-lg transition whitespace-nowrap text-sm sm:text-base ${
+            className={`px-5 sm:px-6 py-3 rounded-xl transition-all duration-300 whitespace-nowrap text-sm sm:text-base font-semibold ${
               filter === status
-                ? 'bg-blue-600 text-white'
-                : 'bg-white border hover:bg-blue-50'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/50 scale-105'
+                : 'bg-white/80 backdrop-blur-sm border-2 border-gray-200 text-gray-700 hover:border-blue-300 hover:bg-blue-50 hover:scale-105'
             }`}
           >
             {status === 'registration' ? 'Реєстрація' : status === 'in_progress' ? 'Триває' : 'Минулі'}
@@ -128,67 +150,88 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
       </div>
 
       {/* Tournament List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {tournaments.length === 0 ? (
-          <div className="col-span-full text-center py-8 text-gray-500">
-            Турнірів не знайдено
+          <div className="col-span-full">
+            <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-12 text-center">
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-blue-50 opacity-50 rounded-2xl"></div>
+              <div className="relative">
+                <div className="inline-block mb-4">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gray-200 rounded-full blur-xl animate-pulse"></div>
+                    <svg className="relative h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-700 mb-2">Турнірів не знайдено</h3>
+                <p className="text-gray-600">Спробуйте вибрати інший фільтр</p>
+              </div>
+            </div>
           </div>
         ) : (
           tournaments.map((tournament) => (
             <div
               key={tournament.id}
               onClick={() => router.push(`/tournaments/${tournament.id}`)}
-              className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 hover:border-gray-300 hover:shadow-md transition cursor-pointer active:scale-[0.98]"
+              className="group relative bg-white/90 backdrop-blur-sm border-2 border-gray-200 rounded-2xl p-5 sm:p-6 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
             >
-              <div className="flex justify-between items-start mb-3 sm:mb-4 gap-2">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex-1 leading-tight">
+              {/* Decorative gradient on hover */}
+              <div className="absolute -top-px left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="flex justify-between items-start mb-4 gap-3">
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 flex-1 leading-tight group-hover:text-blue-600 transition-colors">
                   {tournament.name}
                 </h3>
-                <span className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-medium shrink-0 ${
+                <span className={`px-3 py-1 rounded-xl text-xs font-semibold shrink-0 transition-all ${
                   tournament.status === 'registration' 
-                    ? 'bg-gray-100 text-gray-700' 
+                    ? 'bg-gradient-to-r from-yellow-100 to-amber-100 text-amber-700 border border-amber-200' 
                     : tournament.status === 'in_progress'
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-200 text-gray-600'
+                    ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 border border-green-200'
+                    : 'bg-gradient-to-r from-gray-100 to-slate-100 text-gray-600 border border-gray-200'
                 }`}>
                   {tournament.status === 'registration' ? 'Реєстрація' : tournament.status === 'in_progress' ? 'Триває' : 'Завершено'}
                 </span>
               </div>
 
               {tournament.description && (
-                <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-2">
+                <p className="text-xs sm:text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">
                   {tournament.description}
                 </p>
               )}
 
               {/* Location and Discipline */}
-              <div className="mb-3 sm:mb-4 flex flex-wrap gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
+              <div className="mb-4 flex flex-wrap gap-2 text-xs">
                 {tournament.city && (
-                  <span className="text-gray-600">📍 {tournament.city}</span>
+                  <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded-lg font-medium">{tournament.city}</span>
                 )}
                 {tournament.club && (
-                  <span className="text-gray-600">• {tournament.club}</span>
+                  <span className="px-2 py-1 bg-purple-50 text-purple-700 rounded-lg font-medium">{tournament.club}</span>
                 )}
                 {tournament.discipline && (
-                  <span className="text-gray-600 hidden sm:inline">• {getDisciplineLabel(tournament.discipline)}</span>
+                  <span className="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-medium hidden sm:inline">
+                    {getDisciplineLabel(tournament.discipline)}
+                  </span>
                 )}
                 {tournament.isRated && (
-                  <span className="text-gray-600">• Рейтинговий</span>
+                  <span className="px-2 py-1 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-700 rounded-lg font-medium border border-amber-200">Рейтинговий</span>
                 )}
               </div>
 
               {/* Discipline on mobile - separate line */}
               {tournament.discipline && (
-                <div className="mb-3 text-[11px] text-gray-600 sm:hidden">
-                  {getDisciplineLabel(tournament.discipline)}
+                <div className="mb-3 text-xs sm:hidden">
+                  <span className="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-medium">
+                    {getDisciplineLabel(tournament.discipline)}
+                  </span>
                 </div>
               )}
 
-              <div className="space-y-1 sm:space-y-1.5 text-xs sm:text-sm text-gray-600">
+              <div className="space-y-2 text-xs sm:text-sm">
                 {tournament.registrationEnd && tournament.status === 'registration' && (
-                  <div className="flex flex-wrap items-baseline gap-1">
-                    <span className="text-gray-500">Реєстрація до:</span>
-                    <span className="font-medium text-gray-900">
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500 font-medium">Реєстрація до:</span>
+                    <span className="font-bold text-gray-900">
                       {new Date(tournament.registrationEnd).toLocaleDateString('uk-UA', {
                         day: 'numeric',
                         month: 'short',
@@ -197,9 +240,9 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
                   </div>
                 )}
                 {tournament.startDate && (
-                  <div className="flex flex-wrap items-baseline gap-1">
-                    <span className="text-gray-500">Старт:</span>
-                    <span className="font-medium text-gray-900">
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500 font-medium">Старт:</span>
+                    <span className="font-bold text-gray-900">
                       {new Date(tournament.startDate).toLocaleDateString('uk-UA', {
                         day: 'numeric',
                         month: 'short',
@@ -207,13 +250,16 @@ export default function TournamentList({ onCreateClick }: TournamentListProps) {
                     </span>
                   </div>
                 )}
-                <div className="flex flex-wrap items-baseline gap-1">
-                  <span className="text-gray-500">Учасників:</span>
-                  <span className="font-medium text-gray-900">{tournament.registeredCount}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500 font-medium">Учасників:</span>
+                  <span className="font-bold text-blue-600">{tournament.registeredCount}</span>
                 </div>
                 {tournament.isRegistered && (
-                  <div className="text-blue-600 font-medium text-[11px] sm:text-xs mt-1.5 sm:mt-2">
-                    ✓ Ви зареєстровані
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 font-semibold text-xs rounded-lg border border-green-200 mt-2">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    Ви зареєстровані
                   </div>
                 )}
               </div>

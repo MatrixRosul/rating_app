@@ -62,23 +62,33 @@ export default function Leaderboard({ players }: LeaderboardProps) {
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">
-          Рейтинг гравців у більярд
+      <div className="text-center mb-8">
+        <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 backdrop-blur-sm rounded-full border border-blue-200/50">
+          <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Офіційний рейтинг
+          </span>
+        </div>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3">
+          <span className="bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
+            Рейтинг гравців
+          </span>
         </h1>
-        <p className="text-gray-600">
-          Всього гравців: {players.length}
+        <p className="text-lg text-gray-600">
+          Всього гравців: <span className="font-bold text-blue-600">{players.length}</span>
         </p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-md p-4">
-        <div className="flex flex-col md:flex-row gap-3">
+      <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-blue-100/50 p-4 sm:p-6">
+        {/* Decorative gradient */}
+        <div className="absolute -top-px left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
+        
+        <div className="flex flex-col lg:flex-row gap-4">
           {/* Search */}
           <div className="flex-1">
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="search" className="block text-sm font-semibold text-gray-700 mb-2">
               Пошук гравця
             </label>
             <input
@@ -87,22 +97,22 @@ export default function Leaderboard({ players }: LeaderboardProps) {
               placeholder="Введіть ім'я гравця..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all duration-300 hover:border-gray-300"
             />
           </div>
 
           {/* Filters (peak/cms) */}
-          <div className="md:w-64">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+          <div className="lg:w-64">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Фільтри
             </label>
-            <div className="flex gap-2 h-10">
+            <div className="flex gap-2 h-12">
               <button
                 onClick={() => setShowPeakRating(!showPeakRating)}
-                className={`flex-1 px-2 py-2 text-xs sm:text-sm rounded-md border transition-colors ${
+                className={`flex-1 px-3 py-2 text-sm font-semibold rounded-xl border-2 transition-all duration-300 ${
                   showPeakRating
-                    ? 'bg-purple-600 text-white border-purple-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-transparent shadow-lg shadow-purple-500/50 scale-105'
+                    : 'bg-white text-gray-700 border-gray-200 hover:border-purple-300 hover:bg-purple-50'
                 }`}
                 title="Показати піковий рейтинг"
               >
@@ -110,10 +120,10 @@ export default function Leaderboard({ players }: LeaderboardProps) {
               </button>
               <button
                 onClick={() => setShowCMSOnly(!showCMSOnly)}
-                className={`flex-1 px-2 py-2 text-xs sm:text-sm rounded-md border transition-colors ${
+                className={`flex-1 px-3 py-2 text-sm font-semibold rounded-xl border-2 transition-all duration-300 ${
                   showCMSOnly
-                    ? 'bg-amber-600 text-white border-amber-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                    ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white border-transparent shadow-lg shadow-amber-500/50 scale-105'
+                    : 'bg-white text-gray-700 border-gray-200 hover:border-amber-300 hover:bg-amber-50'
                 }`}
                 title="Показати тільки КМС"
               >
@@ -123,30 +133,28 @@ export default function Leaderboard({ players }: LeaderboardProps) {
           </div>
 
           {/* Sort toggle */}
-          <div className="md:w-32">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+          <div className="lg:w-36">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Порядок
             </label>
             <button
               onClick={() => setSortDescending(!sortDescending)}
-              className="w-full h-10 px-3 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+              className="w-full h-12 px-4 rounded-xl border-2 border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 font-semibold"
             >
-              <span className="text-sm font-medium">
-                {sortDescending ? '↓ Спадання' : '↑ Зростання'}
-              </span>
+              {sortDescending ? '↓ Спадання' : '↑ Зростання'}
             </button>
           </div>
 
           {/* Rating filter */}
-          <div className="md:w-64">
-            <label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-1">
+          <div className="lg:w-64">
+            <label htmlFor="rating" className="block text-sm font-semibold text-gray-700 mb-2">
               Рейтинг
             </label>
             <select
               id="rating"
               value={selectedRating}
               onChange={(e) => setSelectedRating(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium text-gray-700 transition-all duration-300 hover:border-gray-300"
             >
               {ratingBands.map(band => (
                 <option key={band} value={band}>
@@ -158,13 +166,29 @@ export default function Leaderboard({ players }: LeaderboardProps) {
         </div>
 
         {/* Results count */}
-        <div className="mt-2 text-sm text-gray-600">
-          Знайдено: {filteredPlayers.length} з {players.length} гравців
+        <div className="mt-4 pt-4 border-t border-gray-200/50">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-medium text-gray-600">
+              Знайдено: <span className="font-bold text-blue-600">{filteredPlayers.length}</span> з <span className="font-bold">{players.length}</span> гравців
+            </div>
+            {filteredPlayers.length !== players.length && (
+              <button
+                onClick={() => {
+                  setSearchTerm('');
+                  setSelectedRating('all');
+                  setShowCMSOnly(false);
+                }}
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium underline"
+              >
+                Скинути фільтри
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Player list */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         {filteredPlayers.length > 0 ? (
           filteredPlayers.map((player, index) => (
             <PlayerCard
@@ -176,13 +200,29 @@ export default function Leaderboard({ players }: LeaderboardProps) {
             />
           ))
         ) : (
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <div className="text-gray-500">
-              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <h3 className="mt-2 text-lg font-medium">Гравців не знайдено</h3>
-              <p className="mt-1">Спробуйте змінити критерії пошуку</p>
+          <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-12 text-center">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-blue-50 opacity-50 rounded-2xl"></div>
+            <div className="relative">
+              <div className="inline-block mb-4">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gray-200 rounded-full blur-xl animate-pulse"></div>
+                  <svg className="relative h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-700 mb-2">Гравців не знайдено</h3>
+              <p className="text-gray-600 mb-4">Спробуйте змінити критерії пошуку</p>
+              <button
+                onClick={() => {
+                  setSearchTerm('');
+                  setSelectedRating('all');
+                  setShowCMSOnly(false);
+                }}
+                className="inline-block px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
+              >
+                Скинути всі фільтри
+              </button>
             </div>
           </div>
         )}
