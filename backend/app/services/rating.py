@@ -267,3 +267,56 @@ def calculate_rating_change(
         'player1_change': player1_change,
         'player2_change': player2_change
     }
+
+
+def calculate_discipline_win_rates(player_id: int, db) -> dict:
+    """
+    Розраховує win rate гравця по кожній дисципліні
+    
+    Args:
+        player_id: ID гравця
+        db: Database session
+    
+    Returns:
+        dict: win rate по кожній дисципліні (0-100%)
+    """
+    from app.models.match import Match
+    from sqlalchemy import or_, and_
+    
+    # Дисципліни для radar chart
+    disciplines = [
+        "FREE_PYRAMID",
+        "DYNAMIC_PYRAMID", 
+        "COMBINED_PYRAMID",
+        "FREE_PYRAMID_EXTENDED",
+        "COMBINED_PYRAMID_CHANGES"
+    ]
+    
+    result = {}
+    
+    for discipline in disciplines:
+        # Знаходимо всі матчі гравця у цій дисципліні (пропускаємо null)
+        matches = db.query(Match).filter(
+            and_(
+                or_(
+                    Match.player1_id == player_id,
+                    Match.player2_id == player_id
+                ),
+                Match.discipline == discipline,
+                Match.discipline.isnot(None)  # Пропускаємо null дисципліни
+            )
+        ).all()
+        
+        if not matches:
+            result[discipline.lower()] = 0
+            continue
+        
+        # Рахуємо перемоги
+        wins = sum(1 for match in matches if match.winner_id == player_id)
+        total = len(matches)
+        
+        # Win rate у відсотках
+        win_rate = round((wins / total) * 100, 1) if total > 0 else 0
+        result[discipline.lower()] = win_rate
+    
+    return result

@@ -3,6 +3,7 @@
 import { getRatingBand } from '@/utils/rating';
 import MatchHistory from '@/components/MatchHistory';
 import RatingChart from '@/components/RatingChart';
+import DisciplineRadarChart from '@/components/DisciplineRadarChart';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -474,6 +475,11 @@ export default function PlayerProfile() {
             matches={playerMatches}
             players={allPlayers}
           />
+        </div>
+
+        {/* Discipline Radar Chart */}
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <DisciplineRadarChart playerId={player.id} />
         </div>
 
         {/* Match History */}

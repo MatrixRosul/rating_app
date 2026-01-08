@@ -172,3 +172,24 @@ async def get_player(player_id: str, db: Session = Depends(get_db)):
         "updated_at": player.updated_at.isoformat(),
         "matches_played": matches_played
     }
+
+
+@router.get("/{player_id}/discipline-stats")
+async def get_player_discipline_stats(
+    player_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Отримати статистику win rate гравця по дисциплінах для radar chart
+    """
+    from app.services.rating import calculate_discipline_win_rates
+    
+    # Перевіряємо чи існує гравець
+    player = db.query(Player).filter(Player.id == player_id).first()
+    if not player:
+        raise HTTPException(status_code=404, detail="Player not found")
+    
+    # Розраховуємо win rate по дисциплінах
+    stats = calculate_discipline_win_rates(player_id, db)
+    
+    return stats

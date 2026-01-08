@@ -1490,11 +1490,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts
 ;
 function MatchHistory(t0) {
     const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(18);
-    if ($[0] !== "ce854f22e332caabe485b726fdf3e3b2c774a0a2c139b6f809bea4eb54378510") {
+    if ($[0] !== "fe9cc24c7deb26769966345231d36771fae499302f24d8b7eadc5df46dea09b7") {
         for(let $i = 0; $i < 18; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "ce854f22e332caabe485b726fdf3e3b2c774a0a2c139b6f809bea4eb54378510";
+        $[0] = "fe9cc24c7deb26769966345231d36771fae499302f24d8b7eadc5df46dea09b7";
     }
     const { matches, players: t1, playerId, limit, disableSorting: t2 } = t0;
     let t3;
@@ -2074,7 +2074,7 @@ function MatchHistory(t0) {
                                                                         columnNumber: 2653
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                                        href: `/player/${encodeURIComponent(winner.name)}`,
+                                                                        href: `/player/${encodeURIComponent(winner.name || "")}`,
                                                                         className: `${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$rating$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getRatingBand"])(match.winnerId === player1.id ? match.player1RatingAfter : match.player2RatingAfter).textColor} font-semibold hover:opacity-80 transition-colors`,
                                                                         children: winner.name
                                                                     }, void 0, false, {
@@ -2097,7 +2097,7 @@ function MatchHistory(t0) {
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/MatchHistory.tsx",
                                                                         lineNumber: 99,
-                                                                        columnNumber: 3036
+                                                                        columnNumber: 3042
                                                                     }, this),
                                                                     match.stage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: `text-xs font-semibold px-2 py-0.5 rounded ${match.stage === "final" ? "bg-yellow-100 text-yellow-800" : match.stage === "semifinal" ? "bg-orange-100 text-orange-800" : match.stage === "quarterfinal" ? "bg-purple-100 text-purple-800" : match.stage === "round16" ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"}`,
@@ -2108,13 +2108,13 @@ function MatchHistory(t0) {
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/MatchHistory.tsx",
                                                                         lineNumber: 99,
-                                                                        columnNumber: 3116
+                                                                        columnNumber: 3122
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/MatchHistory.tsx",
                                                                 lineNumber: 99,
-                                                                columnNumber: 2970
+                                                                columnNumber: 2976
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
@@ -2134,7 +2134,7 @@ function MatchHistory(t0) {
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/MatchHistory.tsx",
                                                         lineNumber: 99,
-                                                        columnNumber: 3856
+                                                        columnNumber: 3862
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
@@ -3244,17 +3244,17 @@ function PlayerProfile() {
                                                 d: "M15 19l-7-7 7-7"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 112,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                                            lineNumber: 110,
+                                            lineNumber: 111,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 109,
+                                        lineNumber: 110,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -3262,28 +3262,28 @@ function PlayerProfile() {
                                         children: "Профіль гравця"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 114,
+                                        lineNumber: 115,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 108,
+                                lineNumber: 109,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 107,
+                            lineNumber: 108,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 106,
+                        lineNumber: 107,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 105,
+                    lineNumber: 106,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -3295,7 +3295,7 @@ function PlayerProfile() {
                                 className: "animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 123,
+                                lineNumber: 124,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3303,24 +3303,24 @@ function PlayerProfile() {
                                 children: "Завантаження..."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 124,
+                                lineNumber: 125,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 122,
+                        lineNumber: 123,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 121,
+                    lineNumber: 122,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 104,
+            lineNumber: 105,
             columnNumber: 12
         }, this);
     }
@@ -3344,17 +3344,17 @@ function PlayerProfile() {
                                 d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 134,
+                                lineNumber: 135,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 133,
+                            lineNumber: 134,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 132,
+                        lineNumber: 133,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -3362,7 +3362,7 @@ function PlayerProfile() {
                         children: "Гравця не знайдено"
                     }, void 0, false, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 137,
+                        lineNumber: 138,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3370,7 +3370,7 @@ function PlayerProfile() {
                         children: error || 'Гравець з таким ID не існує'
                     }, void 0, false, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 138,
+                        lineNumber: 139,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -3379,18 +3379,18 @@ function PlayerProfile() {
                         children: "Повернутися до рейтингу"
                     }, void 0, false, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 139,
+                        lineNumber: 140,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                lineNumber: 131,
+                lineNumber: 132,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/player/[id]/page.tsx",
-            lineNumber: 130,
+            lineNumber: 131,
             columnNumber: 12
         }, this);
     }
@@ -3409,7 +3409,7 @@ function PlayerProfile() {
                 averageRatingChange: 0,
                 highestRating: player.rating,
                 lowestRating: player.rating,
-                ratingProgress: player.rating - player.initialRating
+                ratingProgress: player.rating - (player.initialRating ?? 1200)
             };
         }
         let wins = 0;
@@ -3449,7 +3449,7 @@ function PlayerProfile() {
             averageRatingChange: totalRatingChange / playerMatches.length,
             highestRating,
             lowestRating,
-            ratingProgress: player.rating - player.initialRating
+            ratingProgress: player.rating - (player.initialRating ?? 1200)
         };
     };
     const stats = calculateStats();
@@ -3562,17 +3562,17 @@ function PlayerProfile() {
                                                 d: "M15 19l-7-7 7-7"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 313,
+                                                lineNumber: 314,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                                            lineNumber: 312,
+                                            lineNumber: 313,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 311,
+                                        lineNumber: 312,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -3580,13 +3580,13 @@ function PlayerProfile() {
                                         children: "Профіль гравця"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 316,
+                                        lineNumber: 317,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 310,
+                                lineNumber: 311,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -3595,23 +3595,23 @@ function PlayerProfile() {
                                 children: "До рейтингу"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 321,
+                                lineNumber: 322,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 309,
+                        lineNumber: 310,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/player/[id]/page.tsx",
-                    lineNumber: 308,
+                    lineNumber: 309,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                lineNumber: 307,
+                lineNumber: 308,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -3635,22 +3635,22 @@ function PlayerProfile() {
                                                     d: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                    lineNumber: 337,
+                                                    lineNumber: 338,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 336,
+                                                lineNumber: 337,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                                            lineNumber: 335,
+                                            lineNumber: 336,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 334,
+                                        lineNumber: 335,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3667,7 +3667,7 @@ function PlayerProfile() {
                                                                 children: player.name
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                                lineNumber: 346,
+                                                                lineNumber: 347,
                                                                 columnNumber: 19
                                                             }, this),
                                                             player.isCMS && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3679,13 +3679,13 @@ function PlayerProfile() {
                                                                 children: "КМСУ"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                                lineNumber: 349,
+                                                                lineNumber: 350,
                                                                 columnNumber: 36
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                        lineNumber: 345,
+                                                        lineNumber: 346,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3696,7 +3696,7 @@ function PlayerProfile() {
                                                                 children: ratingBand.name
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                                lineNumber: 356,
+                                                                lineNumber: 357,
                                                                 columnNumber: 19
                                                             }, this),
                                                             (player.city || player.yearOfBirth) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3707,19 +3707,19 @@ function PlayerProfile() {
                                                                 ].filter(Boolean).join(' • ')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                                lineNumber: 359,
+                                                                lineNumber: 360,
                                                                 columnNumber: 59
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                        lineNumber: 355,
+                                                        lineNumber: 356,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 344,
+                                                lineNumber: 345,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3730,7 +3730,7 @@ function PlayerProfile() {
                                                         children: player.rating
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                        lineNumber: 366,
+                                                        lineNumber: 367,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3740,7 +3740,7 @@ function PlayerProfile() {
                                                                 className: `w-3 h-3 rounded-full ${ratingBand.color}`
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                                lineNumber: 370,
+                                                                lineNumber: 371,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3748,31 +3748,31 @@ function PlayerProfile() {
                                                                 children: ratingBand.name
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                                lineNumber: 371,
+                                                                lineNumber: 372,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                        lineNumber: 369,
+                                                        lineNumber: 370,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 365,
+                                                lineNumber: 366,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 343,
+                                        lineNumber: 344,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 332,
+                                lineNumber: 333,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3786,7 +3786,7 @@ function PlayerProfile() {
                                                 children: stats.totalMatches
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 382,
+                                                lineNumber: 383,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3794,13 +3794,13 @@ function PlayerProfile() {
                                                 children: "Матчів"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 383,
+                                                lineNumber: 384,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 381,
+                                        lineNumber: 382,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3811,7 +3811,7 @@ function PlayerProfile() {
                                                 children: stats.wins
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 386,
+                                                lineNumber: 387,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3819,13 +3819,13 @@ function PlayerProfile() {
                                                 children: "Перемог"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 387,
+                                                lineNumber: 388,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 385,
+                                        lineNumber: 386,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3836,7 +3836,7 @@ function PlayerProfile() {
                                                 children: stats.losses
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 390,
+                                                lineNumber: 391,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3844,13 +3844,13 @@ function PlayerProfile() {
                                                 children: "Поразок"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 391,
+                                                lineNumber: 392,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 389,
+                                        lineNumber: 390,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3864,7 +3864,7 @@ function PlayerProfile() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 394,
+                                                lineNumber: 395,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3872,13 +3872,13 @@ function PlayerProfile() {
                                                 children: "% Перемог"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 395,
+                                                lineNumber: 396,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 393,
+                                        lineNumber: 394,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3889,7 +3889,7 @@ function PlayerProfile() {
                                                 children: stats.highestRating
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 398,
+                                                lineNumber: 399,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3897,7 +3897,7 @@ function PlayerProfile() {
                                                 children: "Макс рейтинг"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 401,
+                                                lineNumber: 402,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3905,7 +3905,7 @@ function PlayerProfile() {
                                                 children: highestRatingBand.name
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 402,
+                                                lineNumber: 403,
                                                 columnNumber: 15
                                             }, this),
                                             player && hasRankChanged && stats.highestRating > player.rating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3913,13 +3913,13 @@ function PlayerProfile() {
                                                 children: "Найкраще звання"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 405,
+                                                lineNumber: 406,
                                                 columnNumber: 83
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 397,
+                                        lineNumber: 398,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3933,7 +3933,7 @@ function PlayerProfile() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 410,
+                                                lineNumber: 411,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3941,25 +3941,25 @@ function PlayerProfile() {
                                                 children: "Зміна рейтингу"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 413,
+                                                lineNumber: 414,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 409,
+                                        lineNumber: 410,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 380,
+                                lineNumber: 381,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 331,
+                        lineNumber: 332,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3970,12 +3970,12 @@ function PlayerProfile() {
                             players: allPlayers
                         }, void 0, false, {
                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                            lineNumber: 420,
+                            lineNumber: 421,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 419,
+                        lineNumber: 420,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3994,7 +3994,7 @@ function PlayerProfile() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 427,
+                                        lineNumber: 428,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4003,7 +4003,7 @@ function PlayerProfile() {
                                         children: "Найкращі матчі"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 430,
+                                        lineNumber: 431,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4016,13 +4016,13 @@ function PlayerProfile() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 433,
+                                        lineNumber: 434,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 426,
+                                lineNumber: 427,
                                 columnNumber: 11
                             }, this),
                             activeTab === 'awards' ? awards_0.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4054,12 +4054,12 @@ function PlayerProfile() {
                                                             children: getMedalIcon(award.place)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                            lineNumber: 456,
+                                                            lineNumber: 457,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                        lineNumber: 455,
+                                                        lineNumber: 456,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4069,7 +4069,7 @@ function PlayerProfile() {
                                                                 children: award.tournament
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                                lineNumber: 459,
+                                                                lineNumber: 460,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4077,19 +4077,19 @@ function PlayerProfile() {
                                                                 children: award.placeText
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                                lineNumber: 462,
+                                                                lineNumber: 463,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                        lineNumber: 458,
+                                                        lineNumber: 459,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 454,
+                                                lineNumber: 455,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4101,19 +4101,19 @@ function PlayerProfile() {
                                                 })
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 467,
+                                                lineNumber: 468,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, index_0, true, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 453,
+                                        lineNumber: 454,
                                         columnNumber: 20
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 438,
+                                lineNumber: 439,
                                 columnNumber: 59
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "text-center py-8 sm:py-12",
@@ -4132,17 +4132,17 @@ function PlayerProfile() {
                                                 d: "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 479,
+                                                lineNumber: 480,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                                            lineNumber: 478,
+                                            lineNumber: 479,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 477,
+                                        lineNumber: 478,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4150,7 +4150,7 @@ function PlayerProfile() {
                                         children: "Нагород поки немає"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 482,
+                                        lineNumber: 483,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4158,13 +4158,13 @@ function PlayerProfile() {
                                         children: "Беріть участь у турнірах, щоб отримати нагороди"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 485,
+                                        lineNumber: 486,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 476,
+                                lineNumber: 477,
                                 columnNumber: 24
                             }, this) : playerMatches.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MatchHistory$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 matches: activeTab === 'history' ? [
@@ -4173,7 +4173,7 @@ function PlayerProfile() {
                                 playerId: String(player.id)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 488,
+                                lineNumber: 489,
                                 columnNumber: 51
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "text-center py-8 sm:py-12",
@@ -4192,17 +4192,17 @@ function PlayerProfile() {
                                                 d: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                                lineNumber: 491,
+                                                lineNumber: 492,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/player/[id]/page.tsx",
-                                            lineNumber: 490,
+                                            lineNumber: 491,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 489,
+                                        lineNumber: 490,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -4210,7 +4210,7 @@ function PlayerProfile() {
                                         children: "Матчів поки немає"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 494,
+                                        lineNumber: 495,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4218,31 +4218,31 @@ function PlayerProfile() {
                                         children: "Цей гравець ще не грав жодного матчу"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                                        lineNumber: 495,
+                                        lineNumber: 496,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                                lineNumber: 488,
+                                lineNumber: 489,
                                 columnNumber: 178
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/player/[id]/page.tsx",
-                        lineNumber: 424,
+                        lineNumber: 425,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/player/[id]/page.tsx",
-                lineNumber: 329,
+                lineNumber: 330,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/player/[id]/page.tsx",
-        lineNumber: 305,
+        lineNumber: 306,
         columnNumber: 10
     }, this);
 }

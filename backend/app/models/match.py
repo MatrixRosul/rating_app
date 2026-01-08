@@ -71,6 +71,7 @@ class Match(Base):
     finished_at = Column(DateTime, nullable=True)
     tournament_name = Column(String, nullable=True)  # Tournament name (deprecated, use tournament_id)
     stage = Column(String, nullable=True)  # Stage: group, round16, quarterfinal, semifinal, final (deprecated, use round)
+    discipline = Column(String, nullable=True, index=True)  # Discipline for tournament matches
     
     # Relationships
     tournament = relationship("Tournament", back_populates="matches")
