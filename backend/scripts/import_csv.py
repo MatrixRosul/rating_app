@@ -2,12 +2,16 @@ import sys
 import os
 import csv
 from datetime import datetime
+import random
+import string
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import SessionLocal, engine, Base
 from app.models import Player, Match
+from app.models.user import User, UserRole
+from app.auth import get_password_hash
 from app.services.rating import calculate_rating_change, RATING_CONFIG
 
 # 🏆 Список КМС (Кандидатів у Майстри Спорту) - реальні звання
@@ -39,6 +43,60 @@ def is_cms_player(full_name: str) -> bool:
         last_name = parts[1]
         return (first_name, last_name) in CMS_PLAYERS
     return False
+
+
+# Транслітерація українських літер (з create_users_for_players.py)
+TRANSLIT_MAP = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'h', 'ґ': 'g', 'д': 'd', 'е': 'e', 'є': 'ye',
+    'ж': 'zh', 'з': 'z', 'и': 'y', 'і': 'i', 'ї': 'yi', 'й': 'y', 'к': 'k', 'л': 'l',
+    'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+    'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ь': '', 'ю': 'yu',
+    'я': 'ya',
+    'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'H', 'Ґ': 'G', 'Д': 'D', 'Е': 'E', 'Є': 'Ye',
+    'Ж': 'Zh', 'З': 'Z', 'И': 'Y', 'І': 'I', 'Ї': 'Yi', 'Й': 'Y', 'К': 'K', 'Л': 'L',
+    'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
+    'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ь': '', 'Ю': 'Yu',
+    'Я': 'Ya'
+}
+
+
+def translit(text):
+    """Транслітерація українського тексту"""
+    result = []
+    for char in text:
+        if char in TRANSLIT_MAP:
+            result.append(TRANSLIT_MAP[char])
+        else:
+            result.append(char)
+    return ''.join(result)
+
+
+def generate_username(player_name):
+    """
+    Генерує username з імені гравця
+    "Максим Росул" -> "maksym_rosul"
+    """
+    # Транслітеруємо
+    translited = translit(player_name)
+    
+    # Перетворюємо на нижній регістр
+    username = translited.lower()
+    
+    # Замінюємо пробіли на підкреслення
+    username = username.replace(' ', '_')
+    
+    # Видаляємо всі символи крім букв, цифр та підкреслення
+    username = ''.join(c for c in username if c.isalnum() or c == '_')
+    
+    return username
+
+
+def generate_password(length=8):
+    """Генерує випадковий пароль"""
+    characters = string.ascii_letters + string.digits
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
+
 
 def get_stage_order(stage: str) -> int:
     """Порядок стадій для сортування (важливо для однакових дат)"""
@@ -170,6 +228,69 @@ def import_csv_data():
             db.refresh(player)
         
         print(f"Players inserted successfully!")
+        
+        # 🔥 СТВОРЮЄМО КОРИСТУВАЧІВ ДЛЯ КОЖНОГО ГРАВЦЯ
+        print(f"\n🔐 Creating users for players...")
+        users_created = 0
+        credentials_list = []
+        
+        for name, player in player_objects.items():
+            username = generate_username(name)
+            
+            # Перевіряємо чи вже існує користувач
+            existing_user = db.query(User).filter(User.username == username).first()
+            
+            if existing_user:
+                # Оновлюємо прив'язку до гравця якщо не було
+                if existing_user.player_id != player.id:
+                    existing_user.player_id = player.id
+                    users_created += 1
+            else:
+                # Створюємо нового користувача
+                password = generate_password(8)
+                user = User(
+                    username=username,
+                    password_hash=get_password_hash(password),
+                    role=UserRole.USER,
+                    player_id=player.id
+                )
+                db.add(user)
+                users_created += 1
+                
+                # Зберігаємо креденшли
+                credentials_list.append({
+                    'name': name,
+                    'username': username,
+                    'password': password,
+                    'rating': int(player.rating)
+                })
+        
+        db.commit()
+        print(f"✅ Users created/linked: {users_created}")
+        
+        # Зберігаємо креденшли у файл
+        if credentials_list:
+            credentials_file = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), 
+                '..', 
+                'users_credentials.txt'
+            )
+            
+            with open(credentials_file, 'w', encoding='utf-8') as f:
+                f.write("КОРИСТУВАЧІ ДЛЯ ГРАВЦІВ\n")
+                f.write("=" * 80 + "\n\n")
+                
+                # Сортуємо за рейтингом
+                sorted_creds = sorted(credentials_list, key=lambda x: x['rating'], reverse=True)
+                
+                for cred in sorted_creds:
+                    f.write(f"{cred['name']} (Rating: {cred['rating']})\n")
+                    f.write(f"Username: {cred['username']}\n")
+                    f.write(f"Password: {cred['password']}\n")
+                    f.write("-" * 80 + "\n")
+            
+            print(f"💾 Credentials saved to: {credentials_file}")
+        
         print(f"Total players: {len(players_dict)}")
         print(f"Total matches to import: {len(matches_data)}")
         
