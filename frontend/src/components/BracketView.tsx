@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { getRatingColor } from '@/utils/rating';
 
 interface BracketMatch {
@@ -78,6 +79,8 @@ const getStatusBadge = (status: string, isWO: boolean) => {
 };
 
 export default function BracketView({ bracket }: BracketViewProps) {
+  const router = useRouter();
+  
   if (!bracket || !bracket.rounds || bracket.rounds.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
@@ -134,16 +137,18 @@ export default function BracketView({ bracket }: BracketViewProps) {
                 <div className="space-y-2">
                   {/* Player 1 */}
                   <div
-                    onClick={() => match.player1.id && (window.location.href = `/player/${match.player1.id}`)}
                     className={`p-2 rounded ${
                       match.winner?.id === match.player1.id
                         ? 'bg-green-200 font-bold'
                         : 'bg-gray-100'
-                    } ${match.player1.id ? 'cursor-pointer hover:bg-gray-200 transition' : ''}`}
+                    }`}
                   >
                     {match.player1.id ? (
                       <div className="flex justify-between items-center">
-                        <span className={getRatingColor(match.player1.rating || 0)}>
+                        <span 
+                          onClick={() => router.push(`/player/${match.player1.id}`)}
+                          className={`cursor-pointer hover:underline transition ${getRatingColor(match.player1.rating || 0)}`}
+                        >
                           {match.player1.name}
                         </span>
                         <span className="text-sm text-gray-600">
@@ -162,16 +167,18 @@ export default function BracketView({ bracket }: BracketViewProps) {
 
                   {/* Player 2 */}
                   <div
-                    onClick={() => match.player2.id && (window.location.href = `/player/${match.player2.id}`)}
                     className={`p-2 rounded ${
                       match.winner?.id === match.player2.id
                         ? 'bg-green-200 font-bold'
                         : 'bg-gray-100'
-                    } ${match.player2.id ? 'cursor-pointer hover:bg-gray-200 transition' : ''}`}
+                    }`}
                   >
                     {match.player2.id ? (
                       <div className="flex justify-between items-center">
-                        <span className={getRatingColor(match.player2.rating || 0)}>
+                        <span 
+                          onClick={() => router.push(`/player/${match.player2.id}`)}
+                          className={`cursor-pointer hover:underline transition ${getRatingColor(match.player2.rating || 0)}`}
+                        >
                           {match.player2.name}
                         </span>
                         <span className="text-sm text-gray-600">

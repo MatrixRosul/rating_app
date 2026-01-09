@@ -76,6 +76,14 @@ export default function Header() {
                         {isAdmin() ? 'Admin' : 'User'}
                       </div>
                     </div>
+                    {user?.playerId && (
+                      <button
+                        onClick={() => router.push(`/player/${user.playerId}`)}
+                        className="px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+                      >
+                        Профіль
+                      </button>
+                    )}
                     <button
                       onClick={logout}
                       className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md transition-colors"
@@ -167,6 +175,17 @@ export default function Header() {
                         {isAdmin() ? 'Admin' : 'User'}
                       </div>
                     </div>
+                    {user?.playerId && (
+                      <button
+                        onClick={() => {
+                          router.push(`/player/${user.playerId}`);
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
+                      >
+                        Профіль
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         logout();

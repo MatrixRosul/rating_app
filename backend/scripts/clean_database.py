@@ -44,14 +44,14 @@ def clean_database():
         db.query(Match).delete()
         print(f"✅ Deleted {matches_count} matches")
         
-        # 5. Delete non-admin users
+        # 5. Delete non-admin users (including those with player_id)
         users = db.query(User).filter(User.role != UserRole.ADMIN).all()
         users_count = len(users)
         for user in users:
             db.delete(user)
         print(f"✅ Deleted {users_count} non-admin users")
 
-        # 6. Delete all players
+        # 6. Delete all players (now safe)
         players_count = db.query(Player).count()
         db.query(Player).delete()
         print(f"✅ Deleted {players_count} players")

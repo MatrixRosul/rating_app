@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Tournament, TournamentParticipant, ParticipantStatus } from '@/types';
 import { useAuth } from '@/context/AuthContext';
@@ -14,6 +14,7 @@ const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').rep
 
 export default function ParticipantsPage() {
   const params = useParams();
+  const router = useRouter();
   const tournamentId = params.id as string;
   const { user } = useAuth();
 
@@ -517,7 +518,10 @@ export default function ParticipantsPage() {
                     </div>
                   )}
                   <div>
-                    <div className={`font-semibold text-lg ${getRatingColor(participant.rating)}`}>
+                    <div 
+                      onClick={() => router.push(`/player/${participant.playerId}`)}
+                      className={`font-semibold text-lg cursor-pointer hover:underline transition ${getRatingColor(participant.rating)}`}
+                    >
                       {participant.playerName}
                     </div>
                     <div className="flex items-center gap-2 text-sm mt-1">

@@ -66,6 +66,7 @@ class Tournament(Base):
     registrations = relationship("TournamentRegistration", back_populates="tournament", cascade="all, delete-orphan")
     matches = relationship("Match", back_populates="tournament", cascade="all, delete-orphan")
     rules = relationship("TournamentRule", back_populates="tournament", uselist=False, cascade="all, delete-orphan")
+    tables = relationship("Table", back_populates="tournament", cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<Tournament(id={self.id}, name={self.name}, status={self.status})>"
