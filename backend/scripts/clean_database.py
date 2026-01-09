@@ -27,25 +27,31 @@ def clean_database():
         registrations_count = db.query(TournamentRegistration).count()
         db.query(TournamentRegistration).delete()
         print(f"✅ Deleted {registrations_count} tournament registrations")
-        
-        # 2. Delete tournaments
+
+        # 2. Delete tournament rules (must be before tournaments)
+        from app.models.tournament_rule import TournamentRule
+        rules_count = db.query(TournamentRule).count()
+        db.query(TournamentRule).delete()
+        print(f"✅ Deleted {rules_count} tournament rules")
+
+        # 3. Delete tournaments
         tournaments_count = db.query(Tournament).count()
         db.query(Tournament).delete()
         print(f"✅ Deleted {tournaments_count} tournaments")
-        
-        # 3. Delete matches
+
+        # 4. Delete matches
         matches_count = db.query(Match).count()
         db.query(Match).delete()
         print(f"✅ Deleted {matches_count} matches")
         
-        # 4. Delete non-admin users
+        # 5. Delete non-admin users
         users = db.query(User).filter(User.role != UserRole.ADMIN).all()
         users_count = len(users)
         for user in users:
             db.delete(user)
         print(f"✅ Deleted {users_count} non-admin users")
-        
-        # 5. Delete all players
+
+        # 6. Delete all players
         players_count = db.query(Player).count()
         db.query(Player).delete()
         print(f"✅ Deleted {players_count} players")
