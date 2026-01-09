@@ -98,6 +98,48 @@ def generate_password(length=8):
     return password
 
 
+def load_existing_passwords():
+    """
+    Завантажує паролі з heroku_users_credentials.txt
+    Повертає словник: {player_name: password}
+    """
+    passwords = {}
+    credentials_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), 
+        '..', 
+        'heroku_users_credentials.txt'
+    )
+    
+    if not os.path.exists(credentials_file):
+        print(f"⚠️  File not found: {credentials_file}")
+        return passwords
+    
+    try:
+        with open(credentials_file, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+            
+        current_name = None
+        for line in lines:
+            line = line.strip()
+            
+            # Шукаємо рядок з іменем гравця (містить " (Rating: ")
+            if ' (Rating: ' in line and ')' in line:
+                # Витягуємо ім'я: "Максим Росул (Rating: 1747)" -> "Максим Росул"
+                current_name = line.split(' (Rating: ')[0].strip()
+            
+            # Шукаємо рядок з паролем (після "Password: ")
+            elif line.startswith('Password: ') and current_name:
+                password = line.replace('Password: ', '').strip()
+                passwords[current_name] = password
+                current_name = None
+        
+        print(f"✅ Loaded {len(passwords)} passwords from {credentials_file}")
+        return passwords
+    except Exception as e:
+        print(f"⚠️  Error loading passwords: {e}")
+        return passwords
+
+
 def get_stage_order(stage: str) -> int:
     """Порядок стадій для сортування (важливо для однакових дат)"""
     order = {
@@ -229,6 +271,9 @@ def import_csv_data():
         
         print(f"Players inserted successfully!")
         
+        # 🔥 ЗАВАНТАЖУЄМО ІСНУЮЧІ ПАРОЛІ З ФАЙЛУ
+        existing_passwords = load_existing_passwords()
+        
         # 🔥 СТВОРЮЄМО КОРИСТУВАЧІВ ДЛЯ КОЖНОГО ГРАВЦЯ
         print(f"\n🔐 Creating users for players...")
         users_created = 0
@@ -246,8 +291,14 @@ def import_csv_data():
                     existing_user.player_id = player.id
                     users_created += 1
             else:
-                # Створюємо нового користувача
-                password = generate_password(8)
+                # Використовуємо існуючий пароль або генеруємо новий
+                if name in existing_passwords:
+                    password = existing_passwords[name]
+                    print(f"  ✅ Using existing password for: {name}")
+                else:
+                    password = generate_password(8)
+                    print(f"  🆕 Generated new password for: {name}")
+                
                 user = User(
                     username=username,
                     password_hash=get_password_hash(password),
