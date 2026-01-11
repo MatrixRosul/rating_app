@@ -73,9 +73,14 @@ class Match(Base):
     stage = Column(String, nullable=True)  # Stage: group, round16, quarterfinal, semifinal, final (deprecated, use round)
     discipline = Column(String, nullable=True, index=True)  # Discipline for tournament matches
     
+    # Table and video
+    table_id = Column(Integer, ForeignKey("tables.id"), nullable=True)
+    video_url = Column(String, nullable=True)  # YouTube URL або інше відео
+    
     # Relationships
     tournament = relationship("Tournament", back_populates="matches")
     next_match = relationship("Match", remote_side=[id], foreign_keys=[next_match_id])
+    table = relationship("Table", back_populates="matches", foreign_keys=[table_id])
 
     def __repr__(self):
         return f"<Match(id={self.id}, {self.player1_name} vs {self.player2_name}, winner={self.winner_id})>"

@@ -13,7 +13,7 @@ class MatchBase(BaseModel):
     player1_score: int = Field(..., ge=0, description="First player score")
     player2_score: int = Field(..., ge=0, description="Second player score")
     max_score: int = Field(..., ge=1, description="Maximum score (e.g., 10 for race to 10)")
-    date: Optional[date] = Field(None, description="Match date (defaults to today)")
+    date: Optional[date] = None
 
     @field_validator('player1_id', 'player2_id')
     @classmethod
@@ -39,25 +39,47 @@ class MatchCreate(MatchBase):
 
 
 class MatchResponse(BaseModel):
-    """Schema for match response"""
-    id: str
-    player1_id: str
-    player2_id: str
+    """Schema for match response - supports both regular and tournament matches"""
+    id: int
+    # Tournament fields (optional for regular matches)
+    tournament_id: Optional[int] = None
+    match_number: Optional[int] = None
+    round: Optional[str] = None
+    
+    # Player IDs (can be int for tournament or str for regular)
+    player1_id: Optional[int] = None
+    player2_id: Optional[int] = None
     player1_name: Optional[str] = None
     player2_name: Optional[str] = None
-    winner_id: str
-    player1_score: int
-    player2_score: int
+    
+    # Match result
+    winner_id: Optional[int] = None
+    player1_score: int = 0
+    player2_score: int = 0
     max_score: int
-    player1_rating_before: float
-    player2_rating_before: float
-    player1_rating_after: float
-    player2_rating_after: float
-    player1_rating_change: float
-    player2_rating_change: float
-    date: datetime
-    created_at: datetime
-    tournament: Optional[str] = None
+    
+    # Match status and timing (for tournaments)
+    status: Optional[str] = None
+    started_at: Optional[datetime] = None
+    finished_at: Optional[datetime] = None
+    
+    # Table and video (for tournaments)
+    table_id: Optional[int] = None
+    table_name: Optional[str] = None
+    video_url: Optional[str] = None
+    
+    # Rating changes (for regular matches)
+    player1_rating_before: Optional[float] = None
+    player2_rating_before: Optional[float] = None
+    player1_rating_after: Optional[float] = None
+    player2_rating_after: Optional[float] = None
+    player1_rating_change: Optional[float] = None
+    player2_rating_change: Optional[float] = None
+    
+    # Metadata
+    date: Optional[datetime] = None
+    created_at: Optional[datetime] = None
+    tournament_name: Optional[str] = None
     stage: Optional[str] = None
 
     class Config:

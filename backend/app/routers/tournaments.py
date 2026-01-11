@@ -870,3 +870,65 @@ def get_tournament_bracket(
         'status': tournament.status,
         'bracket': bracket
     }
+
+
+@router.get("/{tournament_id}/matches")
+async def get_tournament_matches(
+    tournament_id: int,
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user_optional)
+):
+    """
+    Get all matches for a specific tournament
+    """
+    # Verify tournament exists
+    tournament = db.query(Tournament).filter(Tournament.id == tournament_id).first()
+    if not tournament:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Tournament not found"
+        )
+    
+    # Get all matches for this tournament
+    from app.models.match import Match
+    from app.models.table import Table
+    
+    matches = db.query(Match).filter(
+        Match.tournament_id == tournament_id
+    ).order_by(Match.match_number).all()
+    
+    # Convert to response format with table name
+    result = []
+    for match in matches:
+        match_dict = {
+            'id': match.id,
+            'tournament_id': match.tournament_id,
+            'match_number': match.match_number,
+            'round': match.round,
+            'player1_id': match.player1_id,
+            'player2_id': match.player2_id,
+            'player1_name': match.player1_name,
+            'player2_name': match.player2_name,
+            'winner_id': match.winner_id,
+            'player1_score': match.player1_score,
+            'player2_score': match.player2_score,
+            'max_score': match.max_score,
+            'status': match.status,
+            'table_id': match.table_id,
+            'video_url': match.video_url,
+            'started_at': match.started_at.isoformat() if match.started_at else None,
+            'finished_at': match.finished_at.isoformat() if match.finished_at else None,
+            'created_at': match.created_at.isoformat() if match.created_at else None,
+            'date': match.date.isoformat() if match.date else None,
+        }
+        
+        # Add table name if table_id exists
+        if match.table_id:
+            table = db.query(Table).filter(Table.id == match.table_id).first()
+            match_dict['table_name'] = table.name if table else None
+        else:
+            match_dict['table_name'] = None
+        
+        result.append(match_dict)
+    
+    return result

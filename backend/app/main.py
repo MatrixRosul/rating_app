@@ -5,8 +5,8 @@ Billiard Rating System Backend
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.models import Player, Match, User, Tournament, TournamentRegistration
-from app.routers import players, matches, auth, tournaments, participants
+from app.models import Player, Match, User, Tournament, TournamentRegistration, Table
+from app.routers import players, matches, auth, tournaments, participants, tables
 import os
 
 # Create FastAPI app
@@ -62,3 +62,4 @@ app.include_router(tournaments.router)
 app.include_router(participants.router)
 app.include_router(players.router, prefix="/api/players", tags=["players"])
 app.include_router(matches.router, prefix="/api/matches", tags=["matches"])
+app.include_router(tables.router, prefix="/api", tags=["tables"])

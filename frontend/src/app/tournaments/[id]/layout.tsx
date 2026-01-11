@@ -149,7 +149,7 @@ export default function TournamentLayout({ children }: { children: ReactNode }) 
   if (tournament.status === 'in_progress' || tournament.status === 'finished') {
     tabs.push(
       { id: 'bracket', label: 'Сітка', available: true },
-      { id: 'matches', label: 'Матчі', available: false },
+      { id: 'matches', label: 'Матчі', available: true },
       { id: 'videos', label: 'Відео', available: false }
     );
   }
