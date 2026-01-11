@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { getRatingColor } from '@/utils/rating';
 
 interface BracketMatch {
@@ -133,15 +134,15 @@ export default function BracketView({ bracket }: BracketViewProps) {
                 {/* Players */}
                 <div className="space-y-2">
                   {/* Player 1 */}
-                  <div
-                    onClick={() => match.player1.id && (window.location.href = `/player/${match.player1.id}`)}
-                    className={`p-2 rounded ${
-                      match.winner?.id === match.player1.id
-                        ? 'bg-green-200 font-bold'
-                        : 'bg-gray-100'
-                    } ${match.player1.id ? 'cursor-pointer hover:bg-gray-200 transition' : ''}`}
-                  >
-                    {match.player1.id ? (
+                  {match.player1.id ? (
+                    <Link
+                      href={`/player/${match.player1.id}`}
+                      className={`block p-2 rounded ${
+                        match.winner?.id === match.player1.id
+                          ? 'bg-green-200 font-bold'
+                          : 'bg-gray-100'
+                      } hover:bg-gray-200 transition`}
+                    >
                       <div className="flex justify-between items-center">
                         <span className={getRatingColor(match.player1.rating || 0)}>
                           {match.player1.name}
@@ -150,10 +151,12 @@ export default function BracketView({ bracket }: BracketViewProps) {
                           {match.player1.rating?.toFixed(0)}
                         </span>
                       </div>
-                    ) : (
+                    </Link>
+                  ) : (
+                    <div className="p-2 rounded bg-gray-100">
                       <span className="text-gray-400 italic">BYE</span>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
                   {/* VS or Score */}
                   <div className="text-center text-sm font-bold text-gray-500">
@@ -161,15 +164,15 @@ export default function BracketView({ bracket }: BracketViewProps) {
                   </div>
 
                   {/* Player 2 */}
-                  <div
-                    onClick={() => match.player2.id && (window.location.href = `/player/${match.player2.id}`)}
-                    className={`p-2 rounded ${
-                      match.winner?.id === match.player2.id
-                        ? 'bg-green-200 font-bold'
-                        : 'bg-gray-100'
-                    } ${match.player2.id ? 'cursor-pointer hover:bg-gray-200 transition' : ''}`}
-                  >
-                    {match.player2.id ? (
+                  {match.player2.id ? (
+                    <Link
+                      href={`/player/${match.player2.id}`}
+                      className={`block p-2 rounded ${
+                        match.winner?.id === match.player2.id
+                          ? 'bg-green-200 font-bold'
+                          : 'bg-gray-100'
+                      } hover:bg-gray-200 transition`}
+                    >
                       <div className="flex justify-between items-center">
                         <span className={getRatingColor(match.player2.rating || 0)}>
                           {match.player2.name}
@@ -178,10 +181,12 @@ export default function BracketView({ bracket }: BracketViewProps) {
                           {match.player2.rating?.toFixed(0)}
                         </span>
                       </div>
-                    ) : (
+                    </Link>
+                  ) : (
+                    <div className="p-2 rounded bg-gray-100">
                       <span className="text-gray-400 italic">BYE</span>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Winner */}

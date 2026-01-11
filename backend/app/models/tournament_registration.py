@@ -33,6 +33,12 @@ class TournamentRegistration(Base):
     # Seeding
     seed = Column(Integer, nullable=True)  # Сіяний номер (визначається після підтвердження)
     
+    # Rating tracking (for tournament results)
+    rating_before = Column(Integer, nullable=True)  # Рейтинг на початок турніру
+    rating_after = Column(Integer, nullable=True)   # Рейтинг після турніру
+    rating_change = Column(Integer, nullable=True)  # Зміна рейтингу
+    final_place = Column(Integer, nullable=True)    # Фінальне місце в турнірі
+    
     # If admin registered the player manually (nullable - means self-registered by user)
     registered_by_user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     

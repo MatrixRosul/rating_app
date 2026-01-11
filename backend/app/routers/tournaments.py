@@ -932,3 +932,146 @@ async def get_tournament_matches(
         result.append(match_dict)
     
     return result
+
+
+# ==========================================
+# PHASE 4: Tournament Completion Endpoints
+# ==========================================
+
+@router.post("/{tournament_id}/finish", status_code=status.HTTP_200_OK)
+async def finish_tournament_endpoint(
+    tournament_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin)
+):
+    """
+    Завершити турнір
+    
+    POST /api/tournaments/:id/finish
+    
+    Дії:
+    1. Валідація всіх матчів (мають бути FINISHED або CANCELLED)
+    2. Розрахунок рейтингу для кожного учасника (через rating.py)
+    3. Розрахунок місць (через place_calculator.py)
+    4. Зміна статусу турніру на FINISHED
+    
+    Доступно тільки для ADMIN
+    """
+    from app.services.tournament_finish_service import finish_tournament
+    
+    try:
+        tournament = finish_tournament(db, tournament_id, current_user.id)
+        
+        logger.info(f"[AUDIT] Tournament {tournament_id} finished by user {current_user.username}")
+        
+        return {
+            "success": True,
+            "message": "Турнір успішно завершено",
+            "tournament": {
+                "id": tournament.id,
+                "name": tournament.name,
+                "status": tournament.status,
+                "finished_at": tournament.finished_at.isoformat() if tournament.finished_at else None
+            }
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"[ERROR] Failed to finish tournament {tournament_id}: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/{tournament_id}/results")
+async def get_tournament_results(
+    tournament_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Отримати результати турніру
+    
+    GET /api/tournaments/:id/results
+    
+    Повертає:
+    - Учасників відсортованих по місцях
+    - ID, ім'я, місце, рейтинг до/після
+    
+    Доступно для всіх
+    """
+    tournament = db.query(Tournament).filter(Tournament.id == tournament_id).first()
+    
+    if not tournament:
+        raise HTTPException(status_code=404, detail="Турнір не знайдено")
+    
+    # Отримати всіх учасників з місцями
+    participants = db.query(TournamentRegistration).filter(
+        TournamentRegistration.tournament_id == tournament_id
+    ).order_by(
+        TournamentRegistration.final_place.asc().nulls_last()
+    ).all()
+    
+    results = []
+    for p in participants:
+        player = db.query(Player).filter(Player.id == p.player_id).first()
+        
+        results.append({
+            "player_id": p.player_id,
+            "player_name": player.name if player else "Unknown",
+            "place": p.final_place,
+            "rating_before": p.rating_before,
+            "rating_after": p.rating_after,
+            "rating_change": p.rating_change,
+            "seed": p.seed
+        })
+    
+    return {
+        "tournament_id": tournament_id,
+        "tournament_name": tournament.name,
+        "status": tournament.status,
+        "results": results
+    }
+
+
+@router.get("/{tournament_id}/rating-changes")
+async def get_rating_changes(
+    tournament_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Отримати зміни рейтингу турніру
+    
+    GET /api/tournaments/:id/rating-changes
+    
+    Повертає:
+    - Всіх учасників з rating_before, rating_after, rating_change
+    - Відсортовано по найбільшій зміні (в плюс)
+    
+    Доступно для всіх
+    """
+    tournament = db.query(Tournament).filter(Tournament.id == tournament_id).first()
+    
+    if not tournament:
+        raise HTTPException(status_code=404, detail="Турнір не знайдено")
+    
+    participants = db.query(TournamentRegistration).filter(
+        TournamentRegistration.tournament_id == tournament_id
+    ).order_by(TournamentRegistration.rating_change.desc()).all()
+    
+    changes = []
+    for p in participants:
+        player = db.query(Player).filter(Player.id == p.player_id).first()
+        
+        changes.append({
+            "player_id": p.player_id,
+            "player_name": player.name if player else "Unknown",
+            "rating_before": p.rating_before,
+            "rating_after": p.rating_after,
+            "rating_change": p.rating_change,
+            "place": p.final_place
+        })
+    
+    return {
+        "tournament_id": tournament_id,
+        "tournament_name": tournament.name,
+        "status": tournament.status,
+        "changes": changes
+    }

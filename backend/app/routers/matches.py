@@ -24,11 +24,27 @@ async def get_matches(
     
     if player_id:
         # For player profile: sort by date ASC for correct rating graph
-        # Показуємо лише регулярні матчі (без турнірних)
-        query = query.filter(
+        # Показуємо регулярні матчі + турнірні матчі тільки з завершених турнірів
+        # Виключаємо WO (walkover) матчі
+        from app.models.tournament import Tournament
+        from sqlalchemy import or_, and_, not_
+        
+        query = query.outerjoin(Tournament, Match.tournament_id == Tournament.id).filter(
             (Match.player1_id == player_id) | (Match.player2_id == player_id),
-            Match.tournament_id == None
-        ).order_by(Match.date.asc(), Match.created_at.asc())
+            # Регулярні матчі (без турніру) АБО турнірні з завершених турнірів
+            or_(
+                Match.tournament_id == None,
+                Tournament.status == 'finished'
+            ),
+            # Виключаємо WO матчі (рахунок 0:0 при наявності переможця)
+            not_(
+                and_(
+                    Match.player1_score == 0,
+                    Match.player2_score == 0,
+                    Match.winner_id.isnot(None)
+                )
+            )
+        ).order_by(Match.date.asc(), Match.match_number.asc(), Match.created_at.asc())
     else:
         # For general list: sort by date DESC to show recent matches first
         query = query.order_by(Match.date.desc(), Match.created_at.asc())
