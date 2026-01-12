@@ -149,19 +149,19 @@ export default function TournamentLayout({ children }: { children: ReactNode }) 
   if (tournament.status === 'in_progress' || tournament.status === 'finished') {
     tabs.push(
       { id: 'bracket', label: 'Сітка', available: true },
-      { id: 'matches', label: 'Матчі', available: false },
+      { id: 'matches', label: 'Матчі', available: true },
       { id: 'videos', label: 'Відео', available: false }
     );
   }
 
   if (tournament.status === 'finished') {
     tabs.push(
-      { id: 'results', label: 'Результати', available: false }
+      { id: 'results', label: 'Результати', available: true }
     );
     
     if (tournament.isRated) {
       tabs.push(
-        { id: 'rating-changes', label: 'Зміна рейтингу', available: false }
+        { id: 'rating-changes', label: 'Зміна рейтингу', available: true }
       );
     }
   }

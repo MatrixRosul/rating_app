@@ -114,10 +114,64 @@ export interface Tournament {
 }
 
 export interface AvailablePlayer {
-  id: string;
+  id: number;
   name: string;
   rating: number;
   matchesPlayed: number;
+}
+
+// PHASE 3: Match Management types
+export type MatchStatus = 'pending' | 'in_progress' | 'finished';
+
+export interface TournamentMatch {
+  id: number;
+  tournamentId: number;
+  matchNumber: number;
+  round: string;
+  roundName?: string;
+  player1Id?: number;
+  player2Id?: number;
+  player1Name?: string;
+  player2Name?: string;
+  winnerId?: number;
+  player1Score: number;
+  player2Score: number;
+  maxScore: number | null;  // Can be null if race_to not set for this round
+  status: MatchStatus;
+  nextMatchId?: number;
+  positionInNext?: number;
+  startedAt?: string;
+  finishedAt?: string;
+  tableId?: number;
+  tableName?: string;
+  videoUrl?: string;
+  date?: string;
+  createdAt?: string;
+}
+
+export interface Table {
+  id: number;
+  tournamentId: number;
+  name: string;
+  isActive: boolean;
+  isOccupied: boolean;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface StartMatchRequest {
+  tableId: number;
+  videoUrl?: string;
+}
+
+export interface FinishMatchRequest {
+  player1Score: number;
+  player2Score: number;
+}
+
+export interface EditMatchRequest {
+  player1Score: number;
+  player2Score: number;
 }
 
 

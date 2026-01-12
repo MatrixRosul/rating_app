@@ -52,6 +52,10 @@ class Match(Base):
     next_match_id = Column(Integer, ForeignKey("matches.id"), nullable=True)
     position_in_next = Column(Integer, nullable=True)  # 1 or 2 (position in next match)
     
+    # PHASE 5: Double Elimination support - loser goes to another match
+    next_match_loser_id = Column(Integer, ForeignKey("matches.id"), nullable=True)
+    position_in_loser_match = Column(Integer, nullable=True)  # 1 or 2 (position in loser bracket match)
+    
     # Ratings before match (nullable for tournament matches not yet played)
     player1_rating_before = Column(Float, nullable=True)
     player2_rating_before = Column(Float, nullable=True)

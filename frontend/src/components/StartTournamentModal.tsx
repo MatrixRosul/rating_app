@@ -25,6 +25,9 @@ export default function StartTournamentModal({
   const [previewData, setPreviewData] = useState<any>(null);
   const [seedingMode, setSeedingMode] = useState<'auto' | 'manual'>('auto');
   
+  // Bracket type selection
+  const [bracketType, setBracketType] = useState<'single_elimination' | 'double_elimination' | 'group_stage'>('single_elimination');
+  
   // Race to values
   const [raceToF, setRaceToF] = useState(7);
   const [raceToSF, setRaceToSF] = useState(5);
@@ -115,7 +118,7 @@ export default function StartTournamentModal({
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
-          bracket_type: 'single_elimination',
+          bracket_type: bracketType,
           race_to_f: raceToF,
           race_to_sf: raceToSF || null,
           race_to_qf: raceToQF || null,
@@ -191,7 +194,69 @@ export default function StartTournamentModal({
               <strong>Підтверджених учасників:</strong> {confirmedCount}
             </div>
             <div className="text-sm text-gray-600">
-              <strong>Формат:</strong> Single Elimination (на виліт)
+              <strong>Формат:</strong> {
+                bracketType === 'single_elimination' ? 'Single Elimination (на виліт)' :
+                bracketType === 'double_elimination' ? 'Double Elimination (подвійна сітка)' :
+                bracketType === 'group_stage' ? 'Group Stage (групова стадія)' :
+                'Single Elimination (на виліт)'
+              }
+            </div>
+          </div>
+
+          {/* Bracket Type Selection */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-3">Тип сітки турніру</h3>
+            <div className="space-y-3">
+              <label className="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input
+                  type="radio"
+                  name="bracketType"
+                  value="single_elimination"
+                  checked={bracketType === 'single_elimination'}
+                  onChange={() => setBracketType('single_elimination')}
+                  className="mt-1 mr-3"
+                />
+                <div>
+                  <div className="font-medium">Single Elimination (на виліт)</div>
+                  <div className="text-sm text-gray-600">
+                    Класичний формат - одна поразка і ви виліт
+                  </div>
+                </div>
+              </label>
+              
+              <label className="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input
+                  type="radio"
+                  name="bracketType"
+                  value="double_elimination"
+                  checked={bracketType === 'double_elimination'}
+                  onChange={() => setBracketType('double_elimination')}
+                  className="mt-1 mr-3"
+                />
+                <div>
+                  <div className="font-medium">Double Elimination (подвійна сітка)</div>
+                  <div className="text-sm text-gray-600">
+                    Upper і Lower Bracket - дві поразки і ви виліт
+                  </div>
+                </div>
+              </label>
+              
+              <label className="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input
+                  type="radio"
+                  name="bracketType"
+                  value="group_stage"
+                  checked={bracketType === 'group_stage'}
+                  onChange={() => setBracketType('group_stage')}
+                  className="mt-1 mr-3"
+                />
+                <div>
+                  <div className="font-medium">Group Stage (групова стадія)</div>
+                  <div className="text-sm text-gray-600">
+                    Групи + плейоф стадія
+                  </div>
+                </div>
+              </label>
             </div>
           </div>
 

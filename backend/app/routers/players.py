@@ -56,10 +56,9 @@ async def get_players(
     # Add matches count to each player
     result = []
     for player in players:
-        # Рахуємо лише регулярні матчі (без турнірних)
+        # Рахуємо всі матчі (регулярні та турнірні)
         matches_played = db.query(Match).filter(
-            (Match.player1_id == player.id) | (Match.player2_id == player.id),
-            Match.tournament_id == None  # Виключаємо турнірні матчі
+            (Match.player1_id == player.id) | (Match.player2_id == player.id)
         ).count()
         
         player_dict = {

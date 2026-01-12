@@ -12,7 +12,6 @@ from app.schemas.player import (
 from app.schemas.match import (
     MatchBase,
     MatchCreate,
-    MatchResponse,
     MatchListItem,
     MatchHistory
 )
@@ -28,7 +27,6 @@ __all__ = [
     # Match schemas
     "MatchBase",
     "MatchCreate",
-    "MatchResponse",
     "MatchListItem",
     "MatchHistory",
 ]

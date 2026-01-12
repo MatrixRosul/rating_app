@@ -1,7 +1,8 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Tournament, TournamentParticipant, ParticipantStatus } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 import { getRatingColor } from '@/utils/rating';
@@ -14,7 +15,6 @@ const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').rep
 
 export default function ParticipantsPage() {
   const params = useParams();
-  const router = useRouter();
   const tournamentId = params.id as string;
   const { user } = useAuth();
 
@@ -518,12 +518,12 @@ export default function ParticipantsPage() {
                     </div>
                   )}
                   <div>
-                    <div 
-                      onClick={() => router.push(`/player/${participant.playerId}`)}
-                      className={`font-semibold text-lg cursor-pointer hover:underline transition ${getRatingColor(participant.rating)}`}
+                    <Link 
+                      href={`/player/${participant.playerId}`}
+                      className={`font-semibold text-lg hover:underline transition ${getRatingColor(participant.rating)}`}
                     >
                       {participant.playerName}
-                    </div>
+                    </Link>
                     <div className="flex items-center gap-2 text-sm mt-1">
                       <span className="px-2 py-0.5 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-lg font-medium">
                         Рейтинг: {Math.round(participant.rating)}
