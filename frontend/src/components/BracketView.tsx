@@ -12,16 +12,6 @@ import LowerBracket from './brackets/LowerBracket';
 import GroupStage from './brackets/GroupStage';
 import DrawNet from './brackets/DrawNet';
 
-// Dynamic import for BracketSVG (uses window, needs client-side only)
-const BracketSVG = dynamic(() => import('./brackets/BracketSVG'), {
-  ssr: false,
-  loading: () => (
-    <div className="bg-gray-900 rounded-lg p-8 text-center">
-      <p className="text-gray-400">Завантаження сітки...</p>
-    </div>
-  ),
-});
-
 interface BracketMatch {
   match_id: number;
   match_number: number;
