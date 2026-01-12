@@ -58,7 +58,7 @@ export default function MatchesPage() {
     }
   };
 
-  const handleOpenModal = (type: 'start' | 'finish' | 'edit' | 'detail', match: TournamentMatch) => {
+  const handleOpenModal = (type: 'start' | 'finish' | 'edit' | 'detail' | 'update_score', match: TournamentMatch) => {
     setModalState({ type, match });
   };
 

@@ -4,19 +4,21 @@ Tournaments router - CRUD operations for tournaments
 """
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from datetime import datetime, date
 import logging
 from app.database import get_db
-from app.models.tournament import Tournament, TournamentStatus, TournamentDiscipline
+from app.models.tournament import Tournament, TournamentStatus, TournamentDiscipline, BracketType
 from app.models.tournament_registration import TournamentRegistration, ParticipantStatus
-from app.models.tournament_rule import TournamentRule, BracketType
+from app.models.tournament_rule import TournamentRule
 from app.models.user import User, UserRole
 from app.models.player import Player
 from app.dependencies import require_admin, require_user, get_current_user_optional
 from pydantic import BaseModel, field_validator
 from app.services.seeding_service import assign_seeds_by_rating, update_seeds_manually
-from app.services.bracket_generator import generate_single_elimination_bracket, generate_bracket_preview
+from app.services.bracket_generator.single_elimination import SingleEliminationGenerator
+from app.services.bracket_generator.billiard_double_elimination import BilliardDoubleEliminationGenerator
+from app.services.bracket_generator.group_stage import GroupStageGenerator
 from app.services.tournament_start_service import validate_tournament_start
 
 # Logger для audit логування
@@ -362,7 +364,7 @@ def register_for_tournament(
             detail="Tournament not found"
         )
     
-    if tournament.status != "pending":
+    if tournament.status != "registration":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Tournament is not accepting registrations"
@@ -411,7 +413,7 @@ def admin_register_player(
             detail="Tournament not found"
         )
     
-    if tournament.status != "pending":
+    if tournament.status != "registration":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Tournament is not accepting registrations"
@@ -473,7 +475,7 @@ def unregister_from_tournament(
             detail="Tournament not found"
         )
     
-    if tournament.status != "pending":
+    if tournament.status != "registration":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot unregister from this tournament"
@@ -514,7 +516,7 @@ def admin_unregister_player(
             detail="Tournament not found"
         )
     
-    if tournament.status != "pending":
+    if tournament.status != "registration":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot unregister from this tournament"
@@ -667,7 +669,104 @@ def start_tournament(
     
     # 4. Генерація сітки (матчі створюються але НЕ впливають на рейтинг до завершення турніру)
     try:
-        matches = generate_single_elimination_bracket(db, tournament_id)
+        # Get confirmed participants
+        confirmed_registrations = db.query(TournamentRegistration).filter(
+            TournamentRegistration.tournament_id == tournament_id,
+            TournamentRegistration.status == "confirmed"
+        ).all()
+        
+        participant_ids = [reg.player_id for reg in confirmed_registrations]
+        
+        # Choose generator based on bracket_type
+        bracket_type = rules.bracket_type or "single_elimination"
+        
+        if bracket_type == "single_elimination":
+            generator = SingleEliminationGenerator(db, tournament_id)
+            matches_data = generator.generate(participant_ids)
+        elif bracket_type == "double_elimination":
+            generator = BilliardDoubleEliminationGenerator(db, tournament_id)
+            matches_data = generator.generate(participant_ids)
+        elif bracket_type == "group_stage":
+            generator = GroupStageGenerator(db, tournament_id)
+            matches_data = generator.generate(participant_ids, num_groups=4, advance_per_group=2)
+        else:
+            raise ValueError(f"Unknown bracket type: {bracket_type}")
+        
+        # Create Match objects
+        from app.models.match import Match
+        from app.models.player import Player
+        matches = []
+        match_counter = 1  # Global match counter for tournament
+        
+        # Get tournament discipline for matches
+        tournament_discipline = tournament.discipline
+        
+        # Store generator's match id → actual match mapping for linking
+        generator_id_to_match = {}
+        
+        # PASS 1: Create all matches without links
+        for match_data in matches_data:
+            # Get round name and determine max_score from rules
+            round_name = match_data.get("round")
+            race_to = rules.get_race_to_for_round(round_name) if rules else None
+            
+            # Map generator fields to model fields (exclude id for auto-generation)
+            mapped_data = {
+                "tournament_id": match_data.get("tournament_id"),
+                "round": round_name,
+                "match_number": match_counter,
+                "player1_id": match_data.get("player1_id"),
+                "player2_id": match_data.get("player2_id"),
+                "max_score": race_to,  # Set max_score from tournament rules
+                "discipline": tournament_discipline,  # Set discipline from tournament
+                "position_in_next": match_data.get("position_in_next"),
+                "position_in_loser_match": match_data.get("position_in_loser_match"),
+                "status": "pending"
+            }
+            
+            # Remove None values to avoid issues
+            mapped_data = {k: v for k, v in mapped_data.items() if v is not None}
+            
+            match = Match(**mapped_data)
+            db.add(match)
+            matches.append(match)
+            
+            # Store generator's id for linking
+            generator_id = match_data.get("id")
+            if generator_id:
+                generator_id_to_match[generator_id] = (match, match_data)
+            
+            match_counter += 1
+        
+        # Flush to get real match IDs
+        db.flush()
+        
+        # PASS 2: Link matches using generator IDs
+        for generator_id, (match, match_data) in generator_id_to_match.items():
+            # Link next_match_id (for winner progression)
+            next_winner_gen_id = match_data.get("next_match_winner_id")
+            if next_winner_gen_id and next_winner_gen_id in generator_id_to_match:
+                next_match, _ = generator_id_to_match[next_winner_gen_id]
+                match.next_match_id = next_match.id
+            
+            # Link next_match_loser_id (for Double Elimination - loser drops to Lower Bracket)
+            next_loser_gen_id = match_data.get("next_match_loser_id")
+            if next_loser_gen_id and next_loser_gen_id in generator_id_to_match:
+                loser_match, _ = generator_id_to_match[next_loser_gen_id]
+                match.next_match_loser_id = loser_match.id
+        
+        # Add player names to matches
+        for match in matches:
+            if match.player1_id:
+                player1 = db.query(Player).filter(Player.id == match.player1_id).first()
+                if player1:
+                    match.player1_name = player1.name
+            
+            if match.player2_id:
+                player2 = db.query(Player).filter(Player.id == match.player2_id).first()
+                if player2:
+                    match.player2_name = player2.name
+        
     except ValueError as e:
         db.rollback()
         raise HTTPException(
@@ -683,11 +782,6 @@ def start_tournament(
         )
     
     # 5. Перехід CONFIRMED → ACTIVE
-    confirmed_registrations = db.query(TournamentRegistration).filter(
-        TournamentRegistration.tournament_id == tournament_id,
-        TournamentRegistration.status == "confirmed"
-    ).all()
-    
     for reg in confirmed_registrations:
         reg.status = "active"
     
@@ -847,7 +941,12 @@ def get_tournament_bracket(
     Returns:
         Bracket visualization with rounds and matches
     """
-    tournament = db.query(Tournament).filter(Tournament.id == tournament_id).first()
+    # Завантажуємо турнір з усіма зв'язками
+    tournament = db.query(Tournament).options(
+        joinedload(Tournament.matches),
+        joinedload(Tournament.registrations)
+    ).filter(Tournament.id == tournament_id).first()
+    
     if not tournament:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -861,13 +960,23 @@ def get_tournament_bracket(
             detail="Tournament has not started yet, bracket not generated"
         )
     
+    # Примусово оновлюємо сесію для отримання свіжих даних
+    db.refresh(tournament)
+    
     from app.services.bracket_generator import get_bracket_visualization
-    bracket = get_bracket_visualization(db, tournament_id)
+    bracket = get_bracket_visualization(tournament)
+    
+    # Get bracket_type from rules
+    rules = db.query(TournamentRule).filter(TournamentRule.tournament_id == tournament_id).first()
+    bracket_type = "single_elimination"
+    if rules and rules.bracket_type:
+        bracket_type = rules.bracket_type.value if hasattr(rules.bracket_type, 'value') else str(rules.bracket_type)
     
     return {
         'tournament_id': tournament_id,
         'tournament_name': tournament.name,
         'status': tournament.status,
+        'bracket_type': bracket_type,
         'bracket': bracket
     }
 

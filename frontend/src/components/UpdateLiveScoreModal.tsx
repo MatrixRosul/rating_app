@@ -38,10 +38,11 @@ export default function UpdateLiveScoreModal({ match, onClose, onUpdate }: Updat
   };
 
   const increment = (player: 1 | 2) => {
+    const maxScore = match.maxScore ?? 100;
     if (player === 1) {
-      setPlayer1Score(prev => Math.min(prev + 1, match.maxScore));
+      setPlayer1Score(prev => Math.min(prev + 1, maxScore));
     } else {
-      setPlayer2Score(prev => Math.min(prev + 1, match.maxScore));
+      setPlayer2Score(prev => Math.min(prev + 1, maxScore));
     }
   };
 
@@ -82,16 +83,16 @@ export default function UpdateLiveScoreModal({ match, onClose, onUpdate }: Updat
               <input
                 type="number"
                 min="0"
-                max={match.maxScore}
+                max={match.maxScore ?? undefined}
                 value={player1Score}
-                onChange={(e) => setPlayer1Score(Math.max(0, Math.min(match.maxScore, parseInt(e.target.value) || 0)))}
+                onChange={(e) => setPlayer1Score(Math.max(0, Math.min(match.maxScore ?? 100, parseInt(e.target.value) || 0)))}
                 className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-center text-2xl font-bold focus:ring-2 focus:ring-emerald-500"
               />
               <button
                 type="button"
                 onClick={() => increment(1)}
                 className="w-10 h-10 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-xl font-bold"
-                disabled={player1Score === match.maxScore}
+                disabled={player1Score === (match.maxScore ?? 100)}
               >
                 +
               </button>
@@ -115,16 +116,16 @@ export default function UpdateLiveScoreModal({ match, onClose, onUpdate }: Updat
               <input
                 type="number"
                 min="0"
-                max={match.maxScore}
+                max={match.maxScore ?? undefined}
                 value={player2Score}
-                onChange={(e) => setPlayer2Score(Math.max(0, Math.min(match.maxScore, parseInt(e.target.value) || 0)))}
+                onChange={(e) => setPlayer2Score(Math.max(0, Math.min(match.maxScore ?? 100, parseInt(e.target.value) || 0)))}
                 className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-center text-2xl font-bold focus:ring-2 focus:ring-emerald-500"
               />
               <button
                 type="button"
                 onClick={() => increment(2)}
                 className="w-10 h-10 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-xl font-bold"
-                disabled={player2Score === match.maxScore}
+                disabled={player2Score === (match.maxScore ?? 100)}
               >
                 +
               </button>

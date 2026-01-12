@@ -3,14 +3,8 @@ Tournament rules model - defines bracket type and race_to for each stage
 """
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum
 from sqlalchemy.orm import relationship
-import enum
 from app.database import Base
-
-
-class BracketType(str, enum.Enum):
-    """Bracket type enum"""
-    SINGLE_ELIMINATION = "single_elimination"  # На виліт (Single Elimination)
-    DOUBLE_ELIMINATION = "double_elimination"  # Подвійна сітка (Double Elimination)
+from app.models.tournament import BracketType
 
 
 class TournamentRule(Base):

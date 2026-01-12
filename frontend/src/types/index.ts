@@ -114,7 +114,7 @@ export interface Tournament {
 }
 
 export interface AvailablePlayer {
-  id: string;
+  id: number;
   name: string;
   rating: number;
   matchesPlayed: number;
@@ -136,7 +136,7 @@ export interface TournamentMatch {
   winnerId?: number;
   player1Score: number;
   player2Score: number;
-  maxScore: number;
+  maxScore: number | null;  // Can be null if race_to not set for this round
   status: MatchStatus;
   nextMatchId?: number;
   positionInNext?: number;

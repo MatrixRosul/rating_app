@@ -40,8 +40,11 @@ export default function MatchResultForm({
     }
   }, [isOpen, mode, match]);
 
+  // Default maxScore if not set
+  const effectiveMaxScore = match.maxScore ?? 7;
+
   const handleScoreChange = (player: 1 | 2, value: number) => {
-    const newValue = Math.max(0, Math.min(match.maxScore, value));
+    const newValue = Math.max(0, Math.min(effectiveMaxScore, value));
     if (player === 1) {
       setScoreP1(newValue);
     } else {
@@ -51,17 +54,23 @@ export default function MatchResultForm({
 
   const quickSetWinner = (player: 1 | 2) => {
     if (player === 1) {
-      setScoreP1(match.maxScore);
-      setScoreP2(Math.max(0, match.maxScore - 1));
+      setScoreP1(effectiveMaxScore);
+      setScoreP2(Math.max(0, effectiveMaxScore - 1));
     } else {
-      setScoreP2(match.maxScore);
-      setScoreP1(Math.max(0, match.maxScore - 1));
+      setScoreP2(effectiveMaxScore);
+      setScoreP1(Math.max(0, effectiveMaxScore - 1));
     }
   };
 
   const isValidResult = () => {
     if (scoreP1 === scoreP2) return false;
-    if (scoreP1 !== match.maxScore && scoreP2 !== match.maxScore) return false;
+    // If maxScore is not set, just require one player to win
+    if (match.maxScore !== null) {
+      if (scoreP1 !== effectiveMaxScore && scoreP2 !== effectiveMaxScore) return false;
+    } else {
+      // Without maxScore, just require different scores
+      if (scoreP1 === scoreP2) return false;
+    }
     return true;
   };
 
@@ -69,7 +78,9 @@ export default function MatchResultForm({
     e.preventDefault();
 
     if (!isValidResult()) {
-      setError('Один гравець має набрати максимальну кількість очок');
+      setError(match.maxScore !== null 
+        ? 'Один гравець має набрати максимальну кількість очок' 
+        : 'Рахунок не може бути рівним');
       return;
     }
 
@@ -222,7 +233,7 @@ export default function MatchResultForm({
                       value={scoreP1}
                       onChange={(e) => handleScoreChange(1, parseInt(e.target.value) || 0)}
                       min="0"
-                      max={match.maxScore}
+                      max={match.maxScore ?? undefined}
                       className="flex-1 text-center text-3xl font-bold py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                       disabled={loading}
                     />
@@ -267,7 +278,7 @@ export default function MatchResultForm({
                       value={scoreP2}
                       onChange={(e) => handleScoreChange(2, parseInt(e.target.value) || 0)}
                       min="0"
-                      max={match.maxScore}
+                      max={match.maxScore ?? undefined}
                       className="flex-1 text-center text-3xl font-bold py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                       disabled={loading}
                     />

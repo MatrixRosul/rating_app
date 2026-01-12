@@ -56,7 +56,7 @@ class MatchResponse(BaseModel):
     winner_id: Optional[int] = None
     player1_score: int = 0
     player2_score: int = 0
-    max_score: int
+    max_score: Optional[int] = None  # Changed to Optional - can be None for tournament matches before race_to is set
     
     # Match status and timing (for tournaments)
     status: Optional[str] = None

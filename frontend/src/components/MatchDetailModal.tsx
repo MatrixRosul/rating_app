@@ -189,16 +189,9 @@ export default function MatchDetailModal({
                 <span className="text-xl">📅</span>
                 <span className="text-sm font-medium text-gray-600">Створено:</span>
               </div>
-              <div className="text-sm text-gray-900">{formatDate(match.createdAt)}</div>
-            </div>
-
-            {/* Updated At */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xl">🔄</span>
-                <span className="text-sm font-medium text-gray-600">Оновлено:</span>
+              <div className="text-sm text-gray-900">
+                {match.createdAt ? formatDate(match.createdAt) : 'Невідомо'}
               </div>
-              <div className="text-sm text-gray-900">{formatDate(match.updatedAt)}</div>
             </div>
           </div>
 

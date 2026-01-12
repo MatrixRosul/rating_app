@@ -160,8 +160,10 @@ class MatchService:
         # Визначити переможця
         if score_player1 > score_player2:
             winner_id = match.player1_id
+            loser_id = match.player2_id
         else:
             winner_id = match.player2_id
+            loser_id = match.player1_id
         
         # Оновлення матчу
         match.player1_score = score_player1
@@ -176,17 +178,30 @@ class MatchService:
             if table:
                 table.is_occupied = False
         
-        # Оновити наступний матч (якщо є)
+        # Оновити наступний матч переможця (якщо є)
         if match.next_match_id and winner_id:
             next_match = db.query(Match).filter(Match.id == match.next_match_id).first()
             if next_match:
                 # Визначити в яку позицію іде переможець
+                winner_name = match.player1_name if winner_id == match.player1_id else match.player2_name
                 if match.position_in_next == 1:
                     next_match.player1_id = winner_id
-                    next_match.player1_name = match.player1_name if winner_id == match.player1_id else match.player2_name
+                    next_match.player1_name = winner_name
                 elif match.position_in_next == 2:
                     next_match.player2_id = winner_id
-                    next_match.player2_name = match.player1_name if winner_id == match.player1_id else match.player2_name
+                    next_match.player2_name = winner_name
+        
+        # PHASE 5: Double Elimination - оновити матч програвшого (Lower Bracket)
+        if match.next_match_loser_id and loser_id:
+            loser_match = db.query(Match).filter(Match.id == match.next_match_loser_id).first()
+            if loser_match:
+                loser_name = match.player1_name if loser_id == match.player1_id else match.player2_name
+                if match.position_in_loser_match == 1:
+                    loser_match.player1_id = loser_id
+                    loser_match.player1_name = loser_name
+                elif match.position_in_loser_match == 2:
+                    loser_match.player2_id = loser_id
+                    loser_match.player2_name = loser_name
         
         db.commit()
         db.refresh(match)

@@ -174,7 +174,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
       const token = localStorage.getItem('auth_token');
       if (!token) return;
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}/unregister`, {
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}/unregister`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -200,7 +200,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
     }
   };
 
-  const handleAddPlayer = async (playerId: string) => {
+  const handleAddPlayer = async (playerId: number) => {
     if (!tournament) return;
 
     try {
@@ -208,7 +208,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
       const token = localStorage.getItem('auth_token');
       if (!token) return;
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}/register-player`, {
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}/register-player`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ export default function TournamentDetail({ tournamentId, onClose, onUpdate }: To
       const token = localStorage.getItem('auth_token');
       if (!token) return;
 
-      const response = await fetch(`http://localhost:8000/api/tournaments/${tournamentId}/unregister-player/${playerId}`, {
+      const response = await fetch(`${API_URL}/api/tournaments/${tournamentId}/unregister-player/${playerId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

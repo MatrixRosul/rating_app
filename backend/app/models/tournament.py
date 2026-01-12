@@ -28,6 +28,13 @@ class TournamentDiscipline(str, enum.Enum):
     COMBINED_PYRAMID_CHANGES = "combined_pyramid_changes"
 
 
+class BracketType(str, enum.Enum):
+    """Bracket type enum - PHASE 5"""
+    SINGLE_ELIMINATION = "single_elimination"
+    DOUBLE_ELIMINATION = "double_elimination"
+    GROUP_STAGE = "group_stage"  # Group stage + Playoff
+
+
 class Tournament(Base):
     """Tournament model"""
     __tablename__ = "tournaments"
@@ -45,6 +52,9 @@ class Tournament(Base):
     
     # Rating configuration
     is_rated = Column(Integer, nullable=False, default=1)  # 1 = rated, 0 = not rated (using Integer for SQLite compatibility)
+    
+    # PHASE 5: Bracket type
+    bracket_type = Column(String, nullable=False, default="single_elimination")  # single_elimination, double_elimination, group_stage
     
     # Dates
     registration_start = Column(DateTime, nullable=True)
