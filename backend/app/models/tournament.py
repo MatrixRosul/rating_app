@@ -1,38 +1,11 @@
 """
 Tournament model for billiard tournaments
 """
-from sqlalchemy import Column, Integer, String, DateTime, Date, Enum, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from datetime import datetime
-import enum
 from app.database import Base
-
-
-class TournamentStatus(str, enum.Enum):
-    """Tournament status enum"""
-    REGISTRATION = "registration"  # Реєстрація на турнір
-    IN_PROGRESS = "in_progress"    # Турнір триває
-    FINISHED = "finished"          # Турнір закінчився
-    
-    def _generate_next_value_(name, start, count, last_values):
-        """Override to use lowercase values"""
-        return name.lower()
-
-
-class TournamentDiscipline(str, enum.Enum):
-    """Tournament discipline enum"""
-    FREE_PYRAMID = "free_pyramid"
-    FREE_PYRAMID_EXTENDED = "free_pyramid_extended"
-    COMBINED_PYRAMID = "combined_pyramid"
-    DYNAMIC_PYRAMID = "dynamic_pyramid"
-    COMBINED_PYRAMID_CHANGES = "combined_pyramid_changes"
-
-
-class BracketType(str, enum.Enum):
-    """Bracket type enum - PHASE 5"""
-    SINGLE_ELIMINATION = "single_elimination"
-    DOUBLE_ELIMINATION = "double_elimination"
-    GROUP_STAGE = "group_stage"  # Group stage + Playoff
+from app.constants import TOURNAMENT_STATUS, DISCIPLINES, BRACKET_TYPES
 
 
 class Tournament(Base):

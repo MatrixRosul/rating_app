@@ -12,10 +12,11 @@ from datetime import datetime
 from typing import Optional
 from fastapi import HTTPException, status
 
-from app.models.match import Match, MatchStatus
-from app.models.tournament import Tournament, TournamentStatus
+from app.models.match import Match
+from app.models.tournament import Tournament
 from app.models.table import Table
 from app.models.player import Player
+from app.constants import MATCH_STATUS, TOURNAMENT_STATUS
 
 
 class MatchService:
@@ -52,7 +53,7 @@ class MatchService:
             )
         
         # Перевірка статусу матчу
-        if match.status != MatchStatus.PENDING.value:
+        if match.status != MATCH_STATUS.PENDING:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Матч не може бути запущений. Поточний статус: {match.status}"
@@ -67,7 +68,7 @@ class MatchService:
                     detail="Турнір не знайдено"
                 )
             
-            if tournament.status != TournamentStatus.IN_PROGRESS.value:
+            if tournament.status != TOURNAMENT_STATUS.IN_PROGRESS:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail=f"Турнір має статус '{tournament.status}', а не 'in_progress'"
@@ -94,7 +95,7 @@ class MatchService:
             )
         
         # Оновлення матчу
-        match.status = MatchStatus.IN_PROGRESS.value
+        match.status = MATCH_STATUS.IN_PROGRESS
         match.table_id = table_id
         match.video_url = video_url
         match.started_at = datetime.utcnow()
@@ -138,7 +139,7 @@ class MatchService:
             )
         
         # Перевірка статусу
-        if match.status != MatchStatus.IN_PROGRESS.value:
+        if match.status != MATCH_STATUS.IN_PROGRESS:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Матч не в процесі гри. Поточний статус: {match.status}"
@@ -169,7 +170,7 @@ class MatchService:
         match.player1_score = score_player1
         match.player2_score = score_player2
         match.winner_id = winner_id
-        match.status = MatchStatus.FINISHED.value
+        match.status = MATCH_STATUS.COMPLETED
         match.finished_at = datetime.utcnow()
         
         # Звільнити стіл
@@ -233,7 +234,7 @@ class MatchService:
             )
         
         # Перевірка що матч завершений
-        if match.status != MatchStatus.FINISHED.value:
+        if match.status != MATCH_STATUS.COMPLETED:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Можна редагувати тільки завершені матчі"
@@ -297,7 +298,7 @@ class MatchService:
             return
         
         # Скинути поточний матч
-        match.status = MatchStatus.PENDING.value
+        match.status = MATCH_STATUS.PENDING
         match.winner_id = None
         match.player1_score = 0
         match.player2_score = 0

@@ -1,3 +1,10 @@
+// Import constants for type consistency
+import { 
+  TournamentStatus as TournamentStatusType, 
+  Discipline,
+  MatchStatus as MatchStatusType 
+} from '@/constants';
+
 // Types for the billiard rating system
 
 export interface Player {
@@ -69,16 +76,10 @@ export interface PlayerStats {
   ratingChange: number;
 }
 
-// Tournament types
-export type TournamentStatus = 'registration' | 'in_progress' | 'finished';
-export type ParticipantStatus = 'pending' | 'confirmed' | 'rejected' | 'active' | 'eliminated';
-
-export type TournamentDiscipline = 
-  | 'FREE_PYRAMID'
-  | 'FREE_PYRAMID_EXTENDED'
-  | 'COMBINED_PYRAMID'
-  | 'DYNAMIC_PYRAMID'
-  | 'COMBINED_PYRAMID_CHANGES';export interface TournamentParticipant {
+// Tournament types - use constants instead of hardcoded strings
+export type TournamentStatus = TournamentStatusType;
+export type TournamentDiscipline = Discipline;
+export type ParticipantStatus = 'pending' | 'confirmed' | 'rejected' | 'active' | 'eliminated';export interface TournamentParticipant {
   id: number;
   playerId: number;
   playerName: string;
@@ -121,7 +122,7 @@ export interface AvailablePlayer {
 }
 
 // PHASE 3: Match Management types
-export type MatchStatus = 'pending' | 'in_progress' | 'finished';
+export type MatchStatus = MatchStatusType;
 
 export interface TournamentMatch {
   id: number;

@@ -6,8 +6,9 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models.user import User, UserRole
+from app.models.user import User
 from app.auth import decode_access_token
+from app.constants import ROLES
 
 security = HTTPBearer(auto_error=False)
 
@@ -59,7 +60,7 @@ def require_admin(
     Require admin role
     Raises 403 if not admin
     """
-    if current_user.role != UserRole.ADMIN:
+    if current_user.role not in ["admin", "super_admin"]:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin access required"

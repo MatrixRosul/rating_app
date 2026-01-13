@@ -1,19 +1,11 @@
 """
 Match database model
 """
-from sqlalchemy import Column, String, Integer, Float, DateTime, ForeignKey, Enum
+from sqlalchemy import Column, String, Integer, Float, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
-import enum
 from app.database import Base
-
-
-class MatchStatus(str, enum.Enum):
-    """Match status enum"""
-    PENDING = "pending"          # Очікує початку
-    IN_PROGRESS = "in_progress"  # Матч триває
-    FINISHED = "finished"        # Матч завершено
-    WO = "wo"                    # Walk Over (технічна перемога)
+from app.constants import MATCH_STATUS
 
 
 class Match(Base):

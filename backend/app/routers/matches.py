@@ -27,6 +27,7 @@ async def get_matches(
         # Показуємо регулярні матчі + турнірні матчі тільки з завершених турнірів
         # Виключаємо WO (walkover) матчі
         from app.models.tournament import Tournament
+        from app.constants import TOURNAMENT_STATUS
         from sqlalchemy import or_, and_, not_
         
         query = query.outerjoin(Tournament, Match.tournament_id == Tournament.id).filter(
@@ -34,7 +35,7 @@ async def get_matches(
             # Регулярні матчі (без турніру) АБО турнірні з завершених турнірів
             or_(
                 Match.tournament_id == None,
-                Tournament.status == 'finished'
+                Tournament.status == TOURNAMENT_STATUS.FINISHED
             ),
             # Виключаємо WO матчі (рахунок 0:0 при наявності переможця)
             not_(
@@ -219,7 +220,8 @@ def update_live_score(
     
     Використовується для трансляції поточного рахунку в реальному часі
     """
-    from app.models.match import Match, MatchStatus
+    from app.models.match import Match
+    from app.constants import MATCH_STATUS
     
     # Знайти матч
     match = db.query(Match).filter(Match.id == match_id).first()
@@ -227,7 +229,7 @@ def update_live_score(
         raise HTTPException(status_code=404, detail="Матч не знайдено")
     
     # Перевірка статусу
-    if match.status != MatchStatus.IN_PROGRESS:
+    if match.status != MATCH_STATUS.IN_PROGRESS:
         raise HTTPException(
             status_code=400, 
             detail="Можна оновити рахунок тільки для матчів в процесі"

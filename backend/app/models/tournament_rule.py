@@ -1,10 +1,9 @@
 """
 Tournament rules model - defines bracket type and race_to for each stage
 """
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from app.database import Base
-from app.models.tournament import BracketType
 
 
 class TournamentRule(Base):
@@ -17,7 +16,7 @@ class TournamentRule(Base):
     tournament_id = Column(Integer, ForeignKey("tournaments.id"), nullable=False, unique=True)
     
     # Bracket configuration
-    bracket_type = Column(Enum(BracketType), nullable=False, default=BracketType.SINGLE_ELIMINATION)
+    bracket_type = Column(String, nullable=False, default="single_elimination")
     
     # Race to (до скількох партій) для кожної стадії
     race_to_r64 = Column(Integer, nullable=True)   # 1/64 фіналу

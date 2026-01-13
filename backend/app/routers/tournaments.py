@@ -8,10 +8,10 @@ from sqlalchemy.orm import Session, joinedload
 from datetime import datetime, date
 import logging
 from app.database import get_db
-from app.models.tournament import Tournament, TournamentStatus, TournamentDiscipline, BracketType
+from app.models.tournament import Tournament
 from app.models.tournament_registration import TournamentRegistration, ParticipantStatus
 from app.models.tournament_rule import TournamentRule
-from app.models.user import User, UserRole
+from app.models.user import User
 from app.models.player import Player
 from app.dependencies import require_admin, require_user, get_current_user_optional
 from pydantic import BaseModel, field_validator
@@ -20,6 +20,7 @@ from app.services.bracket_generator.single_elimination import SingleEliminationG
 from app.services.bracket_generator.billiard_double_elimination import BilliardDoubleEliminationGenerator
 from app.services.bracket_generator.group_stage import GroupStageGenerator
 from app.services.tournament_start_service import validate_tournament_start
+from app.constants import TOURNAMENT_STATUS, DISCIPLINES, BRACKET_TYPES, ROLES
 
 # Logger для audit логування
 logger = logging.getLogger(__name__)
@@ -38,7 +39,7 @@ class TournamentCreate(BaseModel):
     city: str
     country: str = "Україна"
     club: str
-    discipline: TournamentDiscipline
+    discipline: str  # Use string instead of enum
     is_rated: bool = True  # За замовчуванням рейтинговий
     
     @field_validator('discipline', mode='before')
@@ -54,14 +55,18 @@ class TournamentCreate(BaseModel):
                 'DYNAMIC_PYRAMID': 'dynamic_pyramid',
                 'COMBINED_PYRAMID_CHANGES': 'combined_pyramid_changes',
             }
-            return discipline_map.get(v, v.lower())
+            v_mapped = discipline_map.get(v, v.lower())
+            # Validate against constants
+            if not DISCIPLINES.is_valid(v_mapped):
+                raise ValueError(f"Invalid discipline: {v}. Must be one of {DISCIPLINES.all()}")
+            return v_mapped
         return v
 
 
 class TournamentUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
-    status: Optional[TournamentStatus] = None
+    status: Optional[str] = None  # Use string instead of enum
     registration_start: Optional[datetime] = None
     registration_end: Optional[datetime] = None
     start_date: Optional[date] = None
@@ -69,7 +74,7 @@ class TournamentUpdate(BaseModel):
     city: Optional[str] = None
     country: Optional[str] = None
     club: Optional[str] = None
-    discipline: Optional[TournamentDiscipline] = None
+    discipline: Optional[str] = None  # Use string instead of enum
     is_rated: Optional[bool] = None
 
 
@@ -91,15 +96,12 @@ def create_tournament(
     """
     Create a new tournament (admin only)
     """
-    # Явно конвертуємо discipline до lowercase для PostgreSQL - HARDCODE
-    if isinstance(tournament_data.discipline, str):
-        discipline_value = tournament_data.discipline.lower()
-    else:
-        discipline_value = str(tournament_data.discipline.value).lower() if hasattr(tournament_data.discipline, 'value') else str(tournament_data.discipline).lower()
+    # Discipline вже validated у Pydantic schema
+    discipline_value = tournament_data.discipline
     
-    # HARDCODE lowercase для debugging - CRITICAL FIX
-    status_value = "registration"  # Hardcoded lowercase string
-    logger.info(f"Creating tournament with status={status_value} (type: {type(status_value)}), discipline={discipline_value}")
+    # Status завжди registration при створенні
+    status_value = TOURNAMENT_STATUS.REGISTRATION
+    logger.info(f"Creating tournament with status={status_value}, discipline={discipline_value}")
     
     tournament = Tournament(
         name=tournament_data.name,
@@ -585,7 +587,7 @@ def get_available_players(
 
 # Tournament Start Schemas
 class TournamentStartRequest(BaseModel):
-    bracket_type: BracketType = BracketType.SINGLE_ELIMINATION
+    bracket_type: str = BRACKET_TYPES.SINGLE_ELIMINATION  # Use string constant
     race_to_r64: Optional[int] = None
     race_to_r32: Optional[int] = None
     race_to_r16: Optional[int] = None
@@ -804,11 +806,10 @@ def start_tournament(
     
     # 8. Audit логування
     try:
-        bracket_type_value = rules.bracket_type.value if hasattr(rules.bracket_type, 'value') else str(rules.bracket_type)
         logger.info(
             f"TOURNAMENT_STARTED: Tournament '{tournament.name}' (ID: {tournament_id}) started by admin {current_user.username} (ID: {current_user.id}). "
             f"Participants: {len(seeded_participants)}, Bracket: {validation['data']['bracket_size']}, "
-            f"Matches created: {len(matches)}, Bracket type: {bracket_type_value}, "
+            f"Matches created: {len(matches)}, Bracket type: {rules.bracket_type}, "
             f"Race to F/SF/QF: {rules.race_to_f}/{rules.race_to_sf}/{rules.race_to_qf}"
         )
     except Exception as log_error:
@@ -968,9 +969,9 @@ def get_tournament_bracket(
     
     # Get bracket_type from rules
     rules = db.query(TournamentRule).filter(TournamentRule.tournament_id == tournament_id).first()
-    bracket_type = "single_elimination"
+    bracket_type = BRACKET_TYPES.SINGLE_ELIMINATION
     if rules and rules.bracket_type:
-        bracket_type = rules.bracket_type.value if hasattr(rules.bracket_type, 'value') else str(rules.bracket_type)
+        bracket_type = rules.bracket_type  # Already a string
     
     return {
         'tournament_id': tournament_id,

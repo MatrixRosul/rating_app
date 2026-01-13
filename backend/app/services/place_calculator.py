@@ -26,7 +26,7 @@ def calculate_places(db: Session, tournament_id: int) -> Dict[int, int]:
     # Отримуємо всі завершені матчі турніру, відсортовані по раунду
     matches = db.query(Match).filter(
         Match.tournament_id == tournament_id,
-        Match.status == MatchStatus.FINISHED.value
+        Match.status == MATCH_STATUS.COMPLETED
     ).order_by(Match.round.desc()).all()
     
     if not matches:

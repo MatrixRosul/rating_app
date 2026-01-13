@@ -6,9 +6,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from app.database import get_db
-from app.models.user import User, UserRole
+from app.models.user import User
 from app.auth import verify_password, create_access_token
 from app.dependencies import get_current_user, require_user, require_admin
+from app.constants import ROLES
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -57,14 +58,14 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     
     # Create access token
     access_token = create_access_token(
-        data={"sub": user.username, "role": user.role.value}
+        data={"sub": user.username, "role": user.role}
     )
     
     return {
         "access_token": access_token,
         "token_type": "bearer",
         "username": user.username,
-        "role": user.role.value,
+        "role": user.role,
         "player_id": user.player_id
     }
 
@@ -76,7 +77,7 @@ def get_me(current_user: User = Depends(require_user)):
     """
     return {
         "username": current_user.username,
-        "role": current_user.role.value,
+        "role": current_user.role,
         "player_id": current_user.player_id
     }
 
@@ -109,7 +110,7 @@ def get_all_users(
         {
             "id": user.id,
             "username": user.username,
-            "role": user.role.value,
+            "role": user.role,
             "player_id": user.player_id
         }
         for user in users

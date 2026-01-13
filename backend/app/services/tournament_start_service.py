@@ -3,10 +3,11 @@ Tournament start validation service
 """
 from typing import Dict
 from sqlalchemy.orm import Session
-from app.models.tournament import Tournament, TournamentStatus
+from app.models.tournament import Tournament
 from app.models.tournament_registration import TournamentRegistration, ParticipantStatus
 from app.models.tournament_rule import TournamentRule
 from app.services.seeding_service import validate_seeding
+from app.constants import TOURNAMENT_STATUS
 
 
 def validate_tournament_start(
@@ -75,7 +76,7 @@ def validate_tournament_start(
     if not rules:
         warnings.append("Tournament rules not configured - will be created from start parameters")
     else:
-        data['bracket_type'] = rules.bracket_type.value
+        data['bracket_type'] = rules.bracket_type  # Already a string, no .value needed
         data['is_locked'] = rules.is_locked
         
         # Перевірка race_to для фіналу (обов'язково)

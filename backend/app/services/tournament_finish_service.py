@@ -7,11 +7,12 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from datetime import datetime
 
-from app.models.tournament import Tournament, TournamentStatus
-from app.models.match import Match, MatchStatus
+from app.models.tournament import Tournament
+from app.models.match import Match
 from app.models.tournament_registration import TournamentRegistration
 from app.services.rating import calculate_rating_change
 from app.services.place_calculator import assign_places_to_participants
+from app.constants import TOURNAMENT_STATUS, MATCH_STATUS
 
 
 def validate_tournament_ready_to_finish(db: Session, tournament_id: int) -> Tournament:
@@ -28,7 +29,7 @@ def validate_tournament_ready_to_finish(db: Session, tournament_id: int) -> Tour
     if not tournament:
         raise HTTPException(status_code=404, detail="Турнір не знайдено")
     
-    if tournament.status != TournamentStatus.IN_PROGRESS.value:
+    if tournament.status != TOURNAMENT_STATUS.IN_PROGRESS:
         raise HTTPException(
             status_code=400,
             detail=f"Неможливо завершити турнір зі статусом {tournament.status}"
@@ -37,7 +38,7 @@ def validate_tournament_ready_to_finish(db: Session, tournament_id: int) -> Tour
     # Перевірка статусів матчів
     incomplete_matches = db.query(Match).filter(
         Match.tournament_id == tournament_id,
-        Match.status.in_([MatchStatus.PENDING.value, MatchStatus.IN_PROGRESS.value])
+        Match.status.in_([MATCH_STATUS.PENDING, MATCH_STATUS.IN_PROGRESS])
     ).count()
     
     if incomplete_matches > 0:
@@ -90,7 +91,7 @@ def calculate_tournament_ratings(db: Session, tournament_id: int) -> Dict[int, D
     # 2. Отримати всі завершені матчі (по порядку)
     matches = db.query(Match).filter(
         Match.tournament_id == tournament_id,
-        Match.status == MatchStatus.FINISHED.value,
+        Match.status == MATCH_STATUS.COMPLETED,
         Match.player1_id.isnot(None),
         Match.player2_id.isnot(None),
         Match.winner_id.isnot(None)
@@ -206,7 +207,7 @@ def finish_tournament(db: Session, tournament_id: int, admin_user_id: int) -> To
         assign_places_to_participants(db, tournament_id)
         
         # 5. Завершення турніру
-        tournament.status = TournamentStatus.FINISHED.value
+        tournament.status = TOURNAMENT_STATUS.FINISHED
         tournament.finished_at = datetime.utcnow()
         
         db.commit()

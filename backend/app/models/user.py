@@ -1,14 +1,7 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-import enum
 from app.database import Base
-
-
-class UserRole(str, enum.Enum):
-    """User roles with different access levels"""
-    GUEST = "guest"  # Read-only, no login needed
-    USER = "user"    # Can edit own data
-    ADMIN = "admin"  # Full access
+from app.constants import ROLES
 
 
 class User(Base):
@@ -18,7 +11,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True, nullable=False)
     password_hash = Column(String, nullable=False)
-    role = Column(Enum(UserRole), nullable=False, default=UserRole.USER)
+    role = Column(String, nullable=False, default=ROLES.PLAYER)  # Using constant instead of hardcoded string
     
     # Optional: link user to player (for players who are also users)
     player_id = Column(Integer, ForeignKey("players.id"), nullable=True)

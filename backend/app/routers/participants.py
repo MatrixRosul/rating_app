@@ -6,12 +6,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime
 from app.database import get_db
-from app.models.tournament import Tournament, TournamentStatus
+from app.models.tournament import Tournament
 from app.models.tournament_registration import TournamentRegistration, ParticipantStatus
-from app.models.user import User, UserRole
+from app.models.user import User
 from app.models.player import Player
 from app.dependencies import require_admin, require_user, get_current_user_optional
 from pydantic import BaseModel
+from app.constants import TOURNAMENT_STATUS, ROLES
 
 router = APIRouter(prefix="/api/tournaments/{tournament_id}/participants", tags=["participants"])
 
@@ -382,7 +383,7 @@ def remove_participant(
         )
     
     # Only allow removal during REGISTRATION phase (or SUPER_ADMIN anytime)
-    if tournament.status != "registration" and current_user.role != UserRole.ADMIN:
+    if tournament.status != "registration" and current_user.role not in ["admin", "super_admin"]:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Can only remove participants during registration phase"
