@@ -42,10 +42,12 @@ export interface Match {
   player1RatingChange: number;
   player2RatingChange: number;
   date: Date;
+  createdAt?: Date;
   sequenceIndex?: number; // Порядок обробки матчу при імпорті (для сортування при однаковій даті)
   tournament?: string; // Назва турніру або змагання
   stage?: string; // Стадія матчу: group, round16, quarterfinal, semifinal, final
   matchWeight?: number; // Вага матчу (1.0-2.0) для розрахунку рейтингу
+  discipline?: string; // Дисципліна (вільна піраміда, динаміка і т.д.)
 }
 
 export interface RatingBand {

@@ -373,12 +373,23 @@ export default function PlayerProfile() {
               </h1>
             </div>
             
-            <Link 
-              href="/rating"
-              className="px-3 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 text-sm sm:text-base font-medium"
-            >
-              До рейтингу
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link 
+                href={`/compare?player1=${playerId}`}
+                className="px-3 sm:px-4 py-2 sm:py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:shadow-xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105 text-sm sm:text-base font-medium flex items-center gap-2"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+                <span className="hidden sm:inline">Порівняти</span>
+              </Link>
+              <Link 
+                href="/rating"
+                className="px-3 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 text-sm sm:text-base font-medium"
+              >
+                До рейтингу
+              </Link>
+            </div>
           </div>
         </div>
       </header>

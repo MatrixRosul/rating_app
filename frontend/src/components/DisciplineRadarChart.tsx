@@ -126,7 +126,7 @@ const DisciplineRadarChart: React.FC<DisciplineRadarChartProps> = ({ playerId })
   // Генерація ліній сітки (концентричні кола) з градієнтом
   const gridCircles = Array.from({ length: levels }, (_, i) => {
     const radius = (maxRadius / levels) * (i + 1);
-    const opacity = 0.15 - (i * 0.02);
+    const opacity = 1 - (i * 0.02);
     return (
       <circle
         key={i}
@@ -153,7 +153,7 @@ const DisciplineRadarChart: React.FC<DisciplineRadarChartProps> = ({ playerId })
         y2={endPoint.y}
         stroke={d.lightColor}
         strokeWidth="2"
-        opacity="0.2"
+        opacity="0.5"
       />
     );
   });
@@ -294,15 +294,15 @@ const DisciplineRadarChart: React.FC<DisciplineRadarChartProps> = ({ playerId })
           <defs>
             {/* Grid gradient */}
             <radialGradient id="gridGradient" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.2" />
             </radialGradient>
             
             {/* Data area gradient - multi-color */}
             <radialGradient id="radarGradient" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
-              <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#ec4899" stopOpacity="0.2" />
+              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.5" />
+              <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#ec4899" stopOpacity="0.3" />
             </radialGradient>
             
             {/* Shadow filter */}

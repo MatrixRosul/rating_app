@@ -64,6 +64,16 @@ export default function Header() {
                 >
                   Турніри
                 </button>
+                <button
+                  onClick={() => router.push('/compare')}
+                  className={`px-3 sm:px-4 py-2 rounded-md font-medium transition-colors ${
+                    pathname?.startsWith('/compare')
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  Порівняти
+                </button>
               </nav>
               
               {/* Auth Section */}
@@ -163,6 +173,19 @@ export default function Header() {
                 }`}
               >
                 Турніри
+              </button>
+              <button
+                onClick={() => {
+                  router.push('/compare');
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full text-left px-4 py-3 rounded-md font-medium transition-colors ${
+                  pathname?.startsWith('/compare')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+              >
+                Порівняти
               </button>
               
               {/* Mobile Auth Section */}
